@@ -1,0 +1,317 @@
+<?xml version="1.0" ?>
+
+<diagram-std-interactions>
+
+	<diagram type="block-diagram">
+
+		<!-- Interactions - Mouse -->
+		<interactions>
+			<!-- Note: a sequence is always down, [poss move], up, dclick - so have to allow for that in (say) selects -->
+			<!-- Note: mouse move not given (handled by operation code) -->
+
+			<!--
+				Note: when the mouse state is "left-.." it really means the primary mouse button.
+				Normally this is the left one, but can be switched with the right one.
+				(Windows e.g. via Control Panel/Printer & Other Hardware/Mouse, Linux/eg Gnome, Cinnamon etc via System Settings/Mouse)
+			-->
+
+			<!-- All interations are valid when in 'editing' mode, but only those with browse="true" remain valid in 'browsing' mode (i.e. their conditions get tested). -->
+
+			<!--
+				conditions:
+					modifier=           any|none|alt|ctrl|shift (only support one modifier)
+					state=              any|normal|<operation> currently=rubberbanding|linking|grabbing|dragging|panning
+					selection=          any|none|one|some|multiple|<category|type>(if one)
+					hit=                any|none|one|<category|type>
+					hit-selected=       any|true|false
+					any-component-selected=    any|true|false
+					above-component-selected=  any|true|false
+					drill-downable=     any|true|false
+					component=          any|none|one|<category|type>
+					grab-hit            any|true|false
+					component-selected= any|true|false
+					has-moved=          any|true|false (? or a minimum distance ?) (this doesnt apply to ..-down interactions)
+					Note: the target of the effect is the condition-target - e.g. the ?|component|hit (whichever is most specific)
+				effect:
+					select=             none|set|add|remove|clear|rubberband|component|drill-down|hit (none means we dont change the selection)
+					action=             none|<action>   to include (new) Activate|Context Menu
+					action-target=		none|selection|hit|component (default condition-target)
+					operation=          none|normal|rubberbanding|dragging|linking*|<others to be invented> ? do we need abort (none means we dont change the operation)
+										[* +special linking cases: new-link (start 'linking' after create node), abort-link (terminate current linking, go back to 'normal')]
+			-->
+
+			<!-- Rubberbanding -->
+
+			<!-- left-down hit nothing start rubberbanding -->
+			<interaction id="Rubberbanding-1" mouse="left-down" browse="true">
+				<condition modifier="none" state="normal" hit="none"/>
+				<effect select="clear" operation="rubberbanding" action="none"/>
+			</interaction>
+			<interaction id="Rubberbanding-2" mouse="left-down">
+				<condition modifier="none" state="normal" hit="link"/>
+				<effect select="none" operation="none" action="none"/>
+			</interaction>
+
+			<!-- left-up while rubberbanding has-moved - do rubberband selection -->
+			<interaction id="Rubberbanding-3" mouse="left-up" browse="true">
+				<condition modifier="none" state="rubberbanding" has-moved="true"/>
+				<effect select="rubberband" operation="normal" action="none"/>
+			</interaction>
+			<!-- left-up while rubberbanding not moved - return to normal -->
+			<interaction id="Rubberbanding-4" mouse="left-up" browse="true">
+				<condition modifier="none" state="rubberbanding" has-moved="false"/>
+				<effect select="none" operation="normal" action="none"/>
+			</interaction>
+
+			<!-- Linking -->
+			<interaction id="Linking-1" mouse="left-down">
+				<condition modifier="none" state="normal" hit="entity"
+						   hit-selected="any" component="port" component-selected="false" has-moved="false"/>
+				<effect select="none" operation="none" action="none"/>
+			</interaction>
+			<!-- left-up on a display - only one selected (so about to drag) but not moved and hit a port - start a link -->
+			<interaction id="Linking-2" mouse="left-up">
+				<condition modifier="none" state="dragging" hit="display" selection="one"
+						   hit-selected="true" component="port" component-selected="false" has-moved="false"/>
+				<effect select="none" operation="linking" action="none"/>
+			</interaction>
+			<!-- left-up hit a port not moved - start a link (change selection to entity hit) -->
+			<interaction id="Linking-3" mouse="left-up">
+				<condition modifier="none" state="normal" hit="entity"
+						   hit-selected="any" component="port" component-selected="false" has-moved="false"/>
+				<effect select="hit" operation="linking" action="none"/>
+			</interaction>
+			<!-- left-up hit a node not moved - start a link (clear selection) -->
+			<interaction id="Linking-4" mouse="left-up">
+				<condition modifier="none" state="dragging" hit="node"
+						   hit-selected="any" has-moved="false"/>
+				<effect select="clear" operation="linking" action="none"/>
+			</interaction>
+
+			<!-- left-up while linking hit nothing - insert node and complete link -->
+			<!-- use operation="new-link" (instead of normal) to continue linking from new node -->
+			<interaction id="Linking-5" mouse="left-up">
+				<condition modifier="none" state="linking" hit="none"/>
+				<effect select="none" operation="new-link" action="none"/>
+			</interaction>
+			<!-- left-up while linking hit port - join link -->
+			<interaction id="Linking-6" mouse="left-up">
+				<condition modifier="none" state="linking" hit="entity" component="port"/>
+				<effect select="hit" operation="normal" action="none" action-target="component"/>
+			</interaction>
+			<!-- left-up while linking hit node - join link -->
+			<interaction id="Linking-7" mouse="left-up">
+				<condition modifier="none" state="linking" hit="node"/>
+				<effect select="clear" operation="normal" action="none" action-target="hit"/>
+			</interaction>
+			<!-- while linking hit link - currently no action (future Insert Node maybe) -->
+			<!-- no action but no selection/dragging either - -->
+			<interaction id="Linking-8" mouse="left-up">
+				<condition modifier="none" state="linking" hit="link"/>
+				<effect select="none" operation="none" action="none"/>
+			</interaction>
+			<!-- -->
+
+			<!-- End linking with right-down -->
+			<!-- use operation="abort-link" (instead of normal) to abort the current link -->
+			<interaction id="Linking-9" mouse="right-down">
+				<condition modifier="none" state="linking"/>
+				<effect select="none" operation="abort-link" action="none"/>
+			</interaction>
+			<!-- End linking with left-dclick on canvas -->
+			<interaction id="Linking-10" mouse="left-dclick">
+				<condition modifier="none" state="linking" hit="none"/>
+				<effect select="none" operation="abort-link" action="none"/>
+			</interaction>
+
+			<!-- Grabbing -->
+
+			<!-- left-down on an element's grab handle - drag the grab handle to change element shape -->
+			<interaction id="Grabbing-1" mouse="left-down">
+				<condition modifier="none" state="normal" hit="element" grab-hit="true" selection="one" hit-selected="true"/>
+				<effect operation="grabbing" action="none"/>
+			</interaction>
+
+			<interaction id="Grabbing-2" mouse="left-down">
+				<condition modifier="none" state="normal" hit="group" component="element" grab-hit="true" selection="one" component-selected="true"/>
+				<effect operation="grabbing" action="none"/>
+			</interaction>
+
+			<interaction id="Grabbing-3" mouse="left-up">
+				<condition modifier="any" state="grabbing"/>
+				<effect select="none" operation="normal" action="none"/>
+			</interaction>
+
+			<!-- Dragging -->
+
+			<!-- Selection changes & Dragging -->
+			<!-- When hit anything not a port or node (or a link) which (like canvas) has been defined above -->
+			<interaction id="Dragging-1" mouse="left-down">
+				<condition modifier="none" state="any" selection="one" hit="any" hit-selected="false"
+						   component="one" component-selected="true"/>
+				<effect select="none" operation="dragging" action="none"/>
+			</interaction>
+			<interaction id="Dragging-2" mouse="left-down">
+				<condition modifier="none" state="normal" selection="any" hit="one" hit-selected="true"/>
+				<effect select="none" operation="dragging" action="none" action-target="selection"/>
+			</interaction>
+			<interaction id="Dragging-3" mouse="left-down">
+				<condition modifier="none" state="normal" selection="any" hit="one" hit-selected="false"
+						   component="one" component-selected="true"/>
+				<effect select="none" operation="dragging" action="none" action-target="selection"/>
+			</interaction>
+			<interaction id="Dragging-4" mouse="left-down">
+				<condition modifier="none" state="normal" selection="any" hit="one" hit-selected="false"
+						   component="one" component-selected="false" above-component-selected="true"/>
+				<effect select="none" operation="dragging" action="none" action-target="selection"/>
+			</interaction>
+			<interaction id="Dragging-5" mouse="left-down">
+				<condition modifier="none" state="normal" selection="any" hit="one" hit-selected="false"
+						   component="one" component-selected="false" above-component-selected="false"/>
+				<effect select="hit" operation="dragging" action="none" action-target="selection"/>
+			</interaction>
+			<interaction id="Dragging-6" mouse="left-down">
+				<condition modifier="none" state="normal" selection="any" hit="one" hit-selected="false"/>
+				<effect select="set" operation="dragging" action="none" action-target="selection"/>
+			</interaction>
+			<!-- with ctrl - add/removes to/from selection (toplevel objects) -->
+			<interaction id="Dragging-7" mouse="left-down">
+				<condition modifier="ctrl" state="normal" selection="any" hit="one" hit-selected="false"/>
+				<effect select="add" operation="dragging" action="none" action-target="selection"/>
+			</interaction>
+			<interaction id="Dragging-8" mouse="left-down">
+				<condition modifier="ctrl" state="normal" selection="any" hit="one" hit-selected="true"/>
+				<effect select="remove" operation="dragging" action="none" action-target="selection"/>
+			</interaction>
+			<!-- with shift - add/removes to/from selection (toplevel objects) = same as ctrl (note: alt modifier not supported) -->
+			<interaction id="Dragging-9" mouse="left-down">
+				<condition modifier="shift" state="normal" selection="any" hit="one" hit-selected="false"/>
+				<effect select="add" operation="dragging" action="none" action-target="selection"/>
+			</interaction>
+			<interaction id="Dragging-10" mouse="left-down">
+				<condition modifier="shift" state="normal" selection="any" hit="one" hit-selected="true"/>
+				<effect select="remove" operation="dragging" action="none" action-target="selection"/>
+			</interaction>
+
+			<!-- Selection changes when browsing (but doesn't change operation to dragging) -->
+			<interaction id="Selection-browsing-1" mouse="left-down" browse="true">
+				<condition modifier="none" state="any" selection="one" hit="any" hit-selected="false"
+						   component="one" component-selected="true"/>
+				<effect select="none" operation="normal" action="none"/>
+			</interaction>
+			<interaction id="Selection-browsing-2" mouse="left-down" browse="true">
+				<condition modifier="none" state="normal" selection="any" hit="one" hit-selected="true"/>
+				<effect select="none" operation="normal" action="none" action-target="selection"/>
+			</interaction>
+			<interaction id="Selection-browsing-3" mouse="left-down" browse="true">
+				<condition modifier="none" state="normal" selection="any" hit="one" hit-selected="false"
+						   component="one" component-selected="true"/>
+				<effect select="none" operation="normal" action="none" action-target="selection"/>
+			</interaction>
+			<interaction id="Selection-browsing-4" mouse="left-down" browse="true">
+				<condition modifier="none" state="normal" selection="any" hit="one" hit-selected="false"
+						   component="one" component-selected="false" above-component-selected="true"/>
+				<effect select="none" operation="normal" action="none" action-target="selection"/>
+			</interaction>
+			<interaction id="Selection-browsing-5" mouse="left-down" browse="true">
+				<condition modifier="none" state="normal" selection="any" hit="one" hit-selected="false"
+						   component="one" component-selected="false" above-component-selected="false"/>
+				<effect select="hit" operation="normal" action="none" action-target="selection"/>
+			</interaction>
+			<interaction id="Selection-browsing-6" mouse="left-down" browse="true">
+				<condition modifier="none" state="normal" selection="any" hit="one" hit-selected="false"/>
+				<effect select="set" operation="normal" action="none" action-target="selection"/>
+			</interaction>
+
+			<interaction id="Selection-browsing-7" mouse="left-up">
+				<condition modifier="any" state="dragging"/>
+				<effect select="none" operation="normal" action="none"/>
+			</interaction>
+
+			<!-- Double click a port on a singly selected entity to select that port or an annotation (for an info too) -->
+			<interaction id="Selecting-port-1" mouse="left-dclick">
+				<condition modifier="none" state="any" hit="entity"
+						   component="port" component-selected="false" has-moved="false"/>
+				<effect select="component" operation="abort-link" action="none"/>
+			</interaction>
+			<interaction id="Selecting-annotation-1" mouse="left-dclick">
+				<condition modifier="none" state="any" hit="entity"
+						   component="annotation" component-selected="false" has-moved="false"/>
+				<effect select="component" operation="normal" action="none"/>
+			</interaction>
+			<interaction id="Selecting-annotation-2" mouse="left-dclick">
+				<condition modifier="none" state="any" hit="info"
+						   component="annotation" component-selected="false" has-moved="false"/>
+				<effect select="component" operation="normal" action="none"/>
+			</interaction>
+			<!-- Double click a component of a singly selected group to select by "drilling down" the group -->
+			<interaction id="Drilling-down-group-1" mouse="left-dclick" browse="true">
+				<condition modifier="none" state="any" selection="group" hit="any"
+						   hit-selected="any" component="one" component-selected="false"
+						   has-moved="false" drill-downable="true"/>
+				<effect select="drill-down" operation="normal" action="none"/>
+			</interaction>
+
+			<!-- Activate -->
+			<interaction id="Activate-1" mouse="left-dclick">
+				<condition modifier="none" state="any" hit="any" selection="one" has-moved="false"/>
+				<effect select="none" operation="normal" action="Activate" action-target="selection"/>
+			</interaction>
+
+			<!-- Context Menu -->
+			<interaction id="Context-menu-1" mouse="right-down">
+				<condition modifier="none" state="any" selection="any" hit="link"
+						   hit-selected="any" has-moved="false"/>
+				<effect select="clear" operation="normal" action="Context Menu" action-target="hit"/>
+			</interaction>
+			<interaction id="Context-menu-2" mouse="right-down" browse="true">
+				<condition modifier="none" state="any" selection="one" hit="any" hit-selected="false"
+						   component="one" component-selected="true"/>
+				<effect select="none" operation="normal" action="Context Menu" action-target="component"/>
+			</interaction>
+			<interaction id="Context-menu-3" mouse="right-down" browse="true">
+				<condition modifier="none" state="any" selection="any" hit="one" hit-selected="true"/>
+				<effect select="none" operation="normal" action="Context Menu" action-target="selection"/>
+			</interaction>
+			<interaction id="Context-menu-4" mouse="right-down" browse="true">
+				<condition modifier="none" state="any" selection="any" hit="one" hit-selected="false"
+						   component="one" component-selected="true"/>
+				<effect select="none" operation="normal" action="Context Menu" action-target="selection"/>
+			</interaction>
+			<interaction id="Context-menu-5" mouse="right-down" browse="true">
+				<condition modifier="none" state="any" selection="any" hit="one" hit-selected="false"
+						   component="one" component-selected="false" above-component-selected="true"/>
+				<effect select="none" operation="normal" action="Context Menu" action-target="selection"/>
+			</interaction>
+
+			<interaction id="Context-menu-6" mouse="right-down" browse="true">
+				<condition modifier="none" state="any" selection="any" hit="one" hit-selected="false"
+						   component="one" component-selected="false" above-component-selected="false"/>
+				<effect select="hit" operation="normal" action="Context Menu" action-target="hit"/>
+			</interaction>
+			<interaction id="Context-menu-7" mouse="right-down" browse="true">
+				<condition modifier="none" state="any" selection="any" hit="one" hit-selected="false"/>
+				<effect select="set" operation="normal" action="Context Menu" action-target="selection"/>
+			</interaction>
+			<interaction id="Context-menu-8" mouse="right-down" browse="true">
+				<condition modifier="none" state="any" selection="any" hit="any"
+						   hit-selected="any" has-moved="false"/>
+				<effect select="set" operation="normal" action="Context Menu" action-target="hit"/>
+			</interaction>
+
+			<!-- Panning -->
+			<interaction id="Panning-1" mouse="middle-down" browse="true">
+				<condition modifier="none" state="normal"/>
+				<effect operation="panning" action="none"/>
+			</interaction>
+
+			<interaction id="Panning-2" mouse="middle-up" browse="true">
+				<condition modifier="any" state="panning"/>
+				<effect select="none" operation="normal" action="none"/>
+			</interaction>
+
+		</interactions>
+
+	</diagram>
+
+</diagram-std-interactions>

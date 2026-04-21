@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<resource>
+  <object class="wxDialog" name="ZoomDlg">
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxStaticBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Set canvas zoom factor (%)</label>
+                </object>
+                <flag>wxLEFT|wxRIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+                <border>5</border>
+              </object>
+              <object class="spacer">
+                <size>20</size>
+                <option>1</option>
+              </object>
+              <object class="sizeritem">
+                <object class="wxSpinCtrl" name="spnZoom">
+                  <size platform="unix">110,-1</size>
+                  <size platform="win">60,-1</size>
+                  <min>10</min>
+                  <max>400</max>
+                </object>
+                <flag>wxTOP|wxRIGHT</flag>
+                <border>5</border>
+              </object>
+              <orient>wxHORIZONTAL</orient>
+            </object>
+            <flag>wxEXPAND</flag>
+          </object>
+          <object class="sizeritem">
+            <object class="wxSlider" name="sldZoom">
+              <min>0</min>
+              <max>400</max>
+              <tickfreq>25</tickfreq>
+            </object>
+            <flag>wxEXPAND</flag>
+          </object>
+        </object>
+        <option>1</option>
+        <flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+        <border>10</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <object class="spacer">
+            <option>1</option>
+            <flag>wxEXPAND</flag>
+          </object>
+          <object class="sizeritem">
+            <object class="wxButton" name="btnOk">
+              <label>OK</label>
+            </object>
+            <flag>wxBOTTOM|wxALIGN_BOTTOM</flag>
+            <border>10</border>
+          </object>
+          <object class="spacer">
+            <size>20</size>
+            <option>1</option>
+            <flag>wxEXPAND</flag>
+          </object>
+          <object class="sizeritem">
+            <object class="wxButton" name="btnCancel">
+              <pos>1</pos>
+              <label>Cancel</label>
+            </object>
+            <flag>wxBOTTOM|wxALIGN_BOTTOM</flag>
+            <border>10</border>
+          </object>
+          <object class="spacer">
+            <option>1</option>
+            <flag>wxEXPAND</flag>
+          </object>
+          <orient>wxHORIZONTAL</orient>
+        </object>
+        <flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+        <border>10</border>
+      </object>
+    </object>
+    <title>ESL Studio - Zoom Settings</title>
+    <centered>1</centered>
+    <style>wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</style>
+  </object>
+</resource>

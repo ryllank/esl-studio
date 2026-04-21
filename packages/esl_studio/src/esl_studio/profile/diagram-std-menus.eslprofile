@@ -1,0 +1,188 @@
+<?xml version="1.0" ?>
+
+<diagram-std-menus>
+
+	<diagram type="block-diagram">
+
+		<!-- Interactions - Menus -->
+		<menus>
+
+			<menu name="background-context-menu">
+				<item action="Paste" text="Paste">Paste object(s)</item>
+				<separator />
+				<menu name="insert-simulation-elements"/>
+				<menu name="insert-drawing-objects"/>
+			</menu>
+
+			<menu name="selection-context-menu">
+				<menu name="cut-copy"/>
+				<separator />
+				<item action="Delete" text="Delete">Deletes object(s)</item>
+				<separator />
+				<menu name="flip-rotate"/>
+			</menu>
+
+			<menu name="pair-selection-context-menu">
+				<menu name="selection-context-menu"/>
+				<menu name="swap-z-orders"/>
+			</menu>
+
+			<menu name="cut-copy">
+				<item action="Cut" text="Cut">Cuts object(s)</item>
+				<item action="Copy" text="Copy">Copies object(s)</item>
+			</menu>
+
+			<menu name="cut-copy-del">
+				<menu name="cut-copy"/>
+				<item action="Delete" text="Delete">Deletes object(s)</item>
+			</menu>
+
+			<menu name="flip-rotate">
+				<block text="Flip">
+					<item action="FlipLR" text="Left/Right">Flip object(s) horizontally</item>
+					<item action="FlipUD" text="Up/Down">Flip object(s) vertically</item>
+				</block>
+				<block text="Rotate">
+					<item action="RotateLeft90" text="Left 90">Rotate object(s) 90 degrees to left (anticlockwise)</item>
+					<item action="Rotate180" text="180">Rotate object(s) 180 degrees</item>
+					<item action="RotateRight90" text="Right 90">Rotate object(s) 90 degrees to right (clockwise)</item>
+				</block>
+			</menu>
+
+			<menu name="z-order">
+				<block text="Depth">
+					<item action="ZOrder Top" text="Bring to Front">Bring object to the front of other objects</item>
+					<item action="ZOrder Up" text="Raise Up">Raise object up one level (z-order) above the next</item>
+					<item action="ZOrder Down" text="Push Down">Push object down one level (z-order) below the next</item>
+					<item action="ZOrder Bottom" text="Send to Back">Send object to the back of other objects</item>
+				</block>
+			</menu>
+
+			<menu name="flip-rotate-z-order">
+				<menu name="flip-rotate"/>
+				<menu name="z-order"/>
+			</menu>
+
+			<menu name="swap-z-orders">
+				<item action="ZOrder Swap Pair" text="Swap depth orders">Swap the depths (z-orders) of a selected pair of objects</item>
+			</menu>
+
+			<menu name="insert-simulation-elements">
+				<block text="Insert Simulation Elements">
+					<menu name="insert-frequent-simulation-elements"/>
+				</block>
+			</menu>
+
+			<menu name="insert-frequent-simulation-elements">
+				<block text="Linear Operators">
+					<item action="Insert" text="Insert Transfer Function">Insert a Transfer Function entity
+						<action><objects><entity type="Transfer Function"/></objects></action>
+					</item>
+					<item action="Insert" text="Insert Constant Multiplier">Insert a Constant Multiplier entity
+						<action><objects><entity type="Constant Multiplier"/></objects></action>
+					</item>
+					<item action="Insert" text="Insert Integrator">Insert ab Integrator entity
+						<action><objects><entity type="Integrator"/></objects></action>
+					</item>
+				</block>
+				<block text="Arithmetic Operators">
+					<item action="Insert" text="Insert Summer">Insert a Summer entity
+						<action><objects><entity type="Summer"/></objects></action>
+					</item>
+					<item action="Insert" text="Insert Summer 3">Insert a Summer 3 entity
+						<action><objects><entity type="Summer 3"/></objects></action>
+					</item>
+					<item action="Insert" text="Insert Multiplier">Insert a Multiplier entity
+						<action><objects><entity type="Multiplier"/></objects></action>
+					</item>
+					<item action="Insert" text="Insert Divider">Insert a Divider entity
+						<action><objects><entity type="Divider"/></objects></action>
+					</item>
+				</block>
+				<item action="Insert" text="Insert Submodel Call">Insert a Submodel Call
+					<action><objects><entity type="Submodel Call"/></objects></action>
+				</item>
+			</menu>
+
+			<menu name="line-draw">
+				<item action="LineDrawStraight" text="Straight">Set straight line</item>
+				<item action="LineDrawXY" text="XY">Rectilinear 2 segment line start along x-axis</item>
+				<item action="LineDrawYX" text="YX">Rectilinear 2 segment line start along y-axis</item>
+				<item action="LineDrawLong" text="Long">Rectilinear 2 segment line start along long axis</item>
+				<item action="LineDrawShort" text="Short">Rectilinear 2 segment line start along short axis</item>
+				<item action="LineDrawXYX" text="XYX">Rectilinear 3 segment line start and end along x-axis</item>
+				<item action="LineDrawYXY" text="YXY">Rectilinear 3 segment line start and end along y-axis</item>
+				<!--item action="LineDrawDefault" text="Default">Set line draw to default</item-->
+			</menu>
+
+			<menu name="entity">
+				<menu name="cut-copy-del"/>
+				<separator />
+				<menu name="flip-rotate"/>
+				<menu name="z-order"/>
+			</menu>
+
+			<menu name="submodel-call-entity">
+				<menu name="cut-copy-del"/>
+				<separator />
+				<menu name="flip-rotate"/>
+				<menu name="z-order"/>
+				<separator />
+				<item action="Insert Submodel Diagram" text="Insert Submodel Diagram">Inserts a new submodel diagram into the application</item>
+			</menu>
+
+			<menu name="segment-call-entity">
+				<menu name="cut-copy-del"/>
+				<separator />
+				<menu name="flip-rotate"/>
+				<menu name="z-order"/>
+				<separator />
+				<item action="Insert Segment Diagram" text="Insert Segment Diagram">Inserts a new segment diagram into the application</item>
+			</menu>
+
+			<menu name="function-call-entity">
+				<menu name="cut-copy-del"/>
+				<separator />
+				<menu name="flip-rotate"/>
+				<menu name="z-order"/>
+			</menu>
+
+			<menu name="display">
+				<menu name="cut-copy-del"/>
+				<separator />
+				<menu name="z-order"/>
+			</menu>
+
+			<menu name="info">
+				<menu name="cut-copy-del"/>
+				<separator />
+				<menu name="z-order"/>
+			</menu>
+
+			<menu name="node">
+				<item action="Delete" text="Delete Connection">Deletes the node and connection</item>
+				<item action="Remove Node" text="Remove Node">Eliminate node and re-connect its links</item>
+			</menu>
+
+			<menu name="link">
+				<item action="Delete" text="Delete Link">Deletes the link</item>
+				<item action="Insert Node" text="Insert Node">Inserts a connector in a link</item>
+				<block text="Line Draw ">
+					<menu name="line-draw"/>
+					<item action="LineDrawDefault" text="Default">Set line draw to default</item>
+				</block>
+			</menu>
+
+			<menu name="port">
+				<item action="Toggle Port Sign" text="Toggle Port Sign">Toggle Port Sign</item>
+			</menu>
+
+			<menu name="instrumentation-link">
+				<item action="Delete" text="Delete Instrumentation Link">Deletes the instrumentation link</item>
+			</menu>
+
+		</menus>
+
+	</diagram>
+
+</diagram-std-menus>

@@ -1,0 +1,356 @@
+<?xml version="1.0" ?>
+
+<esl-entities-xtra1-arrays-matrices-vectors>
+
+	<!-- ESL-Studio diagrams support entities for operations on ESL arrays
+		 of base-type Real. -->
+
+	<!-- Note: ESL-Studio supports the connection (linking) of Integer array
+		 outputs to Real inputs so these array operations may be used with
+		 Integers (converting to Real) if of the appropriate dimensionality. -->
+
+	<!-- ESL arrays may be of dimensionality (order) 1 2 or 3 (i.e. 1D, 2D or 3D).
+		 The dimensions are specified by an index (or a range of indices),
+		 i.e. subscripts, with bounds in each dimensionality position,
+		 This corresponds to the number and method of referencing the
+		 "planes", rows, columns for a 3D array, the rows and columns for
+		 a 2D (rectangular) array, and for 1D array the array is generally
+		 considered as in the form of a column. -->
+
+	<!-- The General Array Operators for arrays (including matrices and vectors) are:
+		 - Scalar Multiplication -  ESL multiplication of an array with a scalar value.
+		 - Addition	- ESL + operator for two arrays.
+		 - Multiplication - ESL * operator for two arrays. -->
+
+	<!-- A matrix is a two dimensional array ESL of Real Integer or Logical values,
+		 e.g. Real(*,*) or Integer(2,4). -->
+
+	<!-- The Matrix Operators for numerical (Real & Integer) arrays are:
+		 - Inverse - ESL INV built-in function to invert a square matrix.
+		 - Transpose - ESL TRNSP built-in function to transpose the rows
+		   and columns of a matrix.
+		 - Determinant - ESL DET built-in function to get the determinant
+		   (scalar) of a square matrix. -->
+
+	<!-- A vector a set of 3 ESL Real numbers in the form of either a column-vector
+		 or a row-vector. In ESL-Studio they are interchangeable.
+		 A column-vector is an ESL Real(3) (or equivalent e.g. Real(0..2)) - a
+		 one dimensional array of length 3 elements a with datatype Real.
+		 A row-vector is a an ESL Real(1,3) (or equivalent) a notionally
+		 two dimensional array but with one row and of length 3 elements. -->
+
+	<!-- The Vector Operators are:
+		 - Merge - merge 3 Real inputs to a vector (Real(3).
+		 - Split - split a vector (Real(3) input into 3 Real outputs
+		 - Dot Product - ESL dot product operator (.) of 2 vectors inputs
+		   to give a scalar.
+		 - Cross Product - ESL cross product operator (^) of 2 vectors inputs
+		   to give another vector. -->
+	<elements>
+
+		<section name="Arrays, Matrices and Vectors">
+
+			<section name="General Array Operators">
+				<element name="Array Scalar Multiplication" action="insert" image="a-constmultiplier">
+					<entity type="Array Scalar Multiplication" />
+				</element>
+				<element name="Array Addition" action="insert" image="a-summer">
+					<entity type="Array Addition" />
+				</element>
+				<element name="Array Multiplication" action="insert" image="a-multiplier">
+					<entity type="Array Multiplication" />
+				</element>
+			</section>
+
+			<section name="Matrix Operators">
+				<element name="Matrix Inverse" action="insert" image="m-inverse">
+					<entity type="Matrix Inverse" />
+				</element>
+				<element name="Matrix Transpose" action="insert" image="m-transpose">
+					<entity type="Matrix Transpose" />
+				</element>
+				<element name="Matrix Determinant" action="insert" image="m-determinant">
+					<entity type="Matrix Determinant" />
+				</element>
+			</section>
+
+			<section name="Vector Operators">
+				<element name="Vector Merge" action="insert" image="v-merge">
+					<entity type="Vector Merge" />
+				</element>
+				<element name="Vector Split" action="insert" image="v-split">
+					<entity type="Vector Split" />
+				</element>
+				<element name="Vector Dot Product" action="insert" image="v-dot">
+					<entity type="Vector Dot Product" />
+				</element>
+				<element name="Vector Cross Product" action="insert" image="v-cross">
+					<entity type="Vector Cross Product" />
+				</element>
+			</section>
+		</section>
+
+	</elements>
+
+	<entities>
+
+		<!-- General Array Operators -->
+
+		<entity type="Array Scalar Multiplication" prefix="A_CONST" special-type="Array Scalar Multiplication">
+			<summary>Multiplies an array by a scalar (constant) - gives another array of the same dimensionality.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Array_scalar_multiplication"/>
+			<model>
+				<attribute type="Real" tag="K" description="Coefficient" value="1.0"/>
+				<input type="Real" dimensions="..." tag="x"/>
+				<output type="Real" dimensions="..." tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := {A:K} * {I:x};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/a-constmultiplier.png"/>
+				<ports>
+					<port type="Real(...)" direction="input"/>
+					<port type="Real(...)" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Array Addition" prefix="A_SUM" special-type="Array Addition">
+			<summary>Addition of two arrays (of same dimensionality) - gives another array of that dimensionality).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Array_addition"/>
+			<model>
+				<input type="Real" dimensions="..." equivalent-types="Real(*)|Real(*,*)" tag="x" sign="plus"/>
+				<input type="Real" dimensions="..." tag="y" sign="plus"/>
+				<output type="Real" dimensions="..." tag="f"/>
+				<generate>
+					<dynamic>
+						{O:f} := {I:x} + {I:y};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-circle"/>
+				<image src="elementicons/a-summer.png"/>
+				<ports>
+					<port type="Real(...)" direction="input" sign="plus"/>
+					<port type="Real(...)" direction="input" orientation="rotate270" sign="plus"/>
+					<port type="Real(...)" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Array Multiplication" prefix="A_MUL" special-type="Array Multiplication">
+			<summary>Multiplication of 2D array by a 1D or 2D array - gives another array of appropriate dimensionality.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Array_multiplication"/>
+			<model>
+				<input type="Real" dimensions="*,*" tag="x" sign="plus"/>
+				<input type="Real" dimensions="..." tag="y" sign="plus"/>
+				<output type="Real" dimensions="..." tag="z"/>
+				<generate>
+					<dynamic>
+						{O:z} := {I:x} * {I:y};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-circle"/>
+				<image src="elementicons/a-multiplier.png"/>
+				<ports>
+					<port type="Real(*,*)" direction="input" sign="plus"/>
+					<port type="Real(...)" direction="input" orientation="rotate270" sign="plus"/>
+					<port type="Real(...)" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<!-- Matrix Operators -->
+
+		<entity type="Matrix Inverse" prefix="M_INV" special-type="Matrix Inverse">
+			<summary>Inverse of a square matrix (Real(*,*) - f := INV(x) - gives another matrix of the same dimensionality.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Matrix_inverse"/>
+			<model>
+				<input type="Real" dimensions="*,*" tag="x"/>
+				<output type="Real" dimensions="*,*" tag="f"/>
+				<generate>
+					<dynamic>
+						{O:f} := INV({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="m-inverse"/>
+				<ports>
+					<port type="Real(*,*)" direction="input"/>
+					<port type="Real(*,*)" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Matrix Transpose" prefix="M_TRP" special-type="Matrix Transpose">
+			<summary>Transpose of a matrix (Real(*,*) - f := TRNSP(x) - gives another matrix of appropriate dimensionality.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Matrix_transpose"/>
+			<model>
+				<input type="Real" dimensions="*,*" tag="x"/>
+				<output type="Real" dimensions="*,*" tag="f"/>
+				<generate>
+					<dynamic>
+						{O:f} := TRNSP({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="m-transpose"/>
+				<ports>
+					<port type="Real(*,*)" direction="input"/>
+					<port type="Real(*,*)" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Matrix Determinant" prefix="M_DET" special-type="Matrix Determinant">
+			<summary>Determinant of a square matrix (Real(*,*) - f := DET(x) - gives a scalar).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Matrix_determinant"/>
+			<model>
+				<input type="Real" dimensions="*,*" tag="x"/>
+				<output type="Real" tag="f"/>
+				<generate>
+					<dynamic>
+						{O:f} := DET({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="m-determinant"/>
+				<ports>
+					<port type="Real(*,*)" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<!-- Vector Operators -->
+
+		<entity type="Vector Merge" prefix="V_MRG" special-type="Vector Merge">
+			<summary><![CDATA[Merges 3 real inputs to a vector output]]></summary>
+			<model>
+				<input type="Real" tag="inp1"/>
+				<input type="Real" tag="inp2"/>
+				<input type="Real" tag="inp3"/>
+				<output type="Real" tag="vOut" dimensions="3"/>
+				<generate>
+					<dynamic>
+						procedural({O:vOut}:={I:inp1},{I:inp2},{I:inp3});
+						{O:vOut}(1) := {I:inp1};
+						{O:vOut}(2) := {I:inp2};
+						{O:vOut}(3) := {I:inp3};
+						end_procedural;
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="v-merge"/>
+				<ports>
+					<port tag="1np1" type="Real" direction="input"/>
+					<port tag="1np2" type="Real" direction="input"/>
+					<port tag="1np3" type="Real" direction="input"/>
+					<port tag="vOut" type="Vector" equivalent-types="Real(3)|Real(1,3)" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Vector Split" prefix="V_SPLT" special-type="Vector Split">
+			<summary><![CDATA[Splits a vector input to 3 real outputs]]></summary>
+			<model>
+				<input type="Real" tag="vInp" dimensions="3"/>
+				<output type="Real" tag="out1"/>
+				<output type="Real" tag="out2"/>
+				<output type="Real" tag="out3"/>
+				<generate>
+					<dynamic>
+						{O:out1} := {I:vInp}(1);
+						{O:out2} := {I:vInp}(2);
+						{O:out3} := {I:vInp}(3);
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="v-split"/>
+				<ports>
+					<port tag="vInp" type="Vector" equivalent-types="Real(3)|Real(1,3)" direction="input"/>
+					<port tag="out1" type="Real" direction="output"/>
+					<port tag="out2" type="Real" direction="output"/>
+					<port tag="out3" type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Vector Dot Product" prefix="V_DOT" special-type="Vector Dot Product">
+			<summary>Dot product of two vectors (Real(3) - z := x.y) - gives a scalar (Real).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Vector_dot_product"/>
+			<model>
+				<input type="Real" tag="x" dimensions="3"/>
+				<input type="Real" tag="y" dimensions="3"/>
+				<output type="Real" tag="z"/>
+				<generate>
+					<dynamic>
+						{O:z} := {I:x} . {I:y};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-circle"/>
+				<image src="v-dot"/>
+				<ports>
+					<port type="Vector" equivalent-types="Real(3)|Real(1,3)" direction="input"/>
+					<port type="Vector" equivalent-types="Real(3)|Real(1,3)" direction="input" orientation="rotate270"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Vector Cross Product" prefix="V_CRSS" special-type="Vector Cross Product">
+			<summary>Cross product of two vectors (Real(3) - f := x^y) - gives another vector).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Vector_cross_product"/>
+			<model>
+				<input type="Real" tag="x" dimensions="3"/>
+				<input type="Real" tag="y" dimensions="3"/>
+				<output type="Real" tag="f" dimensions="3"/>
+				<generate>
+					<dynamic>
+						{O:f} := {I:x} ^ {I:y};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-circle"/>
+				<image src="v-cross"/>
+				<ports>
+					<port type="Vector" equivalent-types="Real(3)|Real(1,3)" direction="input"/>
+					<port type="Vector" equivalent-types="Real(3)|Real(1,3)" direction="input" orientation="rotate270"/>
+					<port type="Vector" equivalent-types="Real(3)|Real(1,3)" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+	</entities>
+
+</esl-entities-xtra1-arrays-matrices-vectors>

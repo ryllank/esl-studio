@@ -1,0 +1,411 @@
+<?xml version="1.0" ?>
+<resource class="wxStaticText">
+  <object class="wxPropertySheetDialog" name="OptionsDlg">
+    <object class="propertysheetpage">
+      <object class="wxPanel">
+        <object class="wxBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxCheckBox" name="General/Splash">
+              <label>Show Splash Screen</label>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxCheckBox" name="General/Open Last Application">
+              <label>Open Last Application</label>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxCheckBox" name="General/Show Full Application Path">
+              <label>Show Full Application Path</label>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="General/Text Editor">
+                  <size>300, -1</size>
+                  <!-- Strangely has to have 300 -->
+                </object>
+                <flag>wxEXPAND</flag>
+              </object>
+              <label>Text Editor</label>
+              <orient>wxVERTICAL</orient>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <object class="sizeritem">
+                <object class="wxButton" name="btnProfile">
+                  <label>Profile...</label>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Show profile files selection dialog</label>
+                </object>
+                <flag>wxLEFT|wxALIGN_CENTRE_VERTICAL</flag>
+                <border>5</border>
+              </object>
+              <orient>wxHORIZONTAL</orient>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+        </object>
+        <size platform="unix">500,300</size>
+        <size platform="win">300,200</size>
+      </object>
+      <label>General</label>
+    </object>
+    <object class="propertysheetpage">
+      <object class="wxPanel">
+        <object class="wxBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxCheckBox" name="Application/Open Simulation Parameters">
+              <label>Open Simulation Parameters</label>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxCheckBox" name="Application/Open Subprograms">
+              <label>Open Subprograms</label>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxCheckBox" name="Application/Open Packages">
+              <label>Open Packages</label>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxCheckBox" name="Application/Open Code Pages">
+              <label>Open Code Pages</label>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxCheckBox" name="Application/Open Setup View">
+              <label>Open Setup View</label>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+        </object>
+      </object>
+      <label>Application</label>
+    </object>
+    <object class="propertysheetpage">
+      <object class="wxPanel">
+        <object class="wxBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <object class="sizeritem">
+                <object class="wxCheckBox" name="Diagrams/Show Grid">
+                  <label>Show Grid</label>
+                </object>
+                <flag>wxALL</flag>
+                <border>5</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Grid Snap</label>
+                    </object>
+                    <flag>wxLEFT|wxRIGHT|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>5</border>
+                  </object>
+                  <object class="sizeritem">
+                    <!-- object class="wxTextCtrl" name="Diagrams/Grid Snap">
+                      <style>wxTE_RIGHT</style>
+                      <size>60, -1</size>
+                    </object -->
+                    <object class="wxSpinCtrl" name="Diagrams/Grid Snap">
+                    </object>
+                    <flag>wxLEFT|wxALIGN_CENTRE_VERTICAL</flag>
+                    <border>5</border>
+                  </object>
+                  <orient>wxHORIZONTAL</orient>
+                </object>
+                <flag>wxLEFT|wxBOTTOM</flag>
+                <border>5</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticBoxSizer">
+                  <label>Smart draw links (signal lines)</label>
+                  <orient>wxVERTICAL</orient>
+                  <object class="sizeritem">
+                    <object class="wxBoxSizer">
+                      <orient>wxHORIZONTAL</orient>
+                      <object class="sizeritem">
+                        <object class="wxRadioButton" name="Diagrams/SmartLink2Segments">
+                          <label>2 Segments</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxRadioButton" name="Diagrams/SmartLink3Segments">
+                          <label>3 Segments</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxRadioButton" name="Diagrams/SmartLinkStraight">
+                          <label>Straight</label>
+                        </object>
+                      </object>
+                      <flag>wxEXPAND|wxBOTTOM</flag>
+                      <border>5</border>
+                    </object>
+                  </object>
+                </object>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>5</border>
+              </object>
+              <label>Block Diagrams</label>
+              <orient>wxVERTICAL</orient>
+            </object>
+            <option>0</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <object class="sizeritem">
+                <object class="wxButton" name="btnDiagramReset">
+                  <label>Reset</label>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Reset diagram properties to theme</label>
+                </object>
+                <flag>wxLEFT|wxALIGN_CENTRE_VERTICAL</flag>
+                <border>5</border>
+              </object>
+              <orient>wxHORIZONTAL</orient>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+        </object>
+      </object>
+      <label>Diagrams</label>
+    </object>
+    <object class="propertysheetpage">
+      <object class="wxPanel">
+        <object class="wxBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Package Views</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxCheckBox" name="Views/Package/Help">
+                  <label>Show Help/Description box</label>
+                </object>
+                <flag>wxEXPAND|wxBOTTOM</flag>
+                <border>5</border>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Simulation Parameters View</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxCheckBox" name="Views/Simulation Parameters/Help">
+                  <label>Show Help/Description box</label>
+                </object>
+                <flag>wxEXPAND|wxBOTTOM</flag>
+                <border>5</border>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Properties Panel</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxCheckBox" name="Views/Properties/Help">
+                  <label>Show Help/Description box</label>
+                </object>
+                <flag>wxEXPAND|wxBOTTOM</flag>
+                <border>5</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxCheckBox" name="Views/Properties/Expand Property">
+                  <label>Expand property when click in edit cell</label>
+                </object>
+                <flag>wxEXPAND|wxBOTTOM</flag>
+                <border>5</border>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="spacer">
+            <size>5</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxCheckBox" name="Views/Reset Layout">
+              <label>Reset view windows layout (when next start)</label>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+        </object>
+      </object>
+      <label>Views</label>
+    </object>
+    <object class="propertysheetpage">
+      <object class="wxPanel">
+        <object class="wxBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxCheckBox" name="Advanced/Diagnostics">
+              <label>Show Diagnostics</label>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Bleep sound when display important message</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <orient>wxHORIZONTAL</orient>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="Advanced/BleepBeep">
+                      <label>Beep</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="Advanced/BleepErrorSound">
+                      <label>Error sound</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="Advanced/BleepOff">
+                      <label>Off</label>
+                    </object>
+                  </object>
+                  <flag>wxEXPAND|wxBOTTOM</flag>
+                  <border>5</border>
+                </object>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Advanced User Interface (when next start)</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <orient>wxHORIZONTAL</orient>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="Advanced/AGWAUI">
+                      <label>Full (AGW) AUI</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="Advanced/WXAUI">
+                      <label>Basic (WX) AUI</label>
+                    </object>
+                  </object>
+                  <flag>wxEXPAND|wxBOTTOM</flag>
+                  <border>5</border>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxCheckBox" name="Advanced/AUIAeroStyle">
+                    <label>Aero style docking guides (for full (AGW) AUI)</label>
+                </object>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <object class="sizeritem">
+                <object class="wxButton" name="btnSave">
+                  <label>Save...</label>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Save current dialog configuration settings to a config file</label>
+                  <tooltip>Also saves other (non-dialog) values from the actual config</tooltip>
+                </object>
+                <flag>wxLEFT|wxALIGN_CENTRE_VERTICAL</flag>
+                <border>5</border>
+              </object>
+              <orient>wxHORIZONTAL</orient>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <object class="sizeritem">
+                <object class="wxButton" name="btnLoad">
+                  <label>Load...</label>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Load dialog with configuration settings from a config file</label>
+                  <tooltip>Note: Does not update actual config (use OK or Cancel)</tooltip>
+                </object>
+                <flag>wxLEFT|wxALIGN_CENTRE_VERTICAL</flag>
+                <border>5</border>
+              </object>
+              <orient>wxHORIZONTAL</orient>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+
+          <!--
+          <object class="sizeritem">
+            <object class="wxStaticText" name="TODO-text">
+              <label>TODO</label>
+              <tooltip>Placeholder for more things later</tooltip>
+            </object>
+            <flag>wxALL</flag>
+            <border>5</border>
+          </object>
+          -->
+        </object>
+      </object>
+      <label>Advanced</label>
+    </object>
+    <title>ESL Studio Preferences/Options</title>
+    <centered>1</centered>
+    <buttons>wxOK|wxCANCEL</buttons>
+    <style>wxCAPTION|wxRESIZE_BORDER|wxCLOSE_BOX</style>
+  </object>
+</resource>

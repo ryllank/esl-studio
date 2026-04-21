@@ -1,0 +1,157 @@
+<?xml version="1.0" ?>
+
+<diagram-std-actions>
+
+	<diagram type="block-diagram">
+
+		<!-- Actions -->
+		<actions>
+			<action name="Not Implemented" procedure="NotImplemented">No action implemented
+			</action>
+
+			<action name="Activate" procedure="ActivateAction" browse="true">Activate object
+			</action>
+			<action name="Context Menu" procedure="ShowContextMenu" browse="true">Show context menu
+			</action>
+
+			<action name="Refresh" procedure="RefreshCanvas" browse="true">Refresh diagram
+			</action>
+			<action name="Select All" procedure="SelectAll" browse="true">Select all objects
+			</action>
+			<action name="Set Scale" procedure="SetScale" browse="true">Change the scale of the canvas
+			</action>
+			<action name="Undo" procedure="UndoRequest">Undo last action
+			</action>
+			<action name="Redo" procedure="RedoRequest">Redo last action
+			</action>
+
+			<action name="Select" procedure="SelectObjects" browse="true">Select object(s)
+			</action>
+			<action name="Insert" procedure="InsertObjects">Inserts object(s)
+			</action>
+			<action name="Delete" procedure="DeleteObjects">Deletes object(s)
+			</action>
+			<action name="Undelete" procedure="UndeleteObjects">Undeletes object(s)
+			</action>
+			<action name="Update" procedure="UpdateObjects">Updates object(s)
+			</action>
+			<action name="AlterationObjects" procedure="AlterationObjects">Undos/redos changed object(s)
+			</action>
+			<action name="Move" procedure="MoveObjects">Moves object(s)
+			</action>
+			<action name="Cut" procedure="CutObjects">Cut object(s)
+			</action>
+			<action name="Copy" procedure="CopyObjects">Copy object(s)
+			</action>
+			<action name="Paste" procedure="PasteObjects">Paste object(s)
+			</action>
+			<action name="Toggle Port Sign" procedure="TogglePortSign">Changes the sign of a port
+			</action>
+			<action name="Join Link" procedure="JoinLink">Joins a link to a port or node
+			</action>
+			<action name="Create Node End Link" procedure="CreateNodeEndLink">Creates a new node to end a link
+			</action>
+			<!--action name="Update Entity Ports" procedure="UpdateEntityPorts">Updates an entity's ports
+			</action-->
+			<action name="Insert Node" procedure="InsertNodeInLink">Inserts a node in a link
+			</action>
+			<action name="Remove Node" procedure="RemoveNode">Removes a node in one or more connections
+			</action>
+
+			<action name="LineDrawStraight" procedure="SetLineDraw">Set straight line
+				<info line-draw="straight"/>
+			</action>
+			<action name="LineDrawXY" procedure="SetLineDraw">Rectilinear 2 segment line start along x-axis
+				<info line-draw="xy"/>
+			</action>
+			<action name="LineDrawYX" procedure="SetLineDraw">Rectilinear 2 segment line start along y-axis
+				<info line-draw="yx"/>
+			</action>
+			<action name="LineDrawXYX" procedure="SetLineDraw">Rectilinear 3 segment line start and end along x-axis
+				<info line-draw="xyx"/>
+			</action>
+			<action name="LineDrawYXY" procedure="SetLineDraw">Rectilinear 3 segment line and end along start y-axis
+				<info line-draw="yxy"/>
+			</action>
+			<action name="LineDrawLong" procedure="SetLineDraw">Rectilinear 2 segment line start along long axis
+				<info line-draw="long"/>
+			</action>
+			<action name="LineDrawShort" procedure="SetLineDraw">Rectilinear 2 segment line start along short axis
+				<info line-draw="short"/>
+			</action>
+			<action name="LineDrawDefault" procedure="SetLineDraw">Set line draw to default
+				<info line-draw="default"/>
+			</action>
+
+			<action name="Show Submodel" procedure="ApplicationCommand" browse="true">Show submodel for a submodel call
+				<info command="Show Submodel"/>
+			</action>
+			<action name="Show Segment" procedure="ApplicationCommand" browse="true">Show segment for a segment call
+				<info command="Show Segment"/>
+			</action>
+
+			<action name="Insert Submodel Diagram" procedure="ApplicationCommand">Inserts a new submodel diagram into the application
+				<info command="Insert Submodel Diagram"/>
+			</action>
+			<action name="Insert Segment Diagram" procedure="ApplicationCommand">Inserts a new segment diagram into the application
+				<info command="Insert Submodel Diagram"/>
+			</action>
+			<action name="Import ESL Subprograms" procedure="ApplicationCommand">Import new ESL textual (code) subprogram(s) into the application
+				<info command="Import ESL Code Subprograms"/>
+			</action>
+			<action name="Import File Subprograms" procedure="ApplicationCommand">Import new file textual (code) subprogram(s) into the application
+				<info command="Import File Code Subprograms"/>
+			</action>
+
+			<action name="FlipLR" procedure="SetOrientation">Flip object(s) horizontally
+				<info orientation="mirrorYAxis"/>
+			</action>
+			<action name="FlipUD" procedure="SetOrientation">Flip object(s) vertically
+				<info orientation="mirrorXAxis"/>
+			</action>
+			<action name="RotateLeft90" procedure="SetOrientation">Rotate object(s) 90 degrees to left (anticlockwise)
+				<info orientation="rotate90"/>
+			</action>
+			<action name="Rotate180" procedure="SetOrientation">Rotate object(s) 180 degrees
+				<info orientation="rotate180"/>
+			</action>
+			<action name="RotateRight90" procedure="SetOrientation">Rotate object(s) 90 degrees to right (clockwise)
+				<info orientation="rotate270"/>
+			</action>
+
+			<action name="ZOrder Top" procedure="SetZOrder">Bring object to the front of other objects
+				<info option="top"/>
+			</action>
+			<action name="ZOrder Up" procedure="SetZOrder">Raise object up one level (z-order) above the next
+				<info option="up"/>
+			</action>
+			<action name="ZOrder Down" procedure="SetZOrder">Push object down one level (z-order) below the next
+				<info option="down"/>
+			</action>
+			<action name="ZOrder Bottom" procedure="SetZOrder">Send object to the back of other objects
+				<info option="bottom"/>
+			</action>
+
+			<action name="ZOrder Swap Pair" procedure="SetZOrder">Swap the depths (z-orders) of a selected pair of objects
+				<info option="swap"/>
+			</action>
+
+			<action name="Append Point" procedure="AppendPoint">Append point/segment
+			</action>
+			<action name="Remove Point" procedure="RemovePoint">Remove last point/segment
+			</action>
+
+			<action name="Explode Group" procedure="ExplodeGroup">Ungroup a group's components into independent objects
+			</action>
+			<action name="Group Fixed" procedure="GroupObjects">Make a fixed group from the selected objects
+				<info fixed="true"/>
+			</action>
+			<action name="Group Editable" procedure="GroupObjects">Make an editable group the selected objects
+				<info fixed="false"/>
+			</action>
+
+		</actions>
+
+	</diagram>
+
+</diagram-std-actions>

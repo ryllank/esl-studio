@@ -1,0 +1,202 @@
+<?xml version="1.0" ?>
+<resource>
+  <object class="wxDialog" name="ProfileDlg">
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <object class="sizeritem">
+            <object class="wxStaticText">
+              <label>Select profile files and adjust load order</label>
+            </object>
+          </object>
+          <orient>wxVERTICAL</orient>
+        </object>
+        <flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+        <border>10</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <object class="sizeritem">
+            <object class="wxSplitterWindow">
+              <object class="wxPanel">
+                <object class="wxBoxSizer">
+                  <orient>wxVERTICAL</orient>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Available profile files</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxListBox" name="lbxAvailableFiles">
+                      <size platform="unix">450,350</size>
+                      <size platform="win">250,200</size>
+                      <style>wxLB_EXTENDED|wxLB_HSCROLL</style>
+                    </object>
+                    <option>1</option>
+                    <flag>wxEXPAND</flag>
+                  </object>
+                </object>
+              </object>
+              <object class="wxPanel">
+                <object class="wxBoxSizer">
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Selected profile files</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxListBox" name="lbxProfileFiles">
+                      <size platform="unix">450,350</size>
+                      <size platform="win">250,200</size>
+                      <style>wxLB_EXTENDED|wxLB_HSCROLL</style>
+                    </object>
+                    <option>1</option>
+                    <flag>wxEXPAND</flag>
+                  </object>
+                  <orient>wxVERTICAL</orient>
+                </object>
+              </object>
+              <orientation>vertical</orientation>
+              <minsize>50</minsize>
+              <gravity>0.5</gravity>
+              <style>wxSP_LIVE_UPDATE</style>
+            </object>
+            <option>1</option>
+            <flag>wxEXPAND</flag>
+          </object>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <object class="sizeritem">
+                <object class="wxStaticText"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxButton" name="btnSave">
+                  <label>Save...</label>
+                  <tooltip>Save selected profile files to a list file</tooltip>
+                </object>
+                <flag>wxBOTTOM|wxEXPAND</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxButton" name="btnLoad">
+                  <label>Load...</label>
+                  <tooltip>Load selected profile files from a list file</tooltip>
+                </object>
+                <flag>wxBOTTOM|wxEXPAND</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxButton" name="btnAdd">
+                  <label>Add</label>
+                  <tooltip>Add to selected profile files from available ones</tooltip>
+                  <style>wxBU_EXACTFIT</style>
+                </object>
+                <flag>wxBOTTOM|wxEXPAND</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxButton" name="btnView">
+                  <label>View</label>
+                  <tooltip>View selected profile file</tooltip>
+                  <style>wxBU_EXACTFIT</style>
+                </object>
+                <flag>wxBOTTOM|wxEXPAND</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxButton" name="btnRemove">
+                  <label>Remove</label>
+                  <tooltip>Remove from selected profile files</tooltip>
+                  <style>wxBU_EXACTFIT</style>
+                </object>
+                <flag>wxBOTTOM|wxEXPAND</flag>
+                <border>3</border>
+              </object>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxButton" name="btnReset">
+                  <label>Reset</label>
+                  <tooltip>Reset the selected profile files to the available ones</tooltip>
+                </object>
+                <flag>wxBOTTOM|wxEXPAND</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxButton" name="btnUp">
+                  <label>Up</label>
+                  <tooltip>Move selected profile file higher in load order</tooltip>
+                  <style>wxBU_EXACTFIT</style>
+                </object>
+                <flag>wxBOTTOM|wxEXPAND</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxButton" name="btnDown">
+                  <label>Down</label>
+                  <tooltip>Move selected profile file lower in load order</tooltip>
+                  <style>wxBU_EXACTFIT</style>
+                </object>
+                <flag>wxBOTTOM|wxEXPAND</flag>
+                <border>3</border>
+              </object>
+              <object class="sizeritem">
+                <object class="wxButton" name="btnGet">
+                  <label>Get...</label>
+                  <tooltip>Get a specific profile file (not in available set)</tooltip>
+                  <style>wxBU_EXACTFIT</style>
+                </object>
+                <flag>wxBOTTOM|wxEXPAND</flag>
+                <border>3</border>
+              </object>
+            </object>
+            <flag>wxLEFT</flag>
+            <border>10</border>
+          </object>
+          <orient>wxHORIZONTAL</orient>
+        </object>
+        <option>1</option>
+        <flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+        <border>10</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <object class="spacer">
+            <option>1</option>
+            <flag>wxEXPAND</flag>
+          </object>
+          <object class="sizeritem">
+            <object class="wxButton" name="btnOk">
+              <label>OK/Reload</label>
+            </object>
+            <flag>wxBOTTOM|wxALIGN_BOTTOM</flag>
+            <border>10</border>
+          </object>
+          <object class="spacer">
+            <size>20</size>
+            <option>1</option>
+            <flag>wxEXPAND</flag>
+          </object>
+          <object class="sizeritem">
+            <object class="wxButton" name="btnCancel">
+              <pos>1</pos>
+              <label>Cancel</label>
+            </object>
+            <flag>wxBOTTOM|wxALIGN_BOTTOM</flag>
+            <border>10</border>
+          </object>
+          <object class="spacer">
+            <option>1</option>
+            <flag>wxEXPAND</flag>
+          </object>
+          <orient>wxHORIZONTAL</orient>
+        </object>
+        <flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+        <border>10</border>
+      </object>
+    </object>
+    <title>ESL Studio - Profile Settings</title>
+    <centered>1</centered>
+    <style>wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxMAXIMIZE_BOX</style>
+  </object>
+</resource>

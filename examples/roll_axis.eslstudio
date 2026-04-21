@@ -1,0 +1,275 @@
+<?xml version="1.0"?>
+<!-- Created by ESL-Studio on 2023-03-18 17:12:57 -->
+<esl-studio-application version="1.2.0.30">
+	<model eslname="roll_axis" type="model" description="Satellite Roll-Axis Control" show-eslname="true" show-description="true">
+		<diagram>
+			<info id="1" type="Module Annotation" x="150" y="30">
+				<annotation id="eslname" x="0" y="0" background="true">
+					<text id="1+1+0"><![CDATA[roll_axis]]></text>
+				</annotation>
+				<annotation id="description" x="0" y="30" background="true">
+					<text id="1+2+0"><![CDATA[Satellite Roll-Axis Control]]></text>
+				</annotation>
+			</info>
+			<entity id="2" type="Step Input" x="145" y="255">
+				<annotation id="attribute-K" x="0" y="-30">
+					<text id="2+2+0"><![CDATA[Xin=0.008727]]></text>
+				</annotation>
+				<annotation id="port-1" x="50" y="-10">
+					<text id="2+3+0"><![CDATA[Xc]]></text>
+				</annotation>
+			</entity>
+			<entity id="3" type="Summer" x="290" y="255">
+					<port id="1" sign="plus"/>
+					<port id="2" sign="minus"/>
+				<annotation id="port-1" x="40" y="-10">
+					<text id="3+2+0"><![CDATA[Xe]]></text>
+				</annotation>
+			</entity>
+			<entity id="4" type="Transfer Function" x="425" y="255">
+				<annotation id="port-1" x="50" y="-10">
+					<text id="4+2+0"><![CDATA[Y]]></text>
+				</annotation>
+				<annotation id="description" x="0" y="35" visible="false">
+					<text id="4+3+0"><![CDATA[rate integrating gyro]]></text>
+				</annotation>
+				<annotation id="attribute-TF" x="0" y="-30">
+					<text id="4+4+0"><![CDATA[K1/(T1*s+1)]]></text>
+				</annotation>
+			</entity>
+			<entity id="5" type="Transfer Function" x="610" y="255">
+				<annotation id="port-1" x="50" y="-10">
+					<text id="5+2+0"><![CDATA[Z]]></text>
+				</annotation>
+				<annotation id="description" x="0" y="30">
+					<text id="5+3+0"><![CDATA[amplifier and demodulator]]></text>
+				</annotation>
+				<annotation id="attribute-TF" x="0" y="-30">
+					<text id="5+4+0"><![CDATA[K2/(T2*s+1)]]></text>
+				</annotation>
+			</entity>
+			<entity id="6" type="Transfer Function" x="785" y="255">
+				<annotation id="port-1" x="50" y="-10">
+					<text id="6+2+0"><![CDATA[V]]></text>
+				</annotation>
+				<annotation id="description" x="0" y="30">
+					<text id="6+3+0"><![CDATA[compensator network and amplifier]]></text>
+				</annotation>
+				<annotation id="attribute-TF" x="0" y="-30">
+					<text id="6+4+0"><![CDATA[K3(1+aT3*s)/(T3*s+1)]]></text>
+				</annotation>
+			</entity>
+			<entity id="7" type="Transfer Function" x="390" y="385" orientation="mirrorYAxis">
+				<annotation id="port-1" x="55" y="-10">
+					<text id="7+2+0"><![CDATA[X]]></text>
+				</annotation>
+				<annotation id="attribute-TF" x="0" y="-30">
+					<text id="7+3+0"><![CDATA[1/s]]></text>
+				</annotation>
+			</entity>
+			<entity id="8" type="Transfer Function" x="525" y="385" orientation="mirrorYAxis">
+				<annotation id="port-1" x="50" y="-10">
+					<text id="8+2+0"><![CDATA[Xd]]></text>
+				</annotation>
+				<annotation id="attribute-TF" x="0" y="-30">
+					<text id="8+3+0"><![CDATA[1/(I*s)]]></text>
+				</annotation>
+			</entity>
+			<entity id="9" type="Summer" x="660" y="385" orientation="mirrorYAxis">
+					<port id="1" sign="plus"/>
+					<port id="2" sign="minus"/>
+				<annotation id="port-1" x="40" y="-10">
+					<text id="9+2+0"><![CDATA[Ta]]></text>
+				</annotation>
+			</entity>
+			<entity id="10" type="Friction" x="535" y="495">
+				<annotation id="port-1" x="92" y="-10">
+					<text id="10+2+0"><![CDATA[Tf]]></text>
+				</annotation>
+				<annotation id="description" x="0" y="30">
+					<text id="10+3+0"><![CDATA[friction torque]]></text>
+				</annotation>
+				<annotation id="attribute-FS" x="0" y="-30">
+					<text id="10+4+0"><![CDATA[Ts=0.2712]]></text>
+				</annotation>
+				<annotation id="attribute-FC" x="0" y="-47">
+					<text id="10+5+0"><![CDATA[Tc=0.1365]]></text>
+				</annotation>
+			</entity>
+			<entity id="11" type="Limiter" x="790" y="385" orientation="mirrorYAxis">
+				<annotation id="port-1" x="50" y="-10">
+					<text id="11+2+0"><![CDATA[Tm]]></text>
+				</annotation>
+				<annotation id="description" x="0" y="30">
+					<text id="11+3+0"><![CDATA[torque motor]]></text>
+				</annotation>
+				<annotation id="attribute-LL" x="0" y="-30">
+					<text id="11+4+0"><![CDATA[Tmin=-1.356]]></text>
+				</annotation>
+				<annotation id="attribute-UL" x="0" y="-47">
+					<text id="11+5+0"><![CDATA[Tmax=1.356]]></text>
+				</annotation>
+			</entity>
+			<entity id="12" type="Constant Multiplier" x="925" y="385" orientation="mirrorYAxis">
+				<annotation id="attribute-K" x="0" y="-30">
+					<text id="12+2+0"><![CDATA[K4=1.365]]></text>
+				</annotation>
+			</entity>
+			<display id="13" type="plot" x="170" y="545"/>
+			<display id="14" type="plot" x="855" y="545"/>
+			<display id="34" type="plot" x="375" y="545"/>
+			<text id="37" x="350" y="175"><![CDATA[rate integrating gyro]]></text>
+			<rect id="71" x="360" y="255" width="250" height="140"/>
+			<text id="134" x="435" y="400"/>
+			<text id="135" x="170" y="590"><![CDATA[demand angle (Xc) and achieved angle (X)]]></text>
+			<text id="136" x="380" y="590"><![CDATA[velocity (Xd)]]></text>
+			<text id="137" x="860" y="590"><![CDATA[available torque (Ta) and friction torque (Tf)]]></text>
+			<entity id="139" type="Constant Multiplier" x="370" y="90">
+				<annotation id="description" x="0" y="30">
+					<text id="139+4+0"><![CDATA[rads to arc-seconds]]></text>
+				</annotation>
+			</entity>
+			<entity id="153" type="Constant Multiplier" x="480" y="135">
+				<annotation id="description" x="0" y="30">
+					<text id="153+4+0"><![CDATA[rads to arc-seconds]]></text>
+				</annotation>
+			</entity>
+			<display id="163" type="table" x="680" y="110"/>
+			<text id="170" x="680" y="150"><![CDATA[final position (X) final error (Xe) (radians)]]></text>
+			<node id="15" type="Real" x="740" y="540" orient="false" scalable="false"/>
+			<link id="16" type="Real" start-id="2-1" end-id="3-1"/>
+			<link id="17" type="Real" start-id="3-3" end-id="4-1"/>
+			<link id="18" type="Real" start-id="4-2" end-id="5-1"/>
+			<link id="19" type="Real" start-id="5-2" end-id="6-1"/>
+			<link id="20" type="Real" start-id="6-2" end-id="12-1"/>
+			<link id="21" type="Real" start-id="12-2" end-id="11-1"/>
+			<link id="22" type="Real" start-id="11-2" end-id="9-1"/>
+			<link id="23" type="Real" start-id="9-3" end-id="8-1"/>
+			<link id="24" type="Real" start-id="8-2" end-id="7-1"/>
+			<link id="25" type="Real" start-id="7-2" end-id="3-2"/>
+			<link id="26" type="Real" start-id="10-3" end-id="9-2"/>
+			<link id="27" type="Real" start-id="10-1" end-id="7-1"/>
+			<link id="28" type="Real" start-id="11-2" end-id="15"/>
+			<link id="29" type="Real" start-id="15" end-id="10-2"/>
+			<link id="30" type="Instrumentation" start-id="13-1" end-id="2-1"/>
+			<link id="31" type="Instrumentation" start-id="13-1" end-id="7-2"/>
+			<link id="32" type="Instrumentation" start-id="14-1" end-id="9-3"/>
+			<link id="33" type="Instrumentation" start-id="14-1" end-id="10-3"/>
+			<link id="35" type="Instrumentation" start-id="34-1" end-id="8-2"/>
+			<link id="151" type="Real" start-id="139-1" end-id="3-3"/>
+			<link id="154" type="Real" start-id="7-2" end-id="153-1"/>
+			<link id="164" type="Instrumentation" start-id="163-1" end-id="139-2"/>
+			<link id="165" type="Instrumentation" start-id="163-1" end-id="153-2"/>
+		</diagram>
+		<simulation-entities>
+			<entity id="2" type="Step Input">
+				<attribute tag="K" value="0.008727" eslname="Xin" show-eslname="true" show-value="true"/>
+				<port id="1" designation="output" eslname="Xc" show-eslname="true"/>
+			</entity>
+			<entity id="3" type="Summer">
+				<port id="3" designation="output" eslname="Xe" show-eslname="true"/>
+			</entity>
+			<entity id="4" type="Transfer Function" description="rate integrating gyro">
+				<attribute tag="TF" value="K1/(T1*s+1)" show-value="true"/>
+				<port id="2" designation="output" eslname="Y" show-eslname="true"/>
+			</entity>
+			<entity id="5" type="Transfer Function" description="amplifier and demodulator" show-description="true">
+				<attribute tag="TF" value="K2/(T2*s+1)" show-value="true"/>
+				<port id="2" designation="output" eslname="Z" show-eslname="true"/>
+			</entity>
+			<entity id="6" type="Transfer Function" description="compensator network and amplifier" show-description="true">
+				<attribute tag="TF" value="K3(1+aT3*s)/(T3*s+1)" show-value="true"/>
+				<port id="2" designation="output" eslname="V" show-eslname="true"/>
+			</entity>
+			<entity id="7" type="Transfer Function">
+				<attribute tag="TF" value="1/s" show-value="true"/>
+				<port id="2" designation="output" eslname="X" show-eslname="true"/>
+			</entity>
+			<entity id="8" type="Transfer Function">
+				<attribute tag="TF" value="1/(I*s)" show-value="true"/>
+				<port id="2" designation="output" eslname="Xd" show-eslname="true"/>
+			</entity>
+			<entity id="9" type="Summer">
+				<port id="3" designation="output" eslname="Ta" show-eslname="true"/>
+			</entity>
+			<entity id="10" type="Friction" description="friction torque" show-description="true">
+				<attribute tag="FS" source="Parameter" value="Ts" show-source="true" show-value="true"/>
+				<attribute tag="FC" source="Parameter" value="Tc" show-source="true" show-value="true"/>
+				<port id="3" designation="output" eslname="Tf" show-eslname="true"/>
+			</entity>
+			<entity id="11" type="Limiter" description="torque motor" show-description="true">
+				<attribute tag="LL" source="Parameter" value="Tmin" show-source="true" show-value="true"/>
+				<attribute tag="UL" source="Parameter" value="Tmax" show-source="true" show-value="true"/>
+				<port id="2" designation="output" eslname="Tm" show-eslname="true"/>
+			</entity>
+			<entity id="12" type="Constant Multiplier">
+				<attribute tag="K" source="Parameter" value="K4" show-source="true" show-value="true"/>
+			</entity>
+			<entity id="139" type="Constant Multiplier" description="rads to arc-seconds" show-description="true">
+				<port id="2" designation="output" eslname="Xe_rad"/>
+			</entity>
+			<entity id="153" type="Constant Multiplier" description="rads to arc-seconds" show-description="true">
+				<attribute tag="K" value="206265"/>
+				<port id="2" designation="output" eslname="X_rad"/>
+			</entity>
+		</simulation-entities>
+		<parameters>
+			<variable eslname="K1" type="Real" parameter="true" value="15"/>
+			<variable eslname="K2" type="Real" parameter="true" value="1000"/>
+			<variable eslname="K3" type="Real" parameter="true" value="0.1"/>
+			<variable eslname="K4" type="Real" parameter="true" value="1.365"/>
+			<variable eslname="Tmax" type="Real" parameter="true" value="1.356"/>
+			<variable eslname="I" type="Real" parameter="true" value="271.2"/>
+			<variable eslname="T1" type="Real" parameter="true" value="0.006"/>
+			<variable eslname="T2" type="Real" parameter="true" value="0.01"/>
+			<variable eslname="T3" type="Real" parameter="true" value="0.0555"/>
+			<variable eslname="Ts" type="Real" parameter="true" value="0.2712"/>
+			<variable eslname="Tc" type="Real" parameter="true" value="0.1365"/>
+			<variable eslname="Tmin" type="Real" parameter="true" value="-1.356"/>
+			<variable eslname="aT3" type="Real" parameter="true" value="0.555"/>
+		</parameters>
+		<display-definitions>
+			<display id="13" type="plot" update="step">
+				<name><![CDATA[Display Plot 1]]></name>
+				<title><![CDATA[Satellite Roll-Axis Control]]></title>
+				<subtitle><![CDATA[demand angle (Xc) and achieved angle (X)]]></subtitle>
+				<plot x="5" y="21" width="640" height="600">
+					<x-axis grid="true"/>
+					<y-axis grid="true"/>
+				</plot>
+			</display>
+			<display id="14" type="plot" update="step">
+				<name><![CDATA[Display Plot 1 1]]></name>
+				<title><![CDATA[Satellite Roll-Axis Control]]></title>
+				<subtitle><![CDATA[available torque (Ta) and friction torque (Tf)]]></subtitle>
+				<plot x="205" y="426" width="640" height="600">
+					<x-axis grid="true"/>
+					<y-axis grid="true"/>
+				</plot>
+			</display>
+			<display id="34" type="plot" update="step">
+				<name><![CDATA[Display Plot 2]]></name>
+				<title><![CDATA[Satellite Roll-Axis Control]]></title>
+				<subtitle><![CDATA[velocity (Xd)]]></subtitle>
+				<plot x="712" y="21" width="640" height="600">
+					<x-axis grid="true"/>
+					<y-axis grid="true"/>
+				</plot>
+			</display>
+			<display id="163" type="table">
+				<name><![CDATA[Display Table]]></name>
+				<title><![CDATA[Satellite Roll-Axis Control]]></title>
+				<subtitle><![CDATA[final position (X) final error (Xe) (radians)]]></subtitle>
+				<table table-style="monitor" x="903" y="663" width="338" height="297"/>
+			</display>
+		</display-definitions>
+		<info-blocks>
+			<info id="1" type="Module Annotation"/>
+		</info-blocks>
+	</model>
+	<simulation-parameters>
+		<parameter eslname="TFIN" value="5.0"/>
+		<parameter eslname="CINT" value="0.1"/>
+	</simulation-parameters>
+	<setup view-code="true"/>
+</esl-studio-application>

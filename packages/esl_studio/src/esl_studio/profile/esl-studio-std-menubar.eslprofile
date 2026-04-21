@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+
+<esl-studio-std-menubar>
+
+	<esl-studio>
+
+		<menubar>
+			<!-- Any item contents will override description as set by contents for the command element. -->
+			<menu text="&amp;File">
+				<item command="New Application" text="&amp;New"/>
+				<item command="Open Application" text="&amp;Open..."/>
+				<item command="Save Application" text="&amp;Save"/>
+				<item command="Save Application As" text="Save &amp;As..."/>
+				<!-- separator platform="win32" / -->
+				<!-- item platform="win32" command="Import From ISE" text="Import from &amp;ISE..."/ -->
+				<separator />
+				<item command="Print/Save Diagram" text="Print/Save Diagram..."/>
+				<item command="Page Setup" text="Page Setup..."/>
+				<item command="Print Preview" text="Print Preview..."/>
+				<item command="Print View" text="Print View..."/>
+				<!-- item command="Print Diagram" text="Print Diagram..."/ -->
+				<!-- item command="Print Text" text="Print Text..."/ -->
+				<separator />
+				<item command="View Source File" text="View Source File..."/>
+				<item command="Open Text Editor" text="Open Text Editor..."/>
+				<separator />
+				<item command="Show Options" text="Preferences/Options..."/>
+				<separator />
+				<menu text="Application History">
+					<item command="Clear Application History" text="Clear Application History"/>
+					<history/> <!-- history must be last item in a menu -->
+				</menu>
+				<separator />
+				<item command="Exit Application" text="E&amp;xit"/>
+			</menu>
+			<menu text="&amp;Edit">
+				<item command="Undo" text="&amp;Undo"/>
+				<item command="Redo" text="&amp;Redo"/>
+				<separator />
+				<item command="Cut" text="Cut"/>
+				<item command="Copy" text="Copy"/>
+				<item command="Paste" text="Paste"/>
+				<item command="Delete" text="Delete"/>
+				<separator />
+				<item command="Select All" text="Select &amp;All"/>
+				<separator />
+				<menu text="&amp;Flip">
+					<item command="Flip Left/Right" text="&amp;Left/Right"/>
+					<item command="Flip Up/Down" text="&amp;Up/Down"/>
+				</menu>
+				<menu text="R&amp;otate">
+					<item command="Rotate Right 90 degrees" text="&amp;Left 90 Degrees"/>
+					<item command="Rotate 180 degrees" text="&amp;180 Degrees"/>
+					<item command="Rotate Left 90 degrees" text="&amp;Right 90 Degrees"/>
+				</menu>
+			</menu>
+			<menu text="&amp;View">
+				<item command="Toggle Toolbar" text="View Toolbar"/>
+				<item command="Toggle Application View" text="View Application"/>
+				<item command="Toggle Elements View" text="View Elements"/>
+				<item command="Toggle Messages View" text="View Messages"/>
+				<item command="Toggle Properties View" text="View Properties"/>
+				<separator />
+				<item command="Toggle Simulation Parameters View" text="View Simulation Parameters"/>
+				<item command="Toggle Simulation Setup View" text="View Simulation Setup"/>
+				<separator />
+				<item command="Clear Messages" text="&amp;Clear Messages"/>
+				<separator />
+				<item command="Zoom Dialog" text="&amp;Zoom..."/>
+				<item command="Zoom Reset" text="Zoom &amp;Reset"/>
+				<item command="Zoom All" text="Zoom &amp;All"/>
+				<item command="Zoom Selected" text="Zoom &amp;Selected"/>
+			</menu>
+			<menu text="&amp;Insert">
+				<item command="Insert Model Diagram" text="&amp;Model Diagram"/>
+				<item command="Insert Submodel Diagram" text="&amp;Submodel Diagram"/>
+				<item command="Insert Segment Diagram" text="Se&amp;gment Diagram"/>
+				<menu text="&amp;Textual Subprogram(s)">
+					<item command="Import ESL Code Subprograms" text="&amp;ESL Import"/>
+					<item command="Import File Code Subprograms" text="&amp;File Import"/>
+				</menu>
+				<item command="Insert Package" text="&amp;Package"/>
+			</menu>
+			<menu text="&amp;Simulate">
+				<item command="Run Simulation" text="&amp;Run Simulation"/>
+				<item command="Toggle Simulation Setup View" text="View Simulation Se&amp;tup"/>
+				<separator />
+				<item command="Launch ESL-SEC" text="&amp;Simulation Execution..."/>
+				<item command="Launch ESL-Displays" text="&amp;Post Run Analysis..."/>
+			</menu>
+			<menu text="&amp;Help">
+				<item command="Show ESL-Studio Help" text="ESL-Studio &amp;Help..."/>
+				<item command="Show ESL Help" text="&amp;ESL Help..."/>
+				<item command="Show ESL Documents" text="ESL &amp;Documents..."/>
+				<separator />
+				<item command="Check ESL-Studio Updates" text="Check ESL-Studio &amp;Updates..."/>
+				<item command="Check ESL Updates" text="&amp;Check ESL Updates..."/>
+				<separator />
+				<item command="Show About Box" text="&amp;About..."/>
+			</menu>
+		</menubar>
+
+	</esl-studio>
+
+</esl-studio-std-menubar>

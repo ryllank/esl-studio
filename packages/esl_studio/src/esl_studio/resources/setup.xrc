@@ -1,0 +1,188 @@
+<?xml version="1.0" ?>
+<resource>
+	<object class="wxPanel" name="SetupPnl">
+		<object class="wxBoxSizer">
+			<orient>wxVERTICAL</orient>
+			<object class="sizeritem">
+				<object class="wxBoxSizer">
+					<object class="sizeritem">
+						<object class="wxStaticText" name="sttHeader">
+							<label>Build/Run Setup</label>
+						</object>
+						<option>1</option>
+					</object>
+				</object>
+				<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+				<border>10</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxStaticBoxSizer">
+					<object class="sizeritem">
+						<object class="wxCheckBox" name="chkGenerateOnly">
+							<label>Generate only - do not run</label>
+						</object>
+						<flag>wxALL</flag>
+						<border>3</border>
+						<option>1</option>
+					</object>
+					<object class="sizeritem">
+						<object class="wxCheckBox" name="chkViewCode">
+							<label>View generated ESL</label>
+						</object>
+						<flag>wxALL</flag>
+						<border>3</border>
+						<option>1</option>
+					</object>
+				</object>
+				<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+				<border>10</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxStaticBoxSizer" name="sbxRunArea">
+					<object class="sizeritem">
+						<object class="wxBoxSizer">
+							<orient>wxVERTICAL</orient>
+							<object class="sizeritem">
+								<object class="wxCheckBox" name="chkRunWithSEC">
+									<label>Run with Simulation Execution and Control (SEC)</label>
+									<checked>1</checked>
+								</object>
+								<flag>wxALL</flag>
+								<border>3</border>
+							</object>
+							<object class="sizeritem">
+								<object class="wxStaticText" name="sttRunInfo">
+									<label></label>
+									<hidden>1</hidden>
+								</object>
+								<flag>wxALL</flag>
+								<border>3</border>
+								<option>1</option>
+							</object>
+						</object>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND</flag>
+				<border>10</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxFlexGridSizer">
+					<cols>2</cols>
+					<rows>7</rows>
+					<vgap>5</vgap>
+					<hgap>5</hgap>
+					<growablecols>1</growablecols>
+					<object class="sizeritem">
+						<object class="wxStaticText" name="ID_STATICTEXT1">
+							<label>Execution Command:</label>
+						</object>
+						<flag>wxALIGN_CENTER_VERTICAL</flag>
+					</object>
+					<object class="sizeritem">
+						<object class="wxBoxSizer">
+							<object class="sizeritem">
+								<object class="wxChoice" name="chcExecCommand">
+									<content>
+										<item>Compile and Interpret</item>
+										<item>Compile, Translate, Link and Execute</item>
+										<item>Custom Run Command</item>
+									</content>
+									<selection>0</selection>
+								</object>
+								<flag>wxRIGHT|wxALIGN_CENTER_VERTICAL</flag>
+								<option>1</option>
+							</object>
+							<object class="sizeritem">
+								<object class="wxStaticBoxSizer">
+									<label>Language</label>
+									<object class="sizeritem">
+										<object class="wxRadioButton" name="radLangC">
+											<label>C++</label>
+											<enabled>0</enabled>
+										</object>
+									</object>
+									<object class="sizeritem">
+										<object class="wxRadioButton" name="radLangFortran">
+											<label>Fortran</label>
+											<enabled>0</enabled>
+										</object>
+									</object>
+								</object>
+								<flag>wxLEFT</flag>
+								<border>10</border>
+							</object>
+						</object>
+						<flag>wxEXPAND</flag>
+						<option>1</option>
+					</object>
+					<object class="sizeritem">
+						<object class="wxStaticText" name="ID_STATICTEXT2">
+							<label>Extra Options:</label>
+						</object>
+						<flag>wxALIGN_CENTER_VERTICAL</flag>
+					</object>
+					<object class="sizeritem">
+						<object class="wxBoxSizer">
+							<object class="sizeritem">
+								<object class="wxCheckBox" name="chkSingle">
+									<label>-single</label>
+								</object>
+							</object>
+							<object class="sizeritem">
+								<object class="wxCheckBox" name="chk32bit">
+									<label>-32bit </label>
+								</object>
+							</object>
+							<object class="sizeritem">
+								<object class="wxCheckBox" name="chkGcc">
+									<label>-gcc   </label>
+								</object>
+							</object>
+						</object>
+						<flag>wxALIGN_LEFT</flag>
+					</object>
+					<object class="sizeritem">
+						<object class="wxStaticText" name="ID_STATICTEXT3">
+							<label>Additional Link Objects: </label>
+						</object>
+						<flag>wxALIGN_CENTER_VERTICAL</flag>
+					</object>
+					<object class="sizeritem">
+						<object class="wxTextCtrl" name="txtAddnlLinkObjs">
+							<style>wxTE_PROCESS_ENTER|wxTE_READONLY</style>
+						</object>
+						<flag>wxEXPAND</flag>
+					</object>
+					<object class="sizeritem">
+						<object class="wxStaticText" name="ID_STATICTEXT4">
+							<label>Build Command:</label>
+						</object>
+						<flag>wxALIGN_CENTER_VERTICAL</flag>
+					</object>
+					<object class="sizeritem">
+						<object class="wxTextCtrl" name="txtBuildCommand">
+							<style>wxTE_READONLY</style>
+						</object>
+						<flag>wxEXPAND</flag>
+					</object>
+					<object class="sizeritem">
+						<object class="wxStaticText" name="sttRunCommand">
+							<label>Run Command:</label>
+						</object>
+						<flag>wxALIGN_CENTER_VERTICAL</flag>
+					</object>
+					<object class="sizeritem">
+						<object class="wxTextCtrl" name="txtRunCommand">
+							<style>wxTE_PROCESS_ENTER|wxTE_READONLY</style>
+						</object>
+						<flag>wxEXPAND</flag>
+						<option>1</option>
+					</object>
+				</object>
+				<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+				<border>10</border>
+				<option>1</option>
+			</object>
+		</object>
+	</object>
+</resource>

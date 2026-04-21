@@ -1,0 +1,127 @@
+<?xml version="1.0" ?>
+
+<esl-studio-std-commands>
+
+	<esl-studio>
+
+		<commands>
+
+			<command name="New Application" procedure="NewApplication">Creates a new ESL-Studio application</command>
+			<command name="Open Application" procedure="OpenApplication">Opens an existing ESL-Studio application</command>
+			<command name="Save Application" procedure="SaveApplication">Saves ESL-Studio application with same name</command>
+			<command name="Save Application As" procedure="SaveApplicationAs">Saves ESL-Studio application with new name</command>
+			<command name="Import From ISE" procedure="ImportFromISE">Import a simulation application from ESL-ISE</command>
+
+			<command name="Print/Save Diagram" procedure="PrintSaveDiagram">Setup an area of the current diagram view to print or save as an image</command>
+			<command name="Page Setup" procedure="PageSetup">Setup the printer page for printing a diagram or text view</command>
+			<command name="Print Preview" procedure="PrintPreview">Show a preview printout for the current diagram or text view</command>
+			<command name="Print View" procedure="PrintView">Sends the current diagram or text view to the printer</command>
+			<command name="Save Diagram" procedure="SaveDiagram">Saves the current diagram as an image file</command>
+			<command name="Print Diagram" procedure="PrintDiagram">Prints the current diagram</command>
+			<command name="Print Text" procedure="PrintText">Prints the current text view</command>
+
+			<command name="View Source File" procedure="ViewSourceFile" browse="true">Opens a source (text) file for viewing</command>
+			<command name="Open Text Editor" procedure="OpenTextEditor" browse="true">Opens external Text Editor</command>
+			<command name="Show Options" procedure="ShowOptions" browse="true">Opens the preferences/options edit dialog</command>
+			<command name="Clear Application History" procedure="ClearApplicationHistory">Clears the history list of recent applications</command>
+			<command name="Exit Application" procedure="ExitApp" browse="true">Exit ESL-Studio</command>
+
+			<command name="Undo" procedure="Undo">Undoes the last editing action</command>
+			<command name="Redo" procedure="Redo">Redoes the previously undone action</command>
+			<command name="Cut" procedure="CanvasAction">Cuts the selection and moves it to the Clipboard
+				<info action="Cut"/>
+			</command>
+			<command name="Copy" procedure="CanvasAction">Copies the selection to the Clipboard
+				<info action="Copy"/>
+			</command>
+			<command name="Paste" procedure="CanvasAction">Pastes the Clipboard contents onto the canvas
+				<info action="Paste"/>
+			</command>
+			<command name="Delete" procedure="CanvasAction">Deletes the selection
+				<info action="Delete"/>
+			</command>
+			<command name="Select All" procedure="CanvasAction">Selects all objects
+				<info action="Select All"/>
+			</command>
+			<command name="Flip Left/Right" procedure="CanvasAction">Flips the selected elements horizontally
+				<info action="FlipLR"/>
+			</command>
+			<command name="Flip Up/Down" procedure="CanvasAction">Flips the selected elements vertically
+				<info action="FlipUD"/>
+			</command>
+			<command name="Rotate Left 90 degrees" procedure="CanvasAction">Rotates the selected elements 90 degrees left
+				<info action="RotateLeft90"/>
+			</command>
+			<command name="Rotate 180 degrees" procedure="CanvasAction">Rotates the selected elements 180 degrees
+				<info action="Rotate180"/>
+			</command>
+			<command name="Rotate Right 90 degrees" procedure="CanvasAction">Rotates the selected elements 90 degrees right
+				<info action="RotateRight90"/>
+			</command>
+
+			<command name="Toggle Toolbar" procedure="ToggleView" browse="true">Shows/hides the toolbar
+				<info checkable="true" viewname="Toolbar"/>
+			</command>
+			<command name="Toggle Application View" procedure="ToggleView" browse="true">Shows/hides the tree view of the application
+				<info checkable="true" viewname="ApplicationView"/>
+			</command>
+			<command name="Toggle Elements View" procedure="ToggleView" browse="true">Shows/hides the available simulation elements
+				<info checkable="true" viewname="ElementsView"/>
+			</command>
+			<command name="Toggle Messages View" procedure="ToggleView" browse="true">Shows/hides the messages display
+				<info checkable="true" viewname="MessagesView"/>
+			</command>
+			<command name="Toggle Properties View" procedure="ToggleView" browse="true">Shows/hides the properties display
+				<info checkable="true" viewname="PropertiesView"/>
+			</command>
+			<command name="Toggle Simulation Parameters View" procedure="ToggleView" browse="true">Shows/hides the simulation parameters
+				<info checkable="true" viewname="SimulationParametersView"/>
+			</command>
+			<command name="Toggle Simulation Setup View" procedure="ToggleView" browse="true">Shows/hides the simulation setup information
+				<info checkable="true" viewname="SetupView"/>
+			</command>
+			<command name="Clear Messages" procedure="ClearMessages">Clears the contents of the messages display</command>
+			<command name="Zoom Dialog" procedure="ZoomDialog" browse="true">Changes canvas zoom factor</command>
+			<command name="Zoom Reset" procedure="CanvasAction" browse="true">Resets canvas zoom factor to normal (100)
+				<info action="Set Scale" to="100"/>
+			</command>
+			<command name="Zoom All" procedure="ZoomAll" browse="true">Zooms canvas to show all elements</command>
+			<command name="Zoom Selected" procedure="ZoomSelected" browse="true">Zooms canvas to show all selected elements</command>
+
+
+			<command name="Insert Model Diagram" procedure="InsertModelDiagram">Inserts a new model diagram into the application</command>
+			<command name="Insert Submodel Diagram" procedure="InsertSubmodelDiagram">Inserts a new submodel diagram into the application</command>
+			<command name="Insert Segment Diagram" procedure="InsertSegmentDiagram">Inserts a new segment diagram into the application</command>
+			<command name="Import ESL Code Subprograms" procedure="InsertESLCodeSubprograms">Import new ESL textual (code) subprogram(s) into the application</command>
+			<command name="Import File Code Subprograms" procedure="InsertFileCodeSubprograms">Import new file textual (code) subprogram(s) into the application</command>
+			<command name="Insert Package" procedure="InsertPackage">Inserts a new variables package into the application</command>
+
+
+			<command name="Run Simulation" procedure="RunSimulation">Builds and runs the ESL simulation for the application</command>
+			<command name="Launch ESL-SEC" procedure="LaunchESLSEC">Launch ESL-SEC, to run another simulation</command>
+			<command name="Launch ESL-Displays" procedure="LaunchESLDisplays" browse="true">Launch the ESL-Displays for post run analysis</command>
+
+
+			<command name="Show ESL-Studio Help" procedure="ShowHelp" browse="true">Displays the ESL-Studio Help Page (website)
+				<info help="%ESL_STUDIO_URL%"/>
+			</command>
+			<command name="Show ESL Help" procedure="ShowHelp" browse="true">Displays the ESL Help file (installed)
+				<info help="$ESLDIR/help/esl.html"/>
+			</command>
+			<command name="Show ESL Documents" procedure="ShowHelp" browse="true">Displays the ESL Documents (website)
+				<info help="%ESL_SOFTWARE_URL%/documents/"/>
+			</command>
+
+			<command name="Check ESL-Studio Updates" procedure="CheckESLStudioUpdates" browse="true">Check ESL Software for any updates to this version of ESL-Studio</command>
+			<command name="Check ESL Updates" procedure="CheckESLUpdates" browse="true">Check ESL Software for any updates to the current version of ESL</command>
+			<command name="Show About Box" procedure="ShowAboutBox" browse="true">Shows information about ESL-Studio</command>
+
+
+			<command name="Show Submodel" procedure="ShowSubprogram" browse="true">Shows submodel for a submodel call</command>
+			<command name="Show Segment" procedure="ShowSubprogram" browse="true">Shows segment for a segment call</command>
+
+		</commands>
+
+	</esl-studio>
+
+</esl-studio-std-commands>

@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+
+<esl-studio-std-toolbar>
+
+	<esl-studio>
+
+		<toolbar>
+			<!-- Any item contents will override description as set by contents for the command element. -->
+			<item command="New Application" image="cmdnew"/>
+			<item command="Open Application" image="cmdopen"/>
+			<item command="Save Application" image="cmdsave"/>
+			<item command="Save Application As" image="cmdsaveas"/>
+			<separator />
+			<item command="Print/Save Diagram" image="cmdprint"/>
+			<separator />
+			<item command="View Source File" image="cmdeditor"/>
+			<separator />
+			<item command="Undo" image="cmdundo"/>
+			<item command="Redo" image="cmdredo"/>
+			<separator />
+			<item command="Cut" image="cmdcut"/>
+			<item command="Copy" image="cmdcopy"/>
+			<item command="Paste" image="cmdpaste"/>
+			<item command="Delete" image="cmddelete"/>
+			<separator />
+			<item command="Flip Left/Right" image="cmdfliplr"/>
+			<item command="Flip Up/Down" image="cmdflipud"/>
+			<item command="Rotate Right 90 degrees" image="cmdrot270"/>
+			<item command="Rotate Left 90 degrees" image="cmdrot90"/>
+			<separator />
+			<item command="Toggle Application View" image="cmdapplication"/>
+			<item command="Toggle Elements View" image="cmdelements"/>
+			<item command="Toggle Messages View" image="cmdmessages"/>
+			<item command="Toggle Properties View" image="cmdproperties"/>
+			<separator />
+			<item command="Toggle Simulation Parameters View" image="cmdsimparams"/>
+			<separator />
+			<item command="Zoom Dialog" image="cmdzoom"/>
+			<item command="Zoom Reset" image="cmdzoomreset"/>
+			<item command="Zoom All" image="cmdzoomall"/>
+			<separator />
+			<item command="Show Options" image="cmdoptions"/>
+			<separator />
+			<item command="Insert Submodel Diagram" image="cmdsubmodman"/>
+			<!--item command="Insert ESL Submodel" image="?"/-->
+			<item command="Insert Package" image="cmdpackman"/>
+			<separator />
+			<item command="Toggle Simulation Setup View" image="cmdsetup"/>
+			<item command="Run Simulation" image="cmdrun"/>
+			<item command="Launch ESL-Displays" image="cmddispman"/>
+			<item command="Launch ESL-SEC" image="cmdsec"/>
+			<separator />
+			<item command="Show Help" image="cmdhelp"/>
+			<item command="Show About Box" image="cmdabout"/>
+		</toolbar>
+
+	</esl-studio>
+
+</esl-studio-std-toolbar>

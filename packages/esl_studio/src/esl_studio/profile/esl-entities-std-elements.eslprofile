@@ -1,0 +1,293 @@
+<?xml version="1.0" ?>
+
+<esl-entities-std-elements>
+
+	<elements>
+
+		<section name="Common Elements">
+			<section name="Linear Operators">
+				<element name="Transfer Function" action="insert" image="elementicons/transfunction">
+					<entity type="Transfer Function" />
+				</element>
+				<element name="Constant Multiplier" action="insert" image="elementicons/constmultiplier">
+					<entity type="Constant Multiplier" />
+				</element>
+				<element name="Integrator" action="insert" image="elementicons/integrator">
+					<entity type="Integrator" />
+				</element>
+			</section>
+			<section name="Arithmetic Operators">
+				<element name="Summer" action="insert" image="elementicons/summer">
+					<entity type="Summer" />
+				</element>
+				<element name="Summer 3" action="insert" image="elementicons/summer3">
+					<entity type="Summer 3" />
+				</element>
+				<element name="Multiplier" action="insert" image="elementicons/multiplier">
+					<entity type="Multiplier" />
+				</element>
+				<element name="Divider" action="insert" image="elementicons/divider">
+					<entity type="Divider" />
+				</element>
+			</section>
+			<section name="Logical Operators">
+				<element name="Logical Negation" action="insert" image="elementicons/not">
+					<entity type="Logical Negation" />
+				</element>
+				<element name="Logical And" action="insert" image="elementicons/and">
+					<entity type="Logical And" />
+				</element>
+				<element name="Logical Or" action="insert" image="elementicons/or">
+					<entity type="Logical Or" />
+				</element>
+			</section>
+			<section name="Standard Functions">
+				<element name="Sine" action="insert" image="elementicons/sine">
+					<entity type="Sine" />
+				</element>
+				<element name="Cosine" action="insert" image="elementicons/cosine">
+					<entity type="Cosine" />
+				</element>
+				<element name="Tangent" action="insert" image="elementicons/tangent">
+					<entity type="Tangent" />
+				</element>
+				<element name="Absolute" action="insert" image="elementicons/absolute">
+					<entity type="Absolute" />
+				</element>
+				<element name="Arc Sine" action="insert" image="elementicons/asine">
+					<entity type="Arc Sine" />
+				</element>
+				<element name="Arc Cosine" action="insert" image="elementicons/acosine">
+					<entity type="Arc Cosine" />
+				</element>
+				<element name="Arc Tangent" action="insert" image="elementicons/atangent">
+					<entity type="Arc Tangent" />
+				</element>
+				<element name="Arc Tangent 2" action="insert" image="elementicons/atangent2">
+					<entity type="Arc Tangent 2" />
+				</element>
+				<element name="Exponential" action="insert" image="elementicons/exponential">
+					<entity type="Exponential" />
+				</element>
+				<element name="Natural Logarithm" action="insert" image="elementicons/naturallog">
+					<entity type="Natural Logarithm" />
+				</element>
+				<element name="Base 10 Logarithm" action="insert" image="elementicons/base10log">
+					<entity type="Base 10 Logarithm" />
+				</element>
+				<element name="Power" action="insert" image="elementicons/power">
+					<entity type="Power" />
+				</element>
+				<element name="Square Root" action="insert" image="elementicons/squareroot">
+					<entity type="Square Root" />
+				</element>
+				<element name="Integer" action="insert" image="elementicons/integer">
+					<entity type="Integer" />
+				</element>
+			</section>
+		</section>
+
+		<section name="Input/Output">
+			<section name="Inputs">
+				<element name="Step Input" action="insert" image="elementicons/stepinput">
+					<entity type="Step Input" />
+				</element>
+				<element name="Sine Input" action="insert" image="elementicons/sinusoidal">
+					<entity type="Sine Input" />
+				</element>
+				<element name="Ramp Input" action="insert" image="elementicons/rampinput">
+					<entity type="Ramp Input" />
+				</element>
+				<element name="Square Input" action="insert" image="elementicons/squareinput">
+					<entity type="Square Input" />
+				</element>
+				<element name="Time Input" action="insert" image="elementicons/timeinput">
+					<entity type="Time Input" />
+				</element>
+				<element name="Impulse Input" action="insert" image="elementicons/impulse">
+					<entity type="Impulse Input" />
+				</element>
+				<element name="Pulse Input" action="insert" image="elementicons/pulse">
+					<entity type="Pulse Input" />
+				</element>
+				<element name="Constant Real" action="insert" image="elementicons/constreal">
+					<entity type="Constant Real" />
+				</element>
+				<element name="Constant Integer" action="insert" image="elementicons/constinteger">
+					<entity type="Constant Integer" />
+				</element>
+				<element name="Constant True" action="insert" image="elementicons/logicaltrue">
+					<entity type="Constant True" />
+				</element>
+				<element name="Constant False" action="insert" image="elementicons/logicalfalse">
+					<entity type="Constant False" />
+				</element>
+				<element name="Constant Logical" action="insert" image="elementicons/constlogical">
+					<entity type="Constant Logical" />
+				</element>
+			</section>
+			<section name="Input Arguments">
+				<element name="Real Input" action="insert" image="elementicons/realinput">
+					<entity type="Real Input" />
+				</element>
+				<element name="Integer Input" action="insert" image="elementicons/integerinput">
+					<entity type="Integer Input" />
+				</element>
+				<element name="Logical Input" action="insert" image="elementicons/logicalinput">
+					<entity type="Logical Input" />
+				</element>
+			</section>
+			<section name="Output Arguments">
+				<element name="Real Output" action="insert" image="elementicons/realoutput">
+					<entity type="Real Output" />
+				</element>
+				<element name="Integer Output" action="insert" image="elementicons/integeroutput">
+					<entity type="Integer Output" />
+				</element>
+				<element name="Logical Output" action="insert" image="elementicons/logicaloutput">
+					<entity type="Logical Output" />
+				</element>
+			</section>
+		</section>
+
+		<section name="Library (Linear)">
+			<element name="Derivative" action="insert" image="elementicons/derivative">
+				<entity type="Derivative" />
+			</element>
+			<section name="Laplace Operators">
+				<element name="Complex Pole" action="insert" image="elementicons/complexpole">
+					<entity type="Complex Pole" />
+				</element>
+				<element name="Lead Lag" action="insert" image="elementicons/leadlag">
+					<entity type="Lead Lag" />
+				</element>
+				<element name="Real Pole" action="insert" image="elementicons/realpole">
+					<entity type="Real Pole" />
+				</element>
+			</section>
+			<section name="Integrators">
+				<element name="Integrator" action="insert" image="elementicons/integrator">
+					<entity type="Integrator" />
+				</element>
+				<element name="Limited Integrator" action="insert" image="elementicons/limitedintegrator">
+					<entity type="Limited Integrator" />
+				</element>
+				<element name="Logical Integrator" action="insert" image="elementicons/logicalintegrator">
+					<entity type="Logical Integrator" />
+				</element>
+				<element name="Fourier Transform" action="insert" image="elementicons/fouriertransform">
+					<entity type="Fourier Transform" />
+				</element>
+			</section>
+			<section name="Controllers">
+				<element name="PI Controller" action="insert" image="elementicons/picontrol">
+					<entity type="PI Controller" />
+				</element>
+				<element name="PID Controller" action="insert" image="elementicons/pidcontrol">
+					<entity type="PID Controller" />
+				</element>
+				<element name="PID Controller 1" action="insert" image="elementicons/pidcontrol1">
+					<entity type="PID Controller 1" />
+				</element>
+			</section>
+			<section name="Timers">
+				<element name="Timer" action="insert" image="elementicons/timer">
+					<entity type="Timer" />
+				</element>
+			</section>
+		</section>
+
+		<section name="Library (Nonlinear)">
+			<section name="Oscillators">
+				<element name="Bistable" action="insert" image="elementicons/bistable">
+					<entity type="Bistable" />
+				</element>
+				<element name="Modulator" action="insert" image="elementicons/modulator">
+					<entity type="Modulator" />
+				</element>
+				<element name="Monostable" action="insert" image="elementicons/monostable">
+					<entity type="Monostable" />
+				</element>
+			</section>
+			<section name="Comparators">
+				<element name="Comparator" action="insert" image="elementicons/comparator">
+					<entity type="Comparator" />
+				</element>
+				<element name="Backlash" action="insert" image="elementicons/backlash">
+					<entity type="Backlash" />
+				</element>
+			</section>
+			<section name="Digitisers">
+				<element name="Delay" action="insert" image="elementicons/delay">
+					<entity type="Delay" />
+				</element>
+				<element name="First Order Hold" action="insert" image="elementicons/firstorderhold">
+					<entity type="First Order Hold" />
+				</element>
+				<element name="Quantizer" action="insert" image="elementicons/quantizer">
+					<entity type="Quantizer" />
+				</element>
+				<element name="Sample and Hold" action="insert" image="elementicons/sampleandhold">
+					<entity type="Sample and Hold" />
+				</element>
+				<element name="Zero Order Hold" action="insert" image="elementicons/zeroorderhold">
+					<entity type="Zero Order Hold" />
+				</element>
+			</section>
+			<section name="Limiters">
+				<element name="Deadspace" action="insert" image="elementicons/deadspace">
+					<entity type="Deadspace" />
+				</element>
+				<element name="Hysteresis" action="insert" image="elementicons/hysterisis">
+					<entity type="Hysteresis" />
+				</element>
+				<element name="Limiter" action="insert" image="elementicons/limiter">
+					<entity type="Limiter" />
+				</element>
+			</section>
+			<section name="Misc">
+				<element name="Rectifier" action="insert" image="elementicons/rectifier">
+					<entity type="Rectifier" />
+				</element>
+				<element name="Friction" action="insert" image="elementicons/friction">
+					<entity type="Friction" />
+				</element>
+				<element name="Switch" action="insert" image="elementicons/switch">
+					<entity type="Switch" />
+				</element>
+				<element name="Function Generator" action="insert" image="elementicons/functiongenerator">
+					<entity type="Function Generator" />
+				</element>
+			</section>
+		</section>
+
+		<section name="Subprogram Calls">
+			<element name="Submodel Call" action="insert" image="elementicons/submodel">
+				<entity type="Submodel Call" />
+			</element>
+			<element name="Segment Call" action="insert" image="elementicons/segment">
+				<entity type="Segment Call" />
+			</element>
+			<element name="Function Call" action="insert" image="elementicons/function">
+				<entity type="Function Call" />
+			</element>
+			<element name="Code Insert" action="insert" image="elementicons/codeinsert">
+				<entity type="Code Insert" />
+			</element>
+		</section>
+
+		<section name="Display Icons">
+			<element name="Plot" action="insert" image="elementicons/plot">
+				<display type="plot" />
+			</element>
+			<element name="Table" action="insert" image="elementicons/table">
+				<display type="table" />
+			</element>
+			<element name="Prepare" action="insert" image="elementicons/prepare">
+				<display type="prepare" />
+			</element>
+		</section>
+
+	</elements>
+
+</esl-entities-std-elements>

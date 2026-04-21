@@ -1,0 +1,41 @@
+# .gitignore for esl-studio
+
+# Virtual envs
+.venv/
+env/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Dynamic version files
+packages/esl_diagram/src/esl_diagram/_version.py
+packages/esl_studio/src/esl_studio/_version.py
+
+# Packaging
+dist/
+dist_exe/
+dist_setup/
+dist_webpages/
+packages/esl_diagram/dist/
+packages/esl_studio/dist/
+packages/esl_diagram/build/
+packages/esl_studio/build/
+build_exe/
+*.egg-info/
+
+# Editor
+.vscode/
+.idea/
+
+# Working files
+working/
+
+# Backup files
+*.*-bak
+
+# ignore tests directory
+tests/

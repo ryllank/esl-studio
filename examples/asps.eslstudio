@@ -1,0 +1,482 @@
+<?xml version="1.0"?>
+<!-- Created by ESL-Studio on 2023-03-25 12:29:41 -->
+<esl-studio-application version="1.2.0.30">
+	<model eslname="asps" type="model" description="Annular Suspension and Pointing System" show-eslname="true" show-description="true">
+		<diagram>
+			<info id="1" type="Module Annotation" x="230" y="35">
+				<annotation id="eslname" x="0" y="0" background="true">
+					<text id="1+1+0"><![CDATA[asps]]></text>
+				</annotation>
+				<annotation id="description" x="0" y="30" background="true">
+					<text id="1+2+0"><![CDATA[Annular Suspension and Pointing System]]></text>
+				</annotation>
+			</info>
+			<entity id="2" type="Submodel Call" x="305" y="190" orientation="mirrorYAxis">
+				<ports>
+					<port id="1" type="Real" direction="input" tag="FZ"/>
+					<port id="2" type="Real" direction="input" tag="TO"/>
+					<port id="3" type="Real" direction="input" tag="TC"/>
+					<port id="4" type="Real" direction="output" tag="WY1_WY2"/>
+					<port id="5" type="Real" direction="output" tag="WY1D1"/>
+					<port id="6" type="Real" direction="output" tag="X1D2"/>
+					<port id="7" type="Real" direction="output" tag="QP"/>
+				</ports>
+				<annotation id="submodel" x="0" y="50">
+					<text id="2+2+0"><![CDATA[plant_dynamics]]></text>
+				</annotation>
+				<annotation id="port-1" x="121" y="-40">
+					<text id="2+3+0"><![CDATA[Wy1_Wy2]]></text>
+				</annotation>
+				<annotation id="port-2" x="116" y="-20">
+					<text id="2+4+0"><![CDATA[WY1D1]]></text>
+				</annotation>
+				<annotation id="port-3" x="111" y="0">
+					<text id="2+5+0"><![CDATA[X1D2]]></text>
+				</annotation>
+				<annotation id="port-4" x="106" y="20">
+					<text id="2+6+0"><![CDATA[QP]]></text>
+				</annotation>
+			</entity>
+			<entity id="3" type="Submodel Call" x="645" y="315">
+				<ports>
+					<port id="1" type="Real" direction="input" tag="QPSZ"/>
+					<port id="2" type="Real" direction="input" tag="ZAZ"/>
+					<port id="3" type="Real" direction="output" tag="DCOM"/>
+				</ports>
+				<annotation id="submodel" x="0" y="30">
+					<text id="3+2+0"><![CDATA[digital_control]]></text>
+				</annotation>
+				<annotation id="port-1" x="86" y="-10">
+					<text id="3+3+0"><![CDATA[DCOM]]></text>
+				</annotation>
+			</entity>
+			<entity id="4" type="Constant Multiplier" x="515" y="125" orientation="mirrorYAxis">
+				<annotation id="attribute-K" x="0" y="-30">
+					<text id="4+2+0"><![CDATA[Cfz=222.4]]></text>
+				</annotation>
+				<annotation id="port-1" x="50" y="-10">
+					<text id="4+3+0"><![CDATA[FZ]]></text>
+				</annotation>
+			</entity>
+			<entity id="5" type="Constant Multiplier" x="515" y="190" orientation="mirrorYAxis">
+				<annotation id="attribute-K" x="0" y="-30">
+					<text id="5+2+0"><![CDATA[Cto=-2487.5]]></text>
+				</annotation>
+				<annotation id="port-1" x="50" y="-10">
+					<text id="5+3+0"><![CDATA[TO]]></text>
+				</annotation>
+			</entity>
+			<entity id="6" type="Sample and Hold" x="455" y="305">
+				<annotation id="port-1" x="50" y="-10">
+					<text id="6+2+0"><![CDATA[QPSZ]]></text>
+				</annotation>
+				<annotation id="attribute-PER" x="0" y="-30">
+					<text id="6+3+0"><![CDATA[Ts=0.01]]></text>
+				</annotation>
+			</entity>
+			<entity id="7" type="Sample and Hold" x="455" y="370">
+				<annotation id="port-1" x="50" y="-10">
+					<text id="7+2+0"><![CDATA[XAZ]]></text>
+				</annotation>
+				<annotation id="attribute-PER" x="0" y="-30">
+					<text id="7+3+0"><![CDATA[Ts=0.01]]></text>
+				</annotation>
+			</entity>
+			<entity id="8" type="Summer" x="295" y="370">
+					<port id="1" sign="plus"/>
+					<port id="2" sign="plus"/>
+				<annotation id="port-1" x="40" y="-10">
+					<text id="8+2+0"><![CDATA[XA]]></text>
+				</annotation>
+			</entity>
+			<entity id="9" type="Constant Multiplier" x="200" y="420">
+				<annotation id="attribute-K" x="0" y="-30">
+					<text id="9+2+0"><![CDATA[Lz]]></text>
+				</annotation>
+			</entity>
+			<entity id="10" type="Limited Integrator" x="180" y="480">
+				<annotation id="port-1" x="50" y="-10">
+					<text id="10+2+0"><![CDATA[QL]]></text>
+				</annotation>
+			</entity>
+			<entity id="11" type="Constant Multiplier" x="460" y="480">
+				<annotation id="attribute-K" x="0" y="-30">
+					<text id="11+2+0"><![CDATA[Kd]]></text>
+				</annotation>
+			</entity>
+			<entity id="12" type="Limiter" x="810" y="315">
+				<annotation id="port-1" x="50" y="-10">
+					<text id="12+2+0"><![CDATA[LCOM]]></text>
+				</annotation>
+			</entity>
+			<entity id="13" type="Summer" x="870" y="480" orientation="mirrorXAxis">
+					<port id="1" sign="plus"/>
+					<port id="2" sign="plus"/>
+				<annotation id="port-1" x="40" y="-10">
+					<text id="13+2+0"><![CDATA[TC]]></text>
+				</annotation>
+			</entity>
+			<entity id="14" type="Submodel Call" x="310" y="305">
+				<ports>
+					<port id="1" type="Real" direction="input" tag="QP"/>
+					<port id="2" type="Real" direction="output" tag="QPS"/>
+				</ports>
+				<annotation id="submodel" x="0" y="30">
+					<text id="14+2+0"><![CDATA[gyro_dynamics]]></text>
+				</annotation>
+				<annotation id="port-1" x="72" y="-10">
+					<text id="14+3+0"><![CDATA[QPS]]></text>
+				</annotation>
+			</entity>
+			<display id="15" type="plot" x="755" y="410"/>
+			<display id="16" type="plot" x="45" y="280"/>
+			<entity id="17" type="Pulse Input" x="800" y="190" orientation="mirrorYAxis">
+				<annotation id="attribute-T_OFF" x="0" y="-46">
+					<text id="17+2+0"><![CDATA[T_OFF DOF=0.72]]></text>
+				</annotation>
+				<annotation id="port-1" x="50" y="-10">
+					<text id="17+3+0"><![CDATA[ED]]></text>
+				</annotation>
+				<annotation id="attribute-T_ON" x="0" y="-62">
+					<text id="17+4+0"><![CDATA[T_ON DON=0.2]]></text>
+				</annotation>
+			</entity>
+			<node id="18" type="Real" x="170" y="370" orient="false" scalable="false"/>
+			<node id="19" type="Real" x="850" y="480" orient="false" scalable="false"/>
+			<node id="20" type="Real" x="415" y="250" orient="false" scalable="false"/>
+			<link id="21" type="Real" start-id="8-3" end-id="7-1"/>
+			<link id="22" type="Real" start-id="2-6" end-id="18"/>
+			<link id="23" type="Real" start-id="18" end-id="8-1"/>
+			<link id="24" type="Real" start-id="9-2" end-id="8-2"/>
+			<link id="25" type="Real" start-id="2-5" end-id="9-1"/>
+			<link id="26" type="Real" start-id="6-2" end-id="3-1"/>
+			<link id="27" type="Real" start-id="7-2" end-id="3-2"/>
+			<link id="28" type="Real" start-id="2-4" end-id="10-1"/>
+			<link id="29" type="Real" start-id="10-2" end-id="11-1"/>
+			<link id="30" type="Real" start-id="3-3" end-id="12-1"/>
+			<link id="31" type="Real" start-id="11-2" end-id="19"/>
+			<link id="32" type="Real" start-id="19" end-id="13-1"/>
+			<link id="33" type="Real" start-id="12-2" end-id="13-2"/>
+			<link id="34" type="Real" start-id="13-3" end-id="20"/>
+			<link id="35" type="Real" start-id="20" end-id="2-3"/>
+			<link id="36" type="Real" start-id="14-2" end-id="6-1"/>
+			<link id="37" type="Real" start-id="2-7" end-id="14-1"/>
+			<link id="38" type="Real" start-id="2-2" end-id="5-2"/>
+			<link id="39" type="Real" start-id="4-2" end-id="2-1"/>
+			<link id="40" type="Instrumentation" start-id="15-1" end-id="3-3"/>
+			<link id="41" type="Instrumentation" start-id="16-1" end-id="2-7"/>
+			<link id="42" type="Real" start-id="17-1" end-id="5-1"/>
+			<link id="43" type="Real" start-id="17-1" end-id="4-1"/>
+		</diagram>
+		<simulation-entities>
+			<entity id="2" type="Submodel Call" submodel="plant_dynamics" show-submodel="true">
+				<port id="4" designation="output" eslname="Wy1_Wy2" show-eslname="true"/>
+				<port id="5" designation="output" eslname="WY1D1" show-eslname="true"/>
+				<port id="6" designation="output" eslname="X1D2" show-eslname="true"/>
+				<port id="7" designation="output" eslname="QP" show-eslname="true"/>
+			</entity>
+			<entity id="3" type="Submodel Call" submodel="digital_control" show-submodel="true">
+				<port id="3" designation="output" eslname="DCOM" show-eslname="true"/>
+			</entity>
+			<entity id="4" type="Constant Multiplier">
+				<attribute tag="K" value="222.4" eslname="Cfz" show-eslname="true" show-value="true"/>
+				<port id="2" designation="output" eslname="FZ" show-eslname="true"/>
+			</entity>
+			<entity id="5" type="Constant Multiplier">
+				<attribute tag="K" value="-2487.5" eslname="Cto" show-eslname="true" show-value="true"/>
+				<port id="2" designation="output" eslname="TO" show-eslname="true"/>
+			</entity>
+			<entity id="6" type="Sample and Hold">
+				<attribute tag="PER" source="Parameter" value="Ts" show-source="true" show-value="true"/>
+				<port id="2" designation="output" eslname="QPSZ" show-eslname="true"/>
+			</entity>
+			<entity id="7" type="Sample and Hold">
+				<attribute tag="PER" source="Parameter" value="Ts" show-source="true" show-value="true"/>
+				<port id="2" designation="output" eslname="XAZ" show-eslname="true"/>
+			</entity>
+			<entity id="8" type="Summer">
+				<port id="3" designation="output" eslname="XA" show-eslname="true"/>
+			</entity>
+			<entity id="9" type="Constant Multiplier">
+				<attribute tag="K" value="0.75" eslname="Lz" show-eslname="true"/>
+			</entity>
+			<entity id="10" type="Limited Integrator">
+				<attribute tag="LL" value="-0.0014331"/>
+				<attribute tag="UL" value="0.0014331"/>
+				<port id="2" designation="output" eslname="QL" show-eslname="true"/>
+			</entity>
+			<entity id="11" type="Constant Multiplier">
+				<attribute tag="K" value="474.5" eslname="Kd" show-eslname="true"/>
+			</entity>
+			<entity id="12" type="Limiter">
+				<attribute tag="LL" value="-25"/>
+				<attribute tag="UL" value="25"/>
+				<port id="2" designation="output" eslname="LCOM" show-eslname="true"/>
+			</entity>
+			<entity id="13" type="Summer">
+				<port id="3" designation="output" eslname="TC" show-eslname="true"/>
+			</entity>
+			<entity id="14" type="Submodel Call" submodel="gyro_dynamics" show-submodel="true">
+				<port id="2" designation="output" eslname="QPS" show-eslname="true"/>
+			</entity>
+			<entity id="17" type="Pulse Input">
+				<attribute tag="T_ON" source="Parameter" value="DON" show-tag="true" show-source="true" show-value="true"/>
+				<attribute tag="T_OFF" source="Parameter" value="DOF" show-tag="true" show-source="true" show-value="true"/>
+				<port id="1" designation="output" eslname="ED" show-eslname="true"/>
+			</entity>
+		</simulation-entities>
+		<parameters>
+			<variable eslname="DON" type="Real" parameter="true" value="0.2"/>
+			<variable eslname="DOF" type="Real" parameter="true" value="0.72"/>
+			<variable eslname="Ts" type="Real" parameter="true" value="0.01"/>
+			<variable eslname="Td" type="Real" parameter="true" value="0.005"/>
+		</parameters>
+		<display-definitions>
+			<display id="15" type="plot" update="step">
+				<name><![CDATA[Display Plot 1]]></name>
+				<title><![CDATA[Annular Suspension and Pointing System]]></title>
+				<subtitle><![CDATA[Control Torque - DCOM]]></subtitle>
+				<plot x="54" y="34" width="640" height="600"/>
+			</display>
+			<display id="16" type="plot" update="step">
+				<name><![CDATA[Display Plot 2]]></name>
+				<title><![CDATA[Annular Suspension and Pointing System]]></title>
+				<subtitle><![CDATA[Payload Angular Position - QP]]></subtitle>
+				<plot x="197" y="451" width="640" height="600"/>
+			</display>
+		</display-definitions>
+		<info-blocks>
+			<info id="1" type="Module Annotation"/>
+		</info-blocks>
+	</model>
+	<simulation-parameters>
+		<parameter eslname="TFIN" value="2.4"/>
+		<parameter eslname="CINT" value="0.005"/>
+		<parameter eslname="ALGO" value="2"/>
+		<parameter eslname="NSTEP" value="5"/>
+	</simulation-parameters>
+	<submodel eslname="plant_dynamics" type="ESL">
+		<ESL>
+			<![CDATA[SUBMODEL plant_dynamics(real:WY1_WY2,WY1D1,X1D2,QP := real:FZ,TO,TC);
+-- Plant constants
+  CONSTANT REAL:
+    C11/ 1.577E-05/,  C12/-1.577E-05/,  C13/-3.942E-02/,
+    C14/-4.061E-07/,  C15/ 6.160E-09/,  C16/ 1.172E-07/,
+    C21/-9.001E-01/,  C22/ 9.001E-01/,  C23/ 2.250E+03/,
+    C24/ 1.490E-02/,  C25/-1.519E-08/,  C26/-2.889E-07/,
+    C31/ 9.992E-02/,  C32/-9.992E-02/,  C33/-2.497E+02/,
+    C34/-1.567E-03/,  C35/ 0.0      /,  C36/-3.733E-10/,
+    C41/ 2.122E-03/,  C42/-2.102E-03/,  C43/-5.304    /,
+    C44/-3.888E-05/,  C45/ 0.0      /,  C46/ 0.0      /;
+-- Plant variables
+  REAL: WY1,WY2,WY3,QY1,QY2,QY3,QY12;
+INITIAL
+-- Initialise plant state variables
+  WY1:= 0.0; WY2 := 0.0; WY3:= 0.0;
+  QY1:= 0.0; QY2 := 0.0; QY3:= 0.0;
+DYNAMIC
+-- Linearised plant model
+  WY1' := if T=0.0 then 0.0
+                 else C11*WY2+C12*WY3+C13*QY3+C14*TC+C15*FZ+C16*TO;
+  WY2' := C21*WY2+C22*WY3+C23*QY3+C24*TC+C25*FZ+C26*TO;
+  WY3' := C31*WY2+C32*WY3+C33*QY3+C34*TC+C35*FZ+C36*TO;
+  X1D2 := if T=0.0 then 0.0
+                 else C41*WY2+C42*WY3+C43*QY3+C44*TC+C45*FZ+C46*TO;
+  QY1' := WY1;
+  QY2' := WY2-WY1;
+  QY3' := WY3-WY2;
+  QY12 := QY1+QY2;
+  QP   := QY1+QY2+QY3;
+  WY1_WY2 := WY1-WY2;
+  WY1D1 := WY1';
+ END;]]>
+		</ESL>
+	</submodel>
+	<submodel eslname="digital_control" type="ESL">
+		<ESL>
+			<![CDATA[SUBMODEL digital_control(real:DCOM := real:QPSZ,ZAZ);
+  CONSTANT REAL:
+-- Control law constants
+    Ki / 123.6    /,  Kp / 103.0    /,  Kr / 61.0     /,
+-- Filter constants
+    ka1/ 0.111069 /,  ka2/-0.221326 /,  ka3/ 0.110272 /,
+    ka4/-1.992016 /,  ka5/ 0.992002 /,
+    kb1/ 0.841980 /,  kb2/-1.401465 /,  kb3/ 0.764935 /,
+    kb4/-1.401465 /,  kb5/ 0.606915 /,
+    kc1/ 0.346618 /,  kc2/-0.307364 /,  kc3/-0.960789 /,
+--Gyro constants
+    Sfr/0.24241E-6/,
+-- Accelerometer, torque and friction constants
+    Ml / 4333.776 /,  Dl / 12956.67 /,
+-- Sampling interval and computational delay
+    Ts / 0.01     /,  Td / 0.005    /;
+-- Computer variables
+  REAL: VR,VP,VPZ,VI,VIZ,VO,VOZ,VOZZ,QA,QAZ,VS,VSZ,VSZZ,
+    VT,VTZ,VTZZ,XAZ,TCOM;
+  REAL: DQA,DQAZ,DQP,DQPZ,DQPZZ;
+-- Sampling time variable and period counter
+  REAL: T0; INTEGER: count/0/;
+INITIAL
+--Initialise computer variables
+  DQP := 0.0; DQPZ := 0.0; DQPZZ:= 0.0;
+  DQA := 0.0; DQAZ := 0.0;
+  VP  := 0.0; VPZ  := 0.0;
+  VI  := 0.0; VIZ  := 0.0;
+  VR  := 0.0;
+  VO  := 0.0; VOZ  := 0.0; VOZZ := 0.0;
+  VS  := 0.0; VSZ  := 0.0; VSZZ := 0.0;
+  VT  := 0.0; VTZ  := 0.0; VTZZ := 0.0;
+  QA  := 0.0; QAZ  := 0.0;
+  DCOM:= 0.0; TCOM := 0.0;
+-- Initialise sampling time variable
+  T0  :=Tstart;
+DYNAMIC
+-- Digital system simulation
+  when (T-T0)/Ts >= 1.0 then
+    count:= count+1;
+    T0   := Tstart+count*Ts;
+-- Quantizer
+    DQP  := Sfr*INT((QPSZ-DQAZ)/Sfr);
+-- Accumulator
+    DQA  := DQAZ+DQP;
+    DQAZ := DQA;
+-- Digital computer model
+-- Differentiator
+    VR   := (11.0*DQP-7.0*DQPZ+2.0*DQPZZ)/(6.0*Ts);
+    DQPZZ:= DQPZ; DQPZ := DQP;
+-- Accumulator
+    VP   := VPZ+DQP;
+-- Integrator
+    VI   := (Ts/2.0)*(VP+VPZ)+VIZ;
+    VPZ  := VP;
+    VIZ  := VI;
+-- Control law
+    VO   := -Ki*VI-Kp*VP-Kr*VR;
+-- Digital filter
+    VS   := Ka1*VO+Ka2*VOZ+Ka3*VOZZ-Ka4*VSZ-Ka5*VSZZ;
+    VT   := Kb1*VS+Kb2*VSZ+Kb3*VSZZ-Kb4*VTZ-Kb5*VTZZ;
+    QA   := Kc1*VT+Kc2*VTZ-Kc3*QAZ;
+    VOZZ := VOZ; VOZ  := VO;
+    VSZZ := VSZ; VSZ  := VS;
+    VTZZ := VTZ; VTZ  := VT;
+    QAZ  := QA;
+-- Torque command
+    TCOM := Ml*XAZ+Dl*QA;
+-- Computational delay
+  when (T-T0)/Td >= 1.0 then
+    DCOM := TCOM;
+  end_when;
+END;]]>
+		</ESL>
+	</submodel>
+	<submodel eslname="gyro_dynamics" type="diagram" show-eslname="true">
+		<diagram>
+			<info id="1" type="Module Annotation" x="150" y="30">
+				<annotation id="eslname" x="0" y="0" background="true">
+					<text id="1+1+0"><![CDATA[gyro_dynamics]]></text>
+				</annotation>
+				<annotation id="description" x="0" y="30" visible="false" background="true">
+					<text id="1+2+0"/>
+				</annotation>
+			</info>
+			<entity id="2" type="Real Input" x="235" y="240">
+				<annotation id="port-1" x="40" y="-10">
+					<text id="2+2+0"><![CDATA[X]]></text>
+				</annotation>
+				<annotation id="attribute-TAG" x="0" y="-30">
+					<text id="2+3+0"><![CDATA[QP]]></text>
+				</annotation>
+			</entity>
+			<entity id="3" type="Real Output" x="725" y="240">
+				<annotation id="attribute-TAG" x="0" y="-30">
+					<text id="3+2+0"><![CDATA[QPS]]></text>
+				</annotation>
+			</entity>
+			<entity id="4" type="Complex Pole" x="390" y="240">
+				<annotation id="description" x="0" y="30">
+					<text id="4+2+0"><![CDATA[Wa**2/(s**2 + 2*Za*s + Wa**2)]]></text>
+				</annotation>
+				<annotation id="port-1" x="50" y="-10">
+					<text id="4+3+0"><![CDATA[Y1]]></text>
+				</annotation>
+				<annotation id="attribute-PA" x="0" y="-30">
+					<text id="4+4+0"><![CDATA[Za=0.795756]]></text>
+				</annotation>
+				<annotation id="attribute-PB" x="0" y="-47">
+					<text id="4+5+0"><![CDATA[Wa=94.25]]></text>
+				</annotation>
+			</entity>
+			<entity id="5" type="Complex Pole" x="570" y="240">
+				<annotation id="description" x="0" y="30">
+					<text id="5+2+0"><![CDATA[Wb**2/(s**2 + 2*Zb*s + Wb**2)]]></text>
+				</annotation>
+				<annotation id="port-1" x="50" y="-10">
+					<text id="5+3+0"><![CDATA[Y2]]></text>
+				</annotation>
+				<annotation id="attribute-PA" x="0" y="-30">
+					<text id="5+4+0"><![CDATA[Zb=0.6]]></text>
+				</annotation>
+				<annotation id="attribute-PB" x="0" y="-47">
+					<text id="5+5+0"><![CDATA[Wb=324]]></text>
+				</annotation>
+			</entity>
+			<link id="6" type="Real" start-id="2-1" end-id="4-1"/>
+			<link id="7" type="Real" start-id="4-2" end-id="5-1"/>
+			<link id="8" type="Real" start-id="5-2" end-id="3-1"/>
+		</diagram>
+		<simulation-entities>
+			<entity id="2" type="Real Input">
+				<attribute tag="TAG" value="QP" show-value="true"/>
+				<port id="1" designation="output" eslname="X" show-eslname="true"/>
+			</entity>
+			<entity id="3" type="Real Output">
+				<attribute tag="TAG" value="QPS" show-value="true"/>
+			</entity>
+			<entity id="4" type="Complex Pole" description="Wa**2/(s**2 + 2*Za*s + Wa**2)" show-description="true">
+				<attribute tag="PA" source="Parameter" value="Za" show-source="true" show-value="true"/>
+				<attribute tag="PB" source="Parameter" value="Wa" show-source="true" show-value="true"/>
+				<port id="2" designation="output" eslname="Y1" show-eslname="true"/>
+			</entity>
+			<entity id="5" type="Complex Pole" description="Wb**2/(s**2 + 2*Zb*s + Wb**2)" show-description="true">
+				<attribute tag="PA" source="Parameter" value="Zb" show-source="true" show-value="true"/>
+				<attribute tag="PB" source="Parameter" value="Wb" show-source="true" show-value="true"/>
+				<port id="2" designation="output" eslname="Y2" show-eslname="true"/>
+			</entity>
+		</simulation-entities>
+		<parameters>
+			<variable eslname="Wa" type="Real" parameter="true" value="94.25"/>
+			<variable eslname="Za" type="Real" parameter="true" value="0.795756"/>
+			<variable eslname="Wb" type="Real" parameter="true" value="324"/>
+			<variable eslname="Zb" type="Real" parameter="true" value="0.6"/>
+		</parameters>
+		<info-blocks>
+			<info id="1" type="Module Annotation"/>
+		</info-blocks>
+	</submodel>
+	<setup view-code="true">
+		<esl-sec-specification>
+			<![CDATA[<sec-specification version="1.0.0">
+	<display-definitions>
+		<display type="runtime-plot" update="step">
+			<name>
+				{![CDATA[Plot 3]]}
+			</name>
+			<title>
+				{![CDATA[Annular Suspension and Pointing System]]}
+			</title>
+			<subtitle>
+				{![CDATA[Shuttle Angular Position - QY1]]}
+			</subtitle>
+			<variable>
+				{![CDATA[(RESERVED) T]]}
+			</variable>
+			<variable>
+				{![CDATA[(PLANT_DYNAMICS) QY1]]}
+			</variable>
+			<plot x="898" y="392" width="640" height="600"/>
+		</display>
+	</display-definitions>
+</sec-specification>]]>
+		</esl-sec-specification>
+	</setup>
+</esl-studio-application>

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Name=ESL-Studio
+Categories=Science;Math;Physics;Development;IDE;
+GenericName=Integrated Simulation Environment for ESL
+Comment=For use with ESL-Pro or ESL-Lite
+# append to above Icon and Exec with installation path during installation
+#Icon=./bin/esl-studio.png
+#Exec=./bin/esl_studio %f

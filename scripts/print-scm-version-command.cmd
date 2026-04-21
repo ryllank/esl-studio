@@ -1,0 +1,1 @@
+python -c "import os;from setuptools_scm import get_version; x=os.chdir(os.pardir) if os.getcwd().endswith('scripts') else None; print(get_version(version_scheme=\"post-release\", local_scheme=\"no-local-version\", fallback_version=\"0.0.0.0+unknown\"))"

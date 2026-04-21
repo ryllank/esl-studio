@@ -1,0 +1,2046 @@
+<?xml version="1.0" ?>
+
+<esl-entities-std-definitiions>
+
+	<entities>
+
+		<!-- Special entities (may require special handling) -->
+
+		<entity type="Submodel Call" prefix="SUB" special-type="Submodel Call">
+			<summary>Calls a submodel.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Submodel_Call"/>
+			<model type="special">
+				<!-- Note: All ESL generation is done directly (without a template) -->
+			</model>
+			<design>
+				<group type="std-subprogram-box"/>
+				<image src="elementicons/submodel.png"/>
+				<ports dynamic="true" show-tags="true"/>
+				<context-menu menu="submodel-call-entity"/>
+				<activate action="Show Submodel"/>
+			</design>
+		</entity>
+
+		<entity type="Segment Call" prefix="SEG" special-type="Segment Call">
+			<summary>Calls a segment.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Segment_Call"/>
+			<model type="special">
+				<!-- Note: All ESL generation is done directly (without a template) -->
+				<!-- Special attributes tags: "frequency" and "delay" are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<attribute type="Integer" tag="frequency" description="Frequency of calls" value="1"
+						   hint="Frequency of communication region calls for the segment - a multiple of communication interval (CINT).&#10;Note: The segment should have its Simulation Parameter CINT set to this value multiplied by the CINT of the calling module."
+						   is-special="true" show-value-on-top="true" has-eslname="false" hide-datatype="true"/>
+				<attribute type="Real" tag="delay" description="Time delay" value="0.0"
+						   hint="Frequency of communication region calls for the segment - a multiple of communication interval (CINT).&#10;Note: The segment should have its Simulation Parameter TSTART set to this value."
+						   is-special="true" show-value-on-top="true" has-eslname="false" hide-datatype="true"/>
+			</model>
+			<design>
+				<group type="std-subprogram-box"/>
+				<image src="elementicons/segment.png"/>
+				<ports dynamic="true" show-tags="true"/>
+				<context-menu menu="segment-call-entity"/>
+				<activate action="Show Segment"/>
+			</design>
+		</entity>
+
+		<entity type="Function Call" prefix="FUN" special-type="Function Call">
+			<summary>Calls a function.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Function_Call"/>
+			<model type="special">
+				<!-- Note: All ESL generation is done directly (without a template) -->
+			</model>
+			<design>
+				<group type="std-subprogram-box"/>
+				<image src="elementicons/function.png"/>
+				<ports dynamic="true" show-tags="true"/>
+				<context-menu menu="function-call-entity"/>
+				<activate action="Show Function"/>
+			</design>
+		</entity>
+
+		<entity type="Code Insert" prefix="COD" special-type="Code Insert">
+			<summary>Put a procedural code insert in the generated ESL.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Code_Insert"/>
+			<model type="special">
+				<!-- Note: All ESL generation is done directly (without a template) -->
+			</model>
+			<design>
+				<group type="std-subprogram-box"/>
+				<image src="elementicons/codeinsert.png"/>
+				<ports dynamic="true" show-tags="false"/>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Transfer Function" prefix="TRF" special-type="Transfer Function"> <!-- Note: This version uses template generation -->
+			<summary>Specifies a Laplace Transfer Function (generates an ESL TRANSFER statement or an equivalent set of differential equations).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Transfer_Function"/>
+			<model type="special">
+				<!-- Note: ESL generation is done directly (without a template) -->
+				<attribute type="String" tag="TF" description="Transfer Function" value="1/(s+1)"
+					hint="Express the transfer function in the ESL notation for the Laplace transform with Laplacian operator &quot;s&quot; (and using ESL Names for variables)."
+					show-value-on-top="true" has-annotations="true"/>
+				<attribute type="String" tag="ICS" description="Initial Conditions" value="0.0"
+					hint="One or more state variable initial conditions (not more than the number of states) - separate with comma.&#10;e.g. 0.1,YD0"
+					show-value-on-top="true" has-annotations="true"/>
+				<attribute type="Boolean" tag="TF-differential" description="Differential Equations" value="false"
+					hint="Generate Transfer Function as differential equations if selected, else generate as ESL TRANSFER statement."
+					show-value-on-top="true" has-annotations="true"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := TRANSFER({A#TF},{A#ICS}) * {I:x};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/transfunction.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<!-- Arguments -->
+		<entity type="Real Input" prefix="RLI" special-type="Input Argument">
+			<summary>REAL input value to a diagram subprogram (submodel or segment).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Real_Input"/>
+			<model type="special">
+				<!-- Note: ESL generation is done directly (without a template) -->
+				<!-- This section defines this argument entity's one output port (with type but as scalar, dimensions will be determined by "ARGDIMS" attribute. -->
+				<!-- Special attributes tags: ARG ARGDESC ARGDIMS & ATTR are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<attribute type="String" tag="ARG" description="Arg Name"
+						   hint="An ESL identifier (A..Z 0..9 _) for the argument in the generated ESL subprogram.&#10;The Arg Name should be unique in 18chars in its subprogram (to allow for its use in generated variables).&#10;If not supplied one will be generated (shown with an asterisk)."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="String" tag="ARGDESC" description="Arg Description"
+						   hint="Description for this subprogram input port or attribute."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="String" tag="ARGDIMS" description="Dimensions"
+						   hint="For Array or Matrix."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="Boolean" tag="ATTR" description="Attribute"
+						   hint="If Attribute is set the argument will be an attribute of the subprogram call, otherwise it will be an input port."
+						   show-value-on-top="true" has-annotations="true"/>
+				<output type="Real" tag="y"/>
+			</model>
+			<design>
+				<group type="std-input-argument-box"/>
+				<image src="elementicons/realinput.png"/>
+				<ports>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Integer Input" prefix="INI" special-type="Input Argument">
+			<summary>INTEGER input value to a diagram subprogram (submodel or segment).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Integer_Input"/>
+			<model type="special">
+				<!-- Special attributes tags: ARG ARGDESC ARGDIMS & ATTR are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<attribute type="String" tag="ARG" description="Arg Name"
+						   hint="An ESL identifier (A..Z 0..9 _) for the argument in the generated ESL subprogram.&#10;The Arg Name should be unique in 18chars in its subprogram (to allow for its use in generated variables).&#10;If not supplied one will be generated (shown with an asterisk)."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="String" tag="ARGDESC" description="Arg Description"
+						   hint="Description for this subprogram input port or attribute."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="String" tag="ARGDIMS" description="Dimensions"
+						   hint="For Array or Matrix."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="Boolean" tag="ATTR" description="Attribute"
+						   hint="If Attribute is set the argument will be an attribute of the subprogram call, otherwise it will be an input port."
+						   show-value-on-top="true" has-annotations="true"/>
+				<output type="Integer" tag="y"/>
+			</model>
+			<design>
+				<group type="std-input-argument-box"/>
+				<image src="elementicons/integerinput.png"/>
+				<ports>
+					<port type="Integer" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Logical Input" prefix="LOI" special-type="Input Argument">
+			<summary>LOGICAL input value to a diagram subprogram (submodel or segment).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Logical_Input"/>
+			<model type="special">
+				<!-- Special attributes tags: ARG ARGDESC ARGDIMS & ATTR are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<attribute type="String" tag="ARG" description="Arg Name"
+						   hint="An ESL identifier (A..Z 0..9 _) for the argument in the generated ESL subprogram.&#10;The Arg Name should be unique in 18chars in its subprogram (to allow for its use in generated variables).&#10;If not supplied one will be generated (shown with an asterisk)."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="String" tag="ARGDESC" description="Arg Description"
+						   hint="Description for this subprogram input port or attribute."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="String" tag="ARGDIMS" description="Dimensions"
+						   hint="For Array or Matrix."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="Boolean" tag="ATTR" description="Attribute"
+						   hint="If Attribute is set the argument will be an attribute of the subprogram call, otherwise it will be an input port."
+						   show-value-on-top="true" has-annotations="true"/>
+				<output type="Logical" tag="y"/>
+			</model>
+			<design>
+				<group type="std-input-argument-box"/>
+				<image src="elementicons/logicalinput.png"/>
+				<ports>
+					<port type="Logical" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Real Output"  prefix="RLO" special-type="Output Argument">
+			<summary>REAL output value from a diagram subprogram (submodel or segment).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Real_Output"/>
+			<model type="special">
+				<!-- Note: ESL generation is done directly (without a template) -->
+				<!-- This section defines this argument entity's one input port (with type but as scalar, dimensions will be determined by "ARGDIMS" attribute. -->
+				<!-- Special attributes tags: ARG ARGDESC ARGDIMS & INIT are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<attribute type="String" tag="ARG" description="Arg Name"
+						   hint="An ESL identifier (A..Z 0..9 _) for the argument in the generated ESL subprogram.&#10;The Arg Name should be unique in 18chars in its subprogram (to allow for its use in generated variables).&#10;If not supplied one will be generated (shown with an asterisk)."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="String" tag="ARGDESC" description="Arg Description"
+						   hint="Description for this subprogram output port."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="String" tag="ARGDIMS" description="Dimensions"
+						   hint="For Array or Matrix."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="Real" tag="INIT" description="Initial Value" value=""
+						   hint="Initial value for the variable for the segment call corresponding to this output argument."
+						   show-value-on-top="true" has-annotations="true"/>
+				<input type="Real" tag="x"/>
+				<generate>
+					<!-- {N} is the eslname of an output argument -->
+					<dynamic>
+						{N} := {I:x};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-output-argument-box"/>
+				<image src="elementicons/realoutput.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Integer Output"  prefix="INO" special-type="Output Argument">
+			<summary>INTEGER output value from a diagram subprogram (submodel or segment).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Integer_Output"/>
+			<model type="special">
+				<!-- Special attributes tags: ARG ARGDESC ARGDIMS & INIT are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<attribute type="String" tag="ARG" description="Arg Name"
+						   hint="An ESL identifier (A..Z 0..9 _) for the argument in the generated ESL subprogram.&#10;The Arg Name should be unique in 18chars in its subprogram (to allow for its use in generated variables).&#10;If not supplied one will be generated (shown with an asterisk)."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="String" tag="ARGDESC" description="Arg Description"
+						   hint="Description for this subprogram output port."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="String" tag="ARGDIMS" description="Dimensions"
+						   hint="For Array or Matrix."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="Integer" tag="INIT" description="Initial Value" value=""
+						   hint="Initial value for the variable for the segment call corresponding to this output argument."
+						   show-value-on-top="true" has-annotations="true"/>
+				<input type="Integer" tag="x"/>
+				<generate>
+					<!-- {N} is the eslname of an output argument -->
+					<dynamic>
+						{N} := {I:x};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-output-argument-box"/>
+				<image src="elementicons/integeroutput.png"/>
+				<ports>
+					<port type="Integer" direction="input"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Logical Output" prefix="LOO" special-type="Output Argument">
+			<summary>LOGICAL output value from a diagram subprogram (submodel or segment).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Logical_Output"/>
+			<model type="special">
+				<!-- Special attributes tags: ARG ARGDESC ARGDIMS & INIT are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<attribute type="String" tag="ARG" description="Arg Name"
+						   hint="An ESL identifier (A..Z 0..9 _) for the argument in the generated ESL subprogram.&#10;The Arg Name should be unique in 18chars in its subprogram (to allow for its use in generated variables).&#10;If not supplied one will be generated (shown with an asterisk)."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="String" tag="ARGDESC" description="Arg Description"
+						   hint="Description for this subprogram output port."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="String" tag="ARGDIMS" description="Dimensions"
+						   hint="For Array or Matrix."
+						   show-value-on-top="true" has-annotations="true"/>
+				<attribute type="Logical" tag="INIT" description="Initial Value" value=""
+						   hint="Initial value for the variable for the segment call corresponding to this output argument."
+						   show-value-on-top="true" has-annotations="true"/>
+				<input type="Logical" tag="x"/>
+				<generate>
+					<!-- {N} is the eslname of an output argument -->
+					<dynamic>
+						{N} := {I:x};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-output-argument-box"/>
+				<image src="elementicons/logicaloutput.png"/>
+				<ports>
+					<port type="Logical" direction="input"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<!-- Constant Inputs - supporting arrays -->
+		<entity type="Constant Real" prefix="CNR" special-type="Constant Input">
+			<summary>REAL constant value.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Constant_Real"/>
+			<model>
+				<attribute type="Real" tag="K" description="Value" scalar-default-value="1.0"
+				           hint="Constant value consistent with the basic ESL datatype (Real) and the specified dimensions (if for an array)."/>
+				<attribute type="String" tag="dimensions" description="Dimensions" value="" has-annotations="true"
+				           hint="For ESL Array or Matrix - blank for Scalar&#10;For each dimension (up to 3) can optionally set lower bound and must set an upper bound.&#10;Examples: 3,3 0..2,7..9,-1..1"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<initial>
+						{O:y} := {A:K};
+					</initial>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/constreal.png"/>
+				<ports>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Constant Integer" prefix="CNI" special-type="Constant Input">
+			<summary>INTEGER constant value.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Constant_Integer"/>
+			<model>
+				<attribute type="Integer" tag="K" description="Value" scalar-default-value="1"
+				           hint="Constant value consistent with the basic ESL datatype (Integer) and the specified dimensions (if for an array)."/>
+				<attribute type="String" tag="dimensions" description="Dimensions" value="" has-annotations="true"
+				           hint="For ESL Array or Matrix - blank for Scalar&#10;For each dimension (up to 3) can optionally set lower bound and must set an upper bound.&#10;Examples: 3,3 0..2,7..9,-1..1"/>
+				<output type="Integer" tag="y"/>
+				<generate>
+					<initial>
+						{O:y} := {A:K};
+					</initial>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/constinteger.png"/>
+				<ports>
+					<port type="Integer" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Constant Logical" prefix="CNL" special-type="Constant Input">
+			<summary>LOGICAL constant value determined by attribute.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Constant_Logical"/>
+			<model>
+				<attribute type="Logical" tag="L" description="Value" scalar-default-value="TRUE"
+				           hint="Constant value consistent with the basic ESL datatype (Logical) and the specified dimensions (if for an array)."/>
+				<attribute type="String" tag="dimensions" description="Dimensions" value="" has-annotations="true"
+				           hint="For ESL Array or Matrix - blank for Scalar&#10;For each dimension (up to 3) can optionally set lower bound and must set an upper bound.&#10;Examples: 3,3 0..2,7..9,-1..1"/>
+				<output type="Logical" tag="y"/>
+				<generate>
+					<initial>
+						{O:y} := {A:L};
+					</initial>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/constlogical.png"/>
+				<ports>
+					<port type="Logical" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<!-- Generic entities (use templates for ESL generation) -->
+
+		<entity type="Absolute" prefix="ABS">
+			<summary>Absolute value of input. This is the modelling version of the standard function which treats changes in output as discontinuities (uses Library submodel ABSX).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Absolute"/>
+			<view src="absx"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>absx</include>
+					<dynamic>
+						{O:y} := ABSX({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/absolute.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Arc Cosine" prefix="ACS">
+			<summary>Arc-cosine of input.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Arc_Cosine"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := ACOS({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/acosine.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Logical And" prefix="AND">
+			<summary>Logical AND (conjunction) of two inputs.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Logical_And"/>
+			<model>
+				<input type="Logical" tag="x"/>
+				<input type="Logical" tag="y"/>
+				<output type="Logical" tag="z"/>
+				<generate>
+					<dynamic>
+						{O:z} := {I:x} AND {I:y};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/and.png"/>
+				<ports>
+					<port type="Logical" direction="input"/>
+					<port type="Logical" direction="input"/>
+					<port type="Logical" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Arc Sine" prefix="ASN">
+			<summary>Arcsine of input.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Arc_Sine"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := ASIN({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/asine.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Arc Tangent" prefix="ATN">
+			<summary>Arctangent of input.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Arc_Tangent"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := ATAN({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/atangent.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Arc Tangent 2" prefix="AT2">
+			<summary>Arctangent of two inputs (x / y).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Arc_Tangent_2"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<input type="Real" tag="y"/>
+				<output type="Real" tag="f"/>
+				<generate>
+					<dynamic>
+						{O:f} := ATAN2({I:x}, {I:y});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/atangent2.png"/>
+				<ports show-tags="true">
+					<port tag="x" type="Real" direction="input"/>
+					<port tag="y" type="Real" direction="input"/>
+					<port tag="f" type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Backlash" prefix="BKL">
+			<summary>Comparator with backlash - logical output becomes TRUE when input x greater than or equal to upper limit and FALSE when less than lower limit (uses Library submodel COMPB).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Backlash"/>
+			<view src="compb"/>
+			<model>
+				<attribute type="Logical" tag="IC" description="Initial Condition" value="FALSE"/>
+				<attribute type="Real" tag="LL" description="Lower Limit" value="-1.0"/>
+				<attribute type="Real" tag="UL" description="Upper Limit" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Logical" tag="y"/>
+				<generate>
+					<include>compb</include>
+					<dynamic>
+						{O:y} := COMPB({A:IC}, {A:LL}, {A:UL}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/backlash.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Logical" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Base 10 Logarithm" prefix="L10">
+			<summary>Logarithm to base 10 of input.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Base_10_Logarithm"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := 1.0 / LOG(10.0) * LOG ({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/base10log.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Bistable" prefix="BSL">
+			<summary>Bistable storage device - stores logical input as the clock input becomes TRUE (uses Library submodel BISTBL).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Bistable"/>
+			<view src="bistbl"/>
+			<model>
+				<attribute type="Logical" tag="IC" description="Initial Condition" value="FALSE"/>
+				<input type="Logical" tag="reset"/>
+				<input type="Logical" tag="set"/>
+				<input type="Logical" tag="clock"/>
+				<input type="Logical" tag="signal"/>
+				<output type="Logical" tag="q"/>
+				<generate>
+					<include>bistbl</include>
+					<dynamic>
+						{O:q} := BISTBL({A:IC}, {I:reset}, {I:set}, {I:clock}, {I:signal});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/bistable.png"/>
+				<ports show-tags="true">
+					<port tag="reset" type="Logical" direction="input" orientation="rotate270"/>
+					<port tag="set" type="Logical" direction="input" orientation="rotate90"/>
+					<port tag="clock" type="Logical" direction="input"/>
+					<port tag="signal" type="Logical" direction="input"/>
+					<port tag="q" type="Logical" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Comparator" prefix="CPR">
+			<summary>Logical output true if inputs (x >= y).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Comparator"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<input type="Real" tag="y"/>
+				<output type="Logical" tag="l"/>
+				<generate>
+					<dynamic>
+						{O:l} := {I:x} >= {I:y};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/comparator.png"/>
+				<ports show-tags="true">
+					<port tag="x" type="Real" direction="input"/>
+					<port tag="y" type="Real" direction="input"/>
+					<port tag="l" type="Logical" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Complex Pole" prefix="CXP">
+			<summary>Second order lag (uses Library submodel CMPXPL).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Complex_Pole"/>
+			<view src="cmpxpl"/>
+			<model>
+				<attribute type="Real" tag="ICA" description="Initial value of y" value="0.0"/>
+				<attribute type="Real" tag="ICB" description="Initial value of y-prime" value="0.0"/>
+				<attribute type="Real" tag="PA" description="Damping Ratio" value="1.0"/>
+				<attribute type="Real" tag="PB" description="Frequency" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>cmpxpl</include>
+					<dynamic>
+						{O:y} := CMPXPL({A:ICA}, {A:ICB}, {A:PA}, {A:PB}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/complexpole.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Constant Multiplier" prefix="CNM">
+			<summary>Multiplies input by a constant (y = K * x).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Constant_Multiplier"/>
+			<model>
+				<attribute type="Real" tag="K" description="Coefficient" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := {A:K} * {I:x};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/constmultiplier.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Cosine" prefix="COS">
+			<summary>Cosine of input in radians.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Cosine"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := COS({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/cosine.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Deadspace" prefix="DSP">
+			<summary>Simulates the effect of a 'deadspace'. Output y = 0.0, if LL &lt; x &lt; UL; y = x-UL, if x >= UL; y = x-LL, if x &lt;= LL (uses Library submodel DEADSP).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Deadspace"/>
+			<view src="deadsp"/>
+			<model>
+				<attribute type="Real" tag="LL" description="Lower Limit" value="-1.0"/>
+				<attribute type="Real" tag="UL" description="Upper Limit" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>deadsp</include>
+					<dynamic>
+						{O:y} := DEADSP({A:LL}, {A:UL}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/deadspace.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Delay" prefix="DEL">
+			<summary>Periodically samples a continuous input signal and delays output of the sampled signal for a fixed period of time, e.g. a pipeline delay (uses Library submodel DELAY).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Delay"/>
+			<view src="delay"/>
+			<model>
+				<attribute type="Integer" tag="N" description="Samples" value="10"/>
+				<attribute type="Real" tag="W" description="Delay Time" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>delay</include>
+					<dynamic>
+						{O:y} := DELAY({A:N}, {A:W}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/delay.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Derivative" prefix="DER">
+			<summary>First-order derivative (uses Library submodel DERIV).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Derivative"/>
+			<view src="deriv"/>
+			<model>
+				<attribute type="Real" tag="IC" description="Initial Value" value="0.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>deriv</include>
+					<dynamic>
+						{O:y} := DERIV({A:IC}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/derivative.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Divider" prefix="DIV">
+			<summary>Quotient of signed inputs (x / y).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Divider"/>
+			<model>
+				<input type="Real" tag="x" sign="plus"/>
+				<input type="Real" tag="y" sign="plus"/>
+				<output type="Real" tag="z"/>
+				<generate>
+					<dynamic>
+						{O:z} := {I:x} / {I:y};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-circle"/>
+				<image src="elementicons/divider.png"/>
+				<ports>
+					<port type="Real" direction="input" sign="plus"/>
+					<port type="Real" direction="input" orientation="rotate270" sign="plus"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Exponential" prefix="EXP">
+			<summary>Exponential of input (e ** x).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Exponential"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := EXP({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/exponential.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="First Order Hold" prefix="HL1">
+			<summary>Periodically samples a continuous input signal and produces an output of the last sample modified with a slope calculated by the previous two samples (uses Library submodel FHOLD).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#First_Order_Hold"/>
+			<view src="fhold"/>
+			<model>
+				<attribute type="Real" tag="IC" description="Initial Value" value="0.0"/>
+				<attribute type="Real" tag="PER" description="Sampling Period" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>fhold</include>
+					<dynamic>
+						{O:y} := FHOLD({A:IC}, {A:PER}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/firstorderhold.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Fourier Transform" prefix="FTF">
+			<summary>Fourier integrator - Calculates the rms magnitude and angle of a specified harmonic component of the Fourier series for an input signal. Prints stats at the end of each cycle (uses Library submodel FOURINT).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Fourier_Transform"/>
+			<view src="fourint"/>
+			<model>
+				<attribute type="Integer" tag="N" description="Harmonic" value="1"/>
+				<attribute type="Real" tag="PER" description="Period" value="0.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="mag"/>
+				<output type="Real" tag="angle"/>
+				<generate>
+					<include>fourint</include>
+					<dynamic>
+						{O:mag}, {O:angle} := FOURINT({A:N}, {A:PER}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/fouriertransform.png"/>
+				<ports show-tags="true">
+					<port tag="x" type="Real" direction="input"/>
+					<port tag="mag" type="Real" direction="output"/>
+					<port tag="angle" type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Friction" prefix="FRT">
+			<summary>Determines the friction between sliding surfaces from applied force and relative velocity (uses Library submodel COULOMB).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Friction"/>
+			<view src="coulomb"/>
+			<model>
+				<attribute type="Real" tag="FS" description="Static Friction Constant" value="1.0"/>
+				<attribute type="Real" tag="FC" description="Coulomb Friction Constant" value="1.0"/>
+				<input type="Real" tag="velocity"/>
+				<input type="Real" tag="force"/>
+				<output type="Real" tag="friction"/>
+				<generate>
+					<include>coulomb</include>
+					<dynamic>
+						{O:friction} := COULOMB({A:FS}, {A:FC}, {I:velocity}, {I:force});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/friction.png"/>
+				<ports show-tags="true">
+					<port tag="velocity" type="Real" direction="input"/>
+					<port tag="force" type="Real" direction="input"/>
+					<port tag="friction" type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Function Generator" prefix="FGN">
+			<summary>Generates function values from a one-, two- or three- dimension table (uses Library submodel FG3D).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Function_Generator"/>
+			<view src="fg3d"/>
+			<model>
+				<attribute type="Integer" tag="TABDIM" description="Table dimensions" constant="true" value=""/>
+				<attribute type="Real" tag="TAB" description="Table" dimensions="{A:TABDIM}" value=""/>
+				<input type="Real" tag="x"/>
+				<input type="Real" tag="y"/>
+				<input type="Real" tag="z"/>
+				<output type="Real" tag="f"/>
+				<generate>
+					<include>fg3d</include>
+					<dynamic>
+						{O:f} := FG3D({A:TAB}, {I:x}, {I:y}, {I:z});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/functiongenerator.png"/>
+				<ports show-tags="true">
+					<port tag="x" type="Real" direction="input"/>
+					<port tag="y" type="Real" direction="input"/>
+					<port tag="z" type="Real" direction="input"/>
+					<port tag="f" type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Hysteresis" prefix="HYS">
+			<summary>Implements a pure hysteresis or backlash function (uses Library submodel HSTRSS).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Hysteresis"/>
+			<view src="hstrss"/>
+			<model>
+				<attribute type="Real" tag="IC" description="Initial Value" value="0.0"/>
+				<attribute type="Real" tag="LL" description="Lower Limit" value="-1.0"/>
+				<attribute type="Real" tag="UL" description="Upper Limit" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>hstrss</include>
+					<dynamic>
+						{O:y} := HSTRSS({A:IC}, {A:LL}, {A:UL}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/hysterisis.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Impulse Input" prefix="IMI">
+			<summary>Generates a periodic train of impulses with a controlled delay before the first pulse (uses Library submodel IMPUL).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Impulse_Input"/>
+			<view src="impul"/>
+			<model>
+				<attribute type="Real" tag="TD" description="Time Delay" value="0.0"/>
+				<attribute type="Real" tag="PER" description="Period" value="1.0"/>
+				<output type="Logical" tag="y"/>
+				<generate>
+					<include>impul</include>
+					<dynamic>
+						{O:y} := IMPUL({A:TD}, {A:PER});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/impulse.png"/>
+				<ports>
+					<port type="Logical" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Pulse Input" prefix="PUL">
+			<summary>Generates a unit pulse of specified duration (uses Library submodel PULSE).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Pulse_Input"/>
+			<view src="pulse"/>
+			<model>
+				<attribute type="Real" tag="T_ON" description="Start time" value="0.0"/>
+				<attribute type="Real" tag="T_OFF" description="Finish time" value="1.0"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>pulse</include>
+					<dynamic>
+						{O:y} := PULSE({A:T_ON}, {A:T_OFF});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/pulse.png"/>
+				<ports>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Integer" prefix="FIX">
+			<summary>Output is the integer value of real input. This is the modelling version of the standard function which treats changes in output as discontinuities (uses Library submodel INTX).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Integer"/>
+			<view src="intx"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<output type="Integer" tag="y"/>
+				<generate>
+					<include>intx</include>
+					<dynamic>
+						{O:y} := INTX({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/integer.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Integer" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Integrator" prefix="INT">
+			<summary>Integral of input with respect to time.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Integrator"/>
+			<model>
+				<attribute type="Real" tag="IC" description="Initial Condition" value="0.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<initial>
+						{O:y} := {A:IC};
+					</initial>
+					<dynamic>
+						{O:y}' := {I:x};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/integrator.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Lead Lag" prefix="LLG">
+			<summary>Lead-lag transfer function (uses Library submodel LEDLAG).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Lead_Lag"/>
+			<view src="ledlag"/>
+			<model>
+				<attribute type="Real" tag="IC" description="Initial value of y" value="0.0"/>
+				<attribute type="Real" tag="PA" description="Numerator Coefficient" value="1.0"/>
+				<attribute type="Real" tag="PB" description="Denominator Coefficient" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>ledlag</include>
+					<dynamic>
+						{O:y} := LEDLAG({A:IC}, {A:PA}, {A:PB}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/leadlag.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Limited Integrator" prefix="LMI">
+			<summary>Integrator in which output is bounded between lower and upper limits (uses Library submodel LIMINT).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Limited_Integrator"/>
+			<view src="limint"/>
+			<model>
+				<attribute type="Real" tag="IC" description="Initial Value" value="0.0"/>
+				<attribute type="Real" tag="LL" description="Lower Limit" value="-1.0"/>
+				<attribute type="Real" tag="UL" description="Upper Limit" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>limint</include>
+					<dynamic>
+						{O:y} := LIMINT({A:IC}, {A:LL}, {A:UL}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/limitedintegrator.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Limiter" prefix="LMT">
+			<summary>The output follows the input provided the input remains between lower and upper limits. The output is held at a limit if the input goes outside the limits (uses Library submodel LIMIT).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Limiter"/>
+			<view src="limit"/>
+			<model>
+				<attribute type="Real" tag="LL" description="Lower Limit" value="-1.0"/>
+				<attribute type="Real" tag="UL" description="Upper Limit" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>limit</include>
+					<dynamic>
+						{O:y} := LIMIT({A:LL}, {A:UL}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/limiter.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Constant False" prefix="CNF">
+			<summary>LOGICAL constant with value FALSE.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Constant_False"/>
+			<model>
+				<output type="Logical" tag="y"/>
+				<generate>
+					<initial>
+						{O:y} := FALSE;
+					</initial>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/logicalfalse.png"/>
+				<ports>
+					<port type="Logical" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Logical Integrator" prefix="LGI">
+			<summary>Logically controlled integrator - the integrator's mode of operation is controlled by logical input signals (uses Library submodel LOGINT).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Logical_Integrator"/>
+			<view src="logint"/>
+			<model>
+				<!-- Order of args as in legacy application -->
+				<attribute type="Real" tag="IC" description="Initial Value" value="0.0"/>
+				<input type="Real" tag="x"/>
+				<input type="Logical" tag="reset"/>
+				<input type="Logical" tag="integ"/>
+				<output type="Real" tag="f"/>
+				<generate>
+					<include>logint</include>
+					<dynamic>
+						{O:f} := LOGINT({I:reset}, {I:integ}, {A:IC}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/logicalintegrator.png"/>
+				<ports show-tags="true">
+					<port tag="x" type="Real" direction="input"/>
+					<port tag="reset" type="Logical" direction="input" orientation="rotate270"/>
+					<port tag="integ" type="Logical" direction="input" orientation="rotate90"/>
+					<port tag="f" type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Constant True" prefix="CNT">
+			<summary>LOGICAL constant with value TRUE.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Constant_True"/>
+			<model>
+				<output type="Logical" tag="y"/>
+				<generate>
+					<initial>
+						{O:y} := TRUE;
+					</initial>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/logicaltrue.png"/>
+				<ports>
+					<port type="Logical" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Modulator" prefix="MOD">
+			<summary>Pulse width modulator - generates a periodic logical pulse train with the mark/space ratio being controlled by an input variable and an optional time delay before the first transition (uses Library submodel MODULT).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Modulator"/>
+			<view src="modult"/>
+			<model>
+				<attribute type="Real" tag="TD" description="Time Delay" value="0.0"/>
+				<attribute type="Real" tag="PER" description="Period" value="0.0"/>
+				<input type="Real" tag="signal"/>
+				<output type="Logical" tag="y"/>
+				<generate>
+					<include>modult</include>
+					<dynamic>
+						{O:y} := MODULT({A:TD}, {I:signal}, {A:PER});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/modulator.png"/>
+				<ports show-tags="true">
+					<port tag="signal" type="Real" direction="input"/>
+					<port tag="y" type="Logical" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Monostable" prefix="MON">
+			<summary>Output set TRUE when input becomes positive and remains set for at least a time period specified by attribute, or until the input variable becomes negative (uses Library submodel MONO).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Monostable"/>
+			<view src="mono"/>
+			<model>
+				<attribute type="Real" tag="W" description="Pulse Width" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Logical" tag="y"/>
+				<generate>
+					<include>mono</include>
+					<dynamic>
+						{O:y} := MONO({A:W}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/monostable.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Logical" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Multiplier" prefix="MUL">
+			<summary>Product of signed inputs (x * y).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Multiplier"/>
+			<model>
+				<input type="Real" tag="x" sign="plus"/>
+				<input type="Real" tag="y" sign="plus"/>
+				<output type="Real" tag="z"/>
+				<generate>
+					<dynamic>
+						{O:z} := {I:x} * {I:y};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-circle"/>
+				<image src="elementicons/multiplier.png"/>
+				<ports>
+					<port type="Real" direction="input" sign="plus"/>
+					<port type="Real" direction="input" orientation="rotate270" sign="plus"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Natural Logarithm" prefix="LLN">
+			<summary>Natural logarithm of input.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Natural_Logarithm"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := LOG({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/naturallog.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Logical Negation" prefix="NOT">
+			<summary>Logical NOT (negation) of input.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Logical_Negation"/>
+			<model>
+				<input type="Logical" tag="x"/>
+				<output type="Logical" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := NOT {I:x};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/not.png"/>
+				<ports>
+					<port type="Logical" direction="input"/>
+					<port type="Logical" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Logical Or" prefix="LOR">
+			<summary>Logical OR (disjunction) of two inputs.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities/#Logical_OR"/>
+			<model>
+				<input type="Logical" tag="x"/>
+				<input type="Logical" tag="y"/>
+				<output type="Logical" tag="z"/>
+				<generate>
+					<dynamic>
+						{O:z} := {I:x} OR {I:y};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/or.png"/>
+				<ports>
+					<port type="Logical" direction="input"/>
+					<port type="Logical" direction="input"/>
+					<port type="Logical" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="PI Controller" prefix="PIC">
+			<summary>Proportional plus integral (PI) controller (uses Library submodel PICONT).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#PI_Controller"/>
+			<view src="picont"/>
+			<model>
+				<attribute type="Real" tag="IC" description="Initial Value" value="0.0"/>
+				<attribute type="Real" tag="TC" description="Time Constant" value="1.0"/>
+				<attribute type="Real" tag="K" description="Gain" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>picont</include>
+					<dynamic>
+						{O:y} := PICONT({A:IC}, {A:TC}, {A:K}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/picontrol.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="PID Controller" prefix="PID">
+			<summary>Three term (PID) controller with limited output and integral anti-windup (uses Library submodel PIDCONT).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#PID_Controller"/>
+			<view src="pidcont"/>
+			<model>
+				<attribute type="Real" tag="IC" description="Initial Value" value="0.0"/>
+				<attribute type="Real" tag="PB" description="Proportional Band (%)" value="100.0"/>
+				<attribute type="Real" tag="TCI" description="Integral Time Constant" value="1.0"/>
+				<attribute type="Real" tag="TCD" description="Derivative Time Constant" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>pidcont</include>
+					<dynamic>
+						{O:y} := PIDCONT({A:IC}, {A:PB}, {A:TCI}, {A:TCD}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/pidcontrol.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="PID Controller 1" prefix="PD1">
+			<summary>Three term (PID) controller with limited output, anti-windup and deadspace (uses Library submodel PIDCONT1).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#PID_Controller_1"/>
+			<view src="pidcont1"/>
+			<model>
+				<attribute type="Real" tag="IC" description="Initial Value" value="0.0"/>
+				<attribute type="Real" tag="PB" description="Proportional Band (%)" value="100.0"/>
+				<attribute type="Real" tag="DB" description="Dead Band (%)" value="0.0"/>
+				<attribute type="Real" tag="TI" description="Integral Time Constant" value="1e6"/>
+				<attribute type="Real" tag="TD" description="Derivative Time Constant" value="0.0"/>
+				<attribute type="Real" tag="UM" description="Offset" value="0.0"/>
+				<input type="Real" tag="set_point"/>
+				<input type="Real" tag="process_var"/>
+				<output type="Real" tag="actuation_var"/>
+				<output type="Real" tag="error"/>
+				<generate>
+					<include>pidcont1</include>
+					<dynamic>
+						{O:actuation_var}, {O:error} := PIDCONT1({A:IC}, {A:PB}, {A:DB}, {A:TI}, {A:TD}, {I:set_point}, {A:UM}, {I:process_var});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/pidcontrol1.png"/>
+				<ports show-tags="true">
+					<port tag="set point" type="Real" direction="input"/>
+					<port tag="process var" type="Real" direction="input"/>
+					<port tag="actuation var" type="Real" direction="output"/>
+					<port tag="error" type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Power" prefix="PWR">
+			<summary>Raises first input to value of second input (exponentiation) (x ** y).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Power"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<input type="Real" tag="y"/>
+				<output type="Real" tag="f"/>
+				<generate>
+					<dynamic>
+						{O:f} := {I:x} ** {I:y};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/power.png"/>
+				<ports show-tags="true">
+					<port tag="x" type="Real" direction="input"/>
+					<port tag="y" type="Real" direction="input"/>
+					<port tag="f" type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Quantizer" prefix="QTZ">
+			<summary>Quantizes a continuous input signal into values which are integer multiples of a specified quantization value (uses Library submodel QNTZR).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Quantizer"/>
+			<view src="qntzr"/>
+			<model>
+				<attribute type="Real" tag="QNT" description="Quantization Constant" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>qntzr</include>
+					<dynamic>
+						{O:y} := QNTZR({A:QNT}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/quantizer.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Ramp Input" prefix="RMI">
+			<summary>Generates a ramp of unit slope after optional initial time delay (uses Library submodel RAMP).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Ramp_Input"/>
+			<view src="ramp"/>
+			<model>
+				<attribute type="Real" tag="TD" description="Time Delay" value="0.0"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>ramp</include>
+					<dynamic>
+						{O:y} := RAMP({A:TD});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/rampinput.png"/>
+				<ports>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Real Pole" prefix="RLP">
+			<summary>First order lag (uses Library submodel REALPL).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Real_Pole"/>
+			<view src="realpl"/>
+			<model>
+				<attribute type="Real" tag="IC" description="Initial value of y" value="0.0"/>
+				<attribute type="Real" tag="P" description="Time Constant" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>realpl</include>
+					<dynamic>
+						{O:y} := REALPL({A:IC}, {A:P}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/realpole.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Rectifier" prefix="RCT">
+			<summary>The operation of a Silicon Controlled Rectifier (SCR) is represented for given inputs of current, voltage and gate pulse (uses Library submodel RECT).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Rectifier"/>
+			<view src="rect"/>
+			<model>
+				<attribute type="Logical" tag="IC" description="Initial Value" value="FALSE"/>
+				<input type="Real" tag="i"/>
+				<input type="Real" tag="v"/>
+				<input type="Logical" tag="gate"/>
+				<output type="Logical" tag="cond"/>
+				<generate>
+					<include>rect</include>
+					<dynamic>
+						{O:cond} := RECT({I:i}, {I:v}, {I:gate}, {A:IC});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/rectifier.png"/>
+				<ports show-tags="true">
+					<port tag="i" type="Real" direction="input"/>
+					<port tag="v" type="Real" direction="input"/>
+					<port tag="gate" type="Logical" direction="input" orientation="rotate270"/>
+					<port tag="cond" type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Sample and Hold" prefix="SHL">
+			<summary>Periodically samples a continuous input signal and outputs the value at the last sampling point (uses Library submodel SAMHLD).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Sample_and_Hold"/>
+			<view src="samhld"/>
+			<model>
+				<attribute type="Real" tag="PER" description="Sampling Period" value="1.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>samhld</include>
+					<dynamic>
+						{O:y} := SAMHLD({A:PER}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/sampleandhold.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Sine" prefix="SIN">
+			<summary>Sine of input in radians.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Sine"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := SIN({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/sine.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Sine Input" prefix="SNI">
+			<summary>Generates a sine wave of specified amplitude, frequency, and phase.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Sine_Input"/>
+			<model>
+				<attribute type="Real" tag="E" description="Amplitude" value="1.0"/>
+				<attribute type="Real" tag="W" description="Frequency" value="1.0"/>
+				<attribute type="Real" tag="TH" description="Phase" value="0.0"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := {A:E} * SIN({A:W} * T + {A:TH});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/sinusoidal.png"/>
+				<ports>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Square Input" prefix="SQI">
+			<summary>Generates a square wave of specified amplitude, M/S ratio, period, and initial time-delay (includes Library submodel MODULT).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Square_Input"/>
+			<view src="modult"/>
+			<model>
+				<attribute type="Logical" tag="LOG"/>
+				<attribute type="Real" tag="K" description="Amplitude" value="1.0"/>
+				<attribute type="Real" tag="MS" description="M/S Ratio" value="0.5"/>
+				<attribute type="Real" tag="PER" description="Period" value="1.0"/>
+				<attribute type="Real" tag="TD" description="Time Delay" value="0.0"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>modult</include>
+					<dynamic>
+						{A:LOG} := MODULT({A:TD}, {A:MS}, {A:PER});
+						{O:y} := IF {A:LOG} THEN {A:K} ELSE 0.0;
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/squareinput.png"/>
+				<ports>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Square Root" prefix="SQT">
+			<summary>Square root of absolute value of real input (uses Library submodel SQRTX).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Square_Root"/>
+			<view src="sqrtx"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>sqrtx</include>
+					<dynamic>
+						{O:y} := SQRTX({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/squareroot.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Standard Integrator" prefix="STI">
+			<summary>Integral of input with respect to time.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Standard_Integrator"/>
+			<model>
+				<attribute type="Real" tag="IC" description="Initial Value" value="0.0"/>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<initial>
+						{O:y} := {A:IC};
+					</initial>
+					<dynamic>
+						{O:y}' := {I:x};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/standardintegrator.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Step Input" prefix="SPI">
+			<summary>Generates a step function (includes Library submodel STEPP).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Step_Input"/>
+			<view src="stepp"/>
+			<model>
+				<attribute type="Logical" tag="LOG" />
+				<attribute type="Real" tag="K" description="Amplitude" value="1.0"/>
+				<attribute type="Real" tag="TD" description="Time Delay" value="0.0"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<include>stepp</include>
+					<dynamic>
+						{A:LOG} := STEPP({A:TD});
+						{O:y} := IF {A:LOG} THEN {A:K} ELSE 0.0;
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/stepinput.png"/>
+				<ports>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Summer" prefix="SUM">
+			<summary>Sum of two signed inputs (x + y).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Summer"/>
+			<model>
+				<input type="Real" tag="x" sign="plus"/>
+				<input type="Real" tag="y" sign="minus"/>
+				<output type="Real" tag="z"/>
+				<generate>
+					<dynamic>
+						{O:z} := {I:x} + {I:y};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-circle"/>
+				<image src="elementicons/summer.png"/>
+				<ports>
+					<port type="Real" direction="input" sign="plus"/>
+					<port type="Real" direction="input" orientation="rotate270" sign="minus"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Summer 3" prefix="SM3">
+			<summary>Sum of three signed inputs (x + y + z).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Summer_3"/>
+			<model>
+				<input type="Real" tag="x" sign="plus"/>
+				<input type="Real" tag="y" sign="plus"/>
+				<input type="Real" tag="z" sign="plus"/>
+				<output type="Real" tag="f"/>
+				<generate>
+					<dynamic>
+						{O:f} := {I:x} + {I:y} + {I:z};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-circle"/>
+				<image src="elementicons/summer3.png"/>
+				<ports>
+					<port type="Real" direction="input" sign="plus"/>
+					<port type="Real" direction="input" orientation="rotate270" sign="plus"/>
+					<port type="Real" direction="input" orientation="rotate90" sign="plus"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Switch" prefix="SWT">
+			<summary>Switch between two REAL inputs depending on LOGICAL control input.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Switch"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<input type="Real" tag="y"/>
+				<input type="Logical" tag="control"/>
+				<output type="Real" tag="f"/>
+				<generate>
+					<dynamic>
+						{O:f} := IF {I:control} THEN {I:x} ELSE {I:y};
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/switch.png"/>
+				<ports show-tags="true">
+					<port tag="x" type="Real" direction="input"/>
+					<port tag="y" type="Real" direction="input" orientation="mirrorYAxis"/>
+					<port tag="control" type="Logical" direction="input" orientation="rotate270"/>
+					<port tag="f" type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Tangent" prefix="TAN">
+			<summary>Tangent of input in radians.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Tangent"/>
+			<model>
+				<input type="Real" tag="x"/>
+				<output type="Real" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := SIN({I:x}) / COS({I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/tangent.png"/>
+				<ports>
+					<port type="Real" direction="input"/>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Time Input" prefix="TMI">
+			<summary>Simulation time (T).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Time_Input"/>
+			<model>
+				<output type="Real" tag="y"/>
+				<generate>
+					<dynamic>
+						{O:y} := T;
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/timeinput.png"/>
+				<ports>
+					<port type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Timer" prefix="TMR">
+			<summary>Measures the simulation time which has elapsed since it was reset by a logical input (uses Library submodel TIMER).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Timer"/>
+			<view src="timer"/>
+			<model>
+				<input type="Logical" tag="reset"/>
+				<output type="Real" tag="elapsed"/>
+				<generate>
+					<include>timer</include>
+					<dynamic>
+						{O:elapsed} := TIMER({I:reset});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/timer.png"/>
+				<ports show-tags="true">
+					<port tag="reset" type="Logical" direction="input"/>
+					<port tag="elapsed" type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<entity type="Zero Order Hold" prefix="HL0">
+			<summary>Output holds value of x input when hold input becomes TRUE. While hold is FALSE output is equal to input (uses Library submodel ZHOLD).</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Zero_Order_Hold"/>
+			<view src="zhold"/>
+			<model>
+				<!-- Order of args as in legacy application -->
+				<attribute type="Real" tag="IC" description="Initial Value" value="0.0"/>
+				<input type="Real" tag="x"/>
+				<input type="Logical" tag="hold"/>
+				<output type="Real" tag="f"/>
+				<generate>
+					<include>zhold</include>
+					<dynamic>
+						{O:f} := ZHOLD({A:IC}, {I:hold}, {I:x});
+					</dynamic>
+				</generate>
+			</model>
+			<design>
+				<group type="std-entity-box"/>
+				<image src="elementicons/zeroorderhold.png"/>
+				<ports show-tags="true">
+					<port tag="x" type="Real" direction="input"/>
+					<port tag="hold" type="Logical" direction="input" orientation="rotate270"/>
+					<port tag="f" type="Real" direction="output"/>
+				</ports>
+				<context-menu menu="entity"/>
+			</design>
+		</entity>
+
+		<!-- Display icons -->
+
+		<display type="plot" prefix="PLOT">
+			<summary>Display a runtime plot by connecting instrumentation lines to outputs.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Plot"/>
+			<model type="display">
+				<!-- Note: All display SEC or ESL generation is done directly (without attributes or a template) -->
+			</model>
+			<design>
+				<ellipse width="50" height="50" fill="cyan" stroke-width="1" stroke="black"/>
+				<image src="elementicons/plot.png"/>
+				<ports>
+					<port type="Instrumentation" x="0" y="0" direction="input"/>
+				</ports>
+				<context-menu menu="display"/>
+			</design>
+		</display>
+
+		<display type="table" prefix="TABL">
+			<summary>Display a runtime table by connecting instrumentation lines to outputs.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Table"/>
+			<model type="display">
+				<!-- Note: All display SEC or ESL generation is done directly (without attributes or a template) -->
+			</model>
+			<design>
+				<ellipse width="50" height="50" fill="cyan" stroke-width="1" stroke="black"/>
+				<image src="elementicons/table.png"/>
+				<ports>
+					<port type="Instrumentation" x="0" y="0" direction="input"/>
+				</ports>
+				<context-menu menu="display"/>
+			</design>
+		</display>
+
+		<display type="prepare" prefix="PREP">
+			<summary>Produce a prepare file at runtime by connecting instrumentation lines to outputs.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Prepare"/>
+			<model type="display">
+				<!-- Note: All display SEC or ESL generation is done directly (without attributes or a template) -->
+			</model>
+			<design>
+				<ellipse width="50" height="50" fill="cyan" stroke-width="1" stroke="black"/>
+				<image src="elementicons/prepare.png"/>
+				<ports>
+					<port type="Instrumentation" x="0" y="0" direction="input"/>
+				</ports>
+				<context-menu menu="display"/>
+			</design>
+		</display>
+
+		<!-- Info blocks -->
+
+		<info type="Program Annotation" prefix="PROG">
+			<model type="info">
+				<!-- Note: No ESL generation is done -->
+			</model>
+			<design copy="false">
+				<group type="std-empty-group"/>
+				<context-menu menu="info"/>
+			</design>
+		</info>
+
+		<info type="Module Annotation" prefix="MODL">
+			<model type="info">
+				<!-- Note: No ESL generation is done -->
+			</model>
+			<design copy="false">
+				<group type="std-empty-group"/>
+				<context-menu menu="info"/>
+			</design>
+		</info>
+
+	</entities>
+
+</esl-entities-std-definitiions>

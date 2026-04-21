@@ -1,0 +1,42 @@
+site_name: ESL-Studio
+site_url: https://ryllank.github.io/esl-studio/
+
+site_description: Integrated development environment used primarily for creating ESL simulations.
+site_author: Ryllan J E Kraft
+copyright: Copyright (c) 2026 Ryllan J E Kraft
+
+edit_uri:
+
+docs_dir: webpages
+
+use_directory_urls: false
+
+theme:
+  name: readthedocs
+  logo: img/ESL-Studio-logo.png
+
+extra_css:
+  - extra/extra.css
+
+nav:
+  - Home:
+    - ESL-Studio: index.md
+    - Introduction: introduction.md
+  - User Guide:
+    - Overview of ESL-Studio: guides/overview.md
+    - ESL-Studio Standard Menu: guides/std-menu.md
+    - The ESL-Studio Standard Simulation Entities: guides/std-entities.md
+    - ESL-SEC - Simulation Execution Control: guides/esl-sec.md
+    - ESL-Displays - Post Run Analysis: guides/esl-displays.md
+
+markdown_extensions:
+  - attr_list
+  - toc
+
+
+site_dir: ../dist_webpages/esl-studio
+
+# gh-deploy cannot push to a subdirectory of a git project (ignores what's in site_url)
+# remote_branch: esl-studio-docs-deploy
+# remote_name: ryllankio
+# so use script to mkdocs build and update destination git workspace/repo

@@ -1,0 +1,13 @@
+
+/* Side bar to look nicer with ESL-Studio logo + search topping */
+.wy-side-nav-search {
+  background-color: Teal; /* from theme.css #2980b9; */
+}
+
+.wy-menu-vertical p.caption {
+  color: #00E0E0; /* from theme.css #55a5d9; - tried Teal Turquoise DarkTurquoise #00D0D0 */
+}
+
+.wy-nav-top {
+  background: Teal; /* from theme.css #2980b9; */
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+
+<diagram-theme-xtra1-vectors>
+
+	<!-- This ESL-Studio profile file, diagram-theme-vectors.eslprofile may be
+		 used in conjunction with the esl-entities-arrays-matrices-vectors.eslprofile profile
+		 which has diagram support for operations on ESL Arrays, Matrices and Vectors.
+		 This profile is specifically for the appearance of diagram objects
+		 (Nodes, Links and simulation entity Ports) for the type "Vector".
+		 This profile is optional as, in the absence of this profile, objects
+		 with type "Vector" will appear as for their equivalent type "Real(3)".
+
+		 In the standard version of this profile, the appearances strongly
+		 resemble those for (the standard version of) "Real(*)" as defined
+		 in diagram-theme-generic-arrays.eslprofile. The difference being
+		 a slight difference in colour, and the size of the node.
+	 -->
+
+	<diagram type="block-diagram">
+
+		<!-- Object definitions -->
+
+		<definitions>
+
+			<!-- Nodes - Vector -->
+			<def category="node" type="Vector" equivalent-types="Real(3)|Real(1,3)">
+				<ellipse width="4" height="4" stroke="#8040FF" stroke-width="4" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<!-- Links - Vector -->
+			<def category="link" type="Vector" stroke="#8040FF" stroke-width="2" draw="smart" equivalent-types="Real(3)|Real(1,3)">
+				<context-menu menu="link"/>
+					<connection>
+						<reject direction="output" dst-base-type="Real" dst-direction="output"
+							description="Cannot make connection between a {type} output link and a {dst-type} output"/>
+						<reject link-dst-entity="same"
+							description="Cannot make a direct {type} connection to the same entity"/>
+					</connection>
+			</def>
+
+			<!-- Ports - Vector -->
+			<def category="port" type="Vector" equivalent-types="Real(3)|Real(1,3)">
+				<line x2="-20" y2="0" stroke="#8040FF" stroke-width="2"/>
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="#4040FF" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="#4040FF"/>
+				</option>
+			</def>
+
+		</definitions>
+
+	</diagram>
+
+</diagram-theme-xtra1-vectors>

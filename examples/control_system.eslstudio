@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<!-- Created by ESL-Studio on 2022-12-30 18:15:29 -->
+<esl-studio-application version="1.2.0.30">
+	<model eslname="control_system" type="model" description="PID Control System" show-eslname="true" show-description="true">
+		<diagram>
+			<entity id="1" type="Step Input" x="360" y="350">
+				<annotation id="description" x="0" y="30">
+					<text id="1+2+0"><![CDATA[step input]]></text>
+				</annotation>
+				<annotation id="attribute-K" x="0" y="-30">
+					<text id="1+3+0"><![CDATA[K=1.0]]></text>
+				</annotation>
+				<annotation id="port-1" x="50" y="-10">
+					<text id="1+4+0"><![CDATA[in]]></text>
+				</annotation>
+			</entity>
+			<entity id="2" type="Summer" x="540" y="350">
+					<port id="1" sign="plus"/>
+					<port id="2" sign="minus"/>
+				<annotation id="port-1" x="40" y="-10">
+					<text id="2+2+0"><![CDATA[error]]></text>
+				</annotation>
+			</entity>
+			<entity id="3" type="Transfer Function" x="860" y="350">
+				<annotation id="attribute-TF" x="0" y="-30">
+					<text id="3+2+0"><![CDATA[100/(s**2+10*s+100)]]></text>
+				</annotation>
+				<annotation id="description" x="0" y="30">
+					<text id="3+3+0"><![CDATA[plant]]></text>
+				</annotation>
+				<annotation id="port-1" x="50" y="-10">
+					<text id="3+4+0"><![CDATA[out]]></text>
+				</annotation>
+			</entity>
+			<entity id="4" type="Transfer Function" x="660" y="460" orientation="mirrorYAxis">
+				<annotation id="description" x="0" y="30">
+					<text id="4+2+0"><![CDATA[feedback]]></text>
+				</annotation>
+				<annotation id="attribute-TF" x="0" y="-30">
+					<text id="4+3+0"><![CDATA[1/(0.1*s+1)]]></text>
+				</annotation>
+				<annotation id="port-1" x="50" y="-10">
+					<text id="4+4+0"><![CDATA[fb]]></text>
+				</annotation>
+			</entity>
+			<info id="5" type="Module Annotation" x="150" y="30">
+				<annotation id="eslname" x="0" y="0" background="true">
+					<text id="5+1+0"><![CDATA[control_system]]></text>
+				</annotation>
+				<annotation id="description" x="0" y="30" background="true">
+					<text id="5+2+0"><![CDATA[PID Control System]]></text>
+				</annotation>
+			</info>
+			<entity id="6" type="Submodel Call" x="695" y="350">
+				<ports>
+					<port id="1" type="Real" direction="input" tag="in"/>
+					<port id="2" type="Real" direction="output" tag="out"/>
+				</ports>
+				<annotation id="submodel" x="0" y="30">
+					<text id="6+2+0"><![CDATA[PID_controller]]></text>
+				</annotation>
+			</entity>
+			<display id="7" type="plot" x="1020" y="150"/>
+			<display id="8" type="table" x="715" y="600"/>
+			<link id="9" type="Real" start-id="1-1" end-id="2-1"/>
+			<link id="10" type="Real" start-id="3-2" end-id="4-1"/>
+			<link id="11" type="Real" start-id="4-2" end-id="2-2"/>
+			<link id="12" type="Real" start-id="2-3" end-id="6-1"/>
+			<link id="13" type="Real" start-id="6-2" end-id="3-1"/>
+			<link id="14" type="Instrumentation" start-id="7-1" end-id="1-1"/>
+			<link id="15" type="Instrumentation" start-id="7-1" end-id="2-3"/>
+			<link id="16" type="Instrumentation" start-id="7-1" end-id="3-2"/>
+			<link id="17" type="Instrumentation" start-id="8-1" end-id="1-1"/>
+			<link id="18" type="Instrumentation" start-id="8-1" end-id="2-3"/>
+			<link id="19" type="Instrumentation" start-id="8-1" end-id="3-2"/>
+		</diagram>
+		<simulation-entities>
+			<entity id="1" type="Step Input" description="step input" show-description="true">
+				<attribute tag="K" show-tag="true" show-value="true"/>
+				<port id="1" designation="output" eslname="in" show-eslname="true"/>
+			</entity>
+			<entity id="2" type="Summer">
+				<port id="3" designation="output" eslname="error" show-eslname="true"/>
+			</entity>
+			<entity id="3" type="Transfer Function" description="plant" show-description="true">
+				<attribute tag="TF" value="100/(s**2+10*s+100)" show-value="true"/>
+				<port id="2" designation="output" eslname="out" show-eslname="true"/>
+			</entity>
+			<entity id="4" type="Transfer Function" description="feedback" show-description="true">
+				<attribute tag="TF" value="1/(0.1*s+1)" show-value="true"/>
+				<port id="2" designation="output" eslname="fb" show-eslname="true"/>
+			</entity>
+			<entity id="6" type="Submodel Call" submodel="PID_controller" show-submodel="true">
+				<attribute tag="Kp" source="Parameter" value="Kp"/>
+				<attribute tag="Kd" source="Parameter" value="Kd"/>
+				<attribute tag="Ki" source="Parameter" value="Ki"/>
+			</entity>
+		</simulation-entities>
+		<parameters>
+			<variable eslname="Kp" type="Real" parameter="true" value="2"/>
+			<variable eslname="Ki" type="Real" parameter="true" value="3"/>
+			<variable eslname="Kd" type="Real" parameter="true" value="0.5"/>
+		</parameters>
+		<display-definitions>
+			<display id="7" type="plot" update="step">
+				<name><![CDATA[Display Plot 1]]></name>
+				<plot x="762" y="19" width="640" height="600">
+					<x-axis grid="true"/>
+					<y-axis grid="true"/>
+				</plot>
+			</display>
+			<display id="8" type="table">
+				<name><![CDATA[Display Table 1]]></name>
+				<table x="599" y="693" width="451" height="272"/>
+			</display>
+		</display-definitions>
+		<info-blocks>
+			<info id="5" type="Module Annotation"/>
+		</info-blocks>
+	</model>
+	<simulation-parameters>
+		<parameter eslname="CINT" value="0.1"/>
+		<parameter eslname="NSTEP" value="10"/>
+	</simulation-parameters>
+	<submodel eslname="PID_controller" type="diagram" show-eslname="true">
+		<diagram>
+			<entity id="1" type="Real Input" x="220" y="460">
+				<annotation id="attribute-TAG" x="0" y="-30">
+					<text id="1+2+0"><![CDATA[Kp]]></text>
+				</annotation>
+			</entity>
+			<entity id="2" type="Real Input" x="220" y="380">
+				<annotation id="attribute-TAG" x="0" y="-30">
+					<text id="2+2+0"><![CDATA[Kd]]></text>
+				</annotation>
+			</entity>
+			<entity id="3" type="Real Input" x="220" y="265">
+				<annotation id="attribute-TAG" x="0" y="-30">
+					<text id="3+2+0"><![CDATA[in]]></text>
+				</annotation>
+			</entity>
+			<entity id="4" type="Real Input" x="220" y="150">
+				<annotation id="attribute-TAG" x="0" y="-30">
+					<text id="4+2+0"><![CDATA[Ki]]></text>
+				</annotation>
+			</entity>
+			<entity id="5" type="Integrator" x="370" y="210"/>
+			<entity id="6" type="Derivative" x="370" y="325"/>
+			<entity id="7" type="Multiplier" x="480" y="210" orientation="mirrorXAxis">
+					<port id="1" sign="plus"/>
+					<port id="2" sign="plus"/>
+			</entity>
+			<entity id="8" type="Multiplier" x="485" y="325">
+					<port id="1" sign="plus"/>
+					<port id="2" sign="plus"/>
+			</entity>
+			<entity id="9" type="Multiplier" x="635" y="265">
+					<port id="1" sign="plus"/>
+					<port id="2" sign="plus"/>
+			</entity>
+			<entity id="10" type="Summer 3" x="765" y="265">
+					<port id="1" sign="plus"/>
+					<port id="2" sign="plus"/>
+					<port id="3" sign="plus"/>
+			</entity>
+			<entity id="11" type="Real Output" x="885" y="265">
+				<annotation id="attribute-TAG" x="0" y="-30">
+					<text id="11+2+0"><![CDATA[out]]></text>
+				</annotation>
+			</entity>
+			<info id="12" type="Module Annotation" x="150" y="30">
+				<annotation id="eslname" x="0" y="0" background="true">
+					<text id="12+1+0"><![CDATA[PID_controller]]></text>
+				</annotation>
+				<annotation id="description" x="0" y="30" visible="false" background="true">
+					<text id="12+2+0"/>
+				</annotation>
+			</info>
+			<link id="13" type="Real" start-id="5-2" end-id="7-1"/>
+			<link id="14" type="Real" start-id="4-1" end-id="7-2"/>
+			<link id="15" type="Real" start-id="6-2" end-id="8-1"/>
+			<link id="16" type="Real" start-id="2-1" end-id="8-2"/>
+			<link id="17" type="Real" start-id="1-1" end-id="9-2"/>
+			<link id="18" type="Real" start-id="9-3" end-id="10-1"/>
+			<link id="19" type="Real" start-id="7-3" end-id="10-3"/>
+			<link id="20" type="Real" start-id="8-3" end-id="10-2"/>
+			<link id="21" type="Real" start-id="10-4" end-id="11-1"/>
+			<link id="22" type="Real" start-id="6-1" end-id="3-1"/>
+			<link id="23" type="Real" start-id="5-1" end-id="3-1"/>
+			<link id="24" type="Real" start-id="3-1" end-id="9-1"/>
+		</diagram>
+		<simulation-entities>
+			<entity id="1" type="Real Input">
+				<attribute tag="TAG" value="Kp" show-value="true"/>
+				<attribute tag="ATTR" value="True"/>
+			</entity>
+			<entity id="2" type="Real Input">
+				<attribute tag="TAG" value="Kd" show-value="true"/>
+				<attribute tag="ATTR" value="True"/>
+			</entity>
+			<entity id="3" type="Real Input">
+				<attribute tag="TAG" value="in" show-value="true"/>
+			</entity>
+			<entity id="4" type="Real Input">
+				<attribute tag="TAG" value="Ki" show-value="true"/>
+				<attribute tag="ATTR" value="True"/>
+			</entity>
+			<entity id="5" type="Integrator"/>
+			<entity id="6" type="Derivative"/>
+			<entity id="7" type="Multiplier"/>
+			<entity id="8" type="Multiplier"/>
+			<entity id="9" type="Multiplier"/>
+			<entity id="10" type="Summer 3"/>
+			<entity id="11" type="Real Output">
+				<attribute tag="TAG" value="out" show-value="true"/>
+			</entity>
+		</simulation-entities>
+		<info-blocks>
+			<info id="12" type="Module Annotation"/>
+		</info-blocks>
+	</submodel>
+	<setup view-code="true">
+		<esl-sec-specification>
+			<![CDATA[<sec-specification version="1.0.0">
+	<display-definitions>
+		<display type="runtime-plot" update="step">
+			<name>
+				{![CDATA[Plot 1]]}
+			</name>
+			<variable>
+				{![CDATA[(RESERVED) T]]}
+			</variable>
+			<variable>
+				{![CDATA[(CONTROL_SYSTEM) IN]]}
+			</variable>
+			<variable>
+				{![CDATA[(CONTROL_SYSTEM) OUT]]}
+			</variable>
+			<plot x="52" y="52" width="640" height="600">
+				<x-axis max="10" divs="10" auto-scale="false" grid="true"/>
+				<y-axis max="1.2" divs="12" auto-scale="false" grid="true"/>
+			</plot>
+		</display>
+	</display-definitions>
+</sec-specification>]]>
+		</esl-sec-specification>
+	</setup>
+</esl-studio-application>

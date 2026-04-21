@@ -1,0 +1,432 @@
+<?xml version="1.0" ?>
+
+<diagram-theme-generic-arrays>
+
+	<diagram type="block-diagram">
+
+		<!-- Object definitions -->
+		<definitions>
+
+			<!-- Nodes - generic one dimension array - Real Integer Logical -->
+			<def category="node" type="Real(*)">
+				<ellipse width="4" height="4" stroke="none" stroke-width="2" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<def category="node" type="Integer(*)">
+				<ellipse width="4" height="4" stroke="none" stroke-width="2" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<def category="node" type="Logical(*)">
+				<ellipse width="4" height="4" stroke="none" stroke-width="2" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<!-- Links - generic one dimension array - Real Integer Logical -->
+			<def category="link" type="Real(*)" stroke="Blue" stroke-width="2" draw="smart">
+				<connection>
+					<reject direction="output" dst-direction="output"
+						description="Cannot make connection between a {type} output link and another output"/>
+					<valid dst-type="Integer(*)" dst-direction="output"
+						description="Allow {type} to connect to {dst-type} output"/>
+					<reject link-dst-entity="same"
+						description="Cannot make a direct {type} connection to the same entity"/>
+				</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<def category="link" type="Integer(*)" stroke="Green" stroke-width="2" draw="smart">
+				<connection>
+					<reject direction="output" dst-direction="output"
+						description="Cannot make connection between a {type} output link and another output"/>
+					<valid direction="output" dst-type="Real(*)"
+						description="Allow {type} output to connect to {dst-type}"/>
+					<valid direction="output" dst-base-type="Real" dst-dimensions="..."
+						description="Allow {type} output to connect to {dst-type}"/>
+					<reject link-dst-entity="same"
+						description="Cannot make a direct {type} connection to the same entity"/>
+				</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<def category="link" type="Logical(*)" stroke="Red" stroke-width="2" draw="smart">
+				<connection>
+					<reject direction="output" dst-direction="output"
+						description="Cannot make connection between a {type} output link and another output"/>
+					<reject link-dst-entity="same"
+						description="Cannot make a direct {type} connection to the same entity"/>
+				</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<!-- Ports - generic one dimension array - Real Integer Logical -->
+			<def category="port" type="Real(*)" >
+				<line x2="-20" y2="0" stroke="Blue" stroke-width="2"/>
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="Blue" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="Blue"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<def category="port" type="Integer(*)" >
+				<line x2="-20" y2="0" stroke="Green" stroke-width="2"/>
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="Green" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="Green"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<def category="port" type="Logical(*)" >
+				<line x2="-20" y2="0" stroke="Red" stroke-width="2"/>
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="Red" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="Red"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<!-- Nodes - generic two dimensions matrix - Real Integer Logical -->
+			<def category="node" type="Real(*,*)">
+				<ellipse width="4" height="4" stroke="none" stroke-width="3" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<def category="node" type="Integer(*,*)">
+				<ellipse width="4" height="4" stroke="none" stroke-width="3" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<def category="node" type="Logical(*,*)">
+				<ellipse width="4" height="4" stroke="none" stroke-width="3" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<!-- Links - generic two dimensions matrix - Real Integer Logical -->
+			<def category="link" type="Real(*,*)" stroke="Blue" stroke-width="3" draw="smart">
+				<connection>
+					<reject direction="output" dst-direction="output"
+						description="Cannot make connection between a {type} output link and another output"/>
+					<valid dst-type="Integer(*,*)" dst-direction="output"
+						description="Allow {type} to connect to {dst-type} output"/>
+					<reject link-dst-entity="same"
+						description="Cannot make a direct {type} connection to the same entity"/>
+				</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<def category="link" type="Integer(*,*)" stroke="Green" stroke-width="3" draw="smart">
+				<connection>
+					<reject direction="output" dst-direction="output"
+						description="Cannot make connection between a {type} output link and another output"/>
+					<valid direction="output" dst-type="Real(*,*)"
+						description="Allow {type} output to connect to {dst-type}"/>
+					<valid direction="output" dst-base-type="Real" dst-dimensions="..."
+						description="Allow {type} output to connect to {dst-type}"/>
+					<reject link-dst-entity="same"
+						description="Cannot make a direct {type} connection to the same entity"/>
+				</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<def category="link" type="Logical(*,*)" stroke="Red" stroke-width="3" draw="smart">
+				<connection>
+					<reject direction="output" dst-direction="output"
+						description="Cannot make connection between a {type} output link and another output"/>
+					<reject link-dst-entity="same"
+						description="Cannot make a direct {type} connection to the same entity"/>
+				</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<!-- Ports - generic two dimensions matrix - Real Integer Logical -->
+			<def category="port" type="Real(*,*)" >
+				<line x2="-20" y2="0" stroke="Blue" stroke-width="3"/>
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="Blue" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="Blue"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<def category="port" type="Integer(*,*)" >
+				<line x2="-20" y2="0" stroke="Green" stroke-width="3"/>
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="Green" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="Green"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<def category="port" type="Logical(*,*)" >
+				<line x2="-20" y2="0" stroke="Red" stroke-width="3"/>
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="Red" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="Red"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<!-- Nodes - generic three dimensions matrix - Real Integer Logical -->
+			<def category="node" type="Real(*,*,*)">
+				<ellipse width="4" height="4" stroke="none" stroke-width="4" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<def category="node" type="Integer(*,*,*)">
+				<ellipse width="4" height="4" stroke="none" stroke-width="4" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<def category="node" type="Logical(*,*,*)">
+				<ellipse width="4" height="4" stroke="none" stroke-width="4" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<!-- Links - generic three dimensions matrix - Real Integer Logical -->
+			<def category="link" type="Real(*,*,*)" stroke="Blue" stroke-width="4" draw="smart">
+				<connection>
+					<reject direction="output" dst-direction="output"
+						description="Cannot make connection between a {type} output link and another output"/>
+					<valid dst-type="Integer(*,*,*)" dst-direction="output"
+						description="Allow {type} to connect to {dst-type} output"/>
+					<reject link-dst-entity="same"
+						description="Cannot make a direct {type} connection to the same entity"/>
+				</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<def category="link" type="Integer(*,*,*)" stroke="Green" stroke-width="4" draw="smart">
+				<connection>
+					<reject direction="output" dst-direction="output"
+						description="Cannot make connection between a {type} output link and another output"/>
+					<valid direction="output" dst-type="Real(*,*,*)"
+						description="Allow {type} output to connect to {dst-type}"/>
+					<valid direction="output" dst-base-type="Real" dst-dimensions="..."
+						description="Allow {type} output to connect to {dst-type}"/>
+					<reject link-dst-entity="same"
+						description="Cannot make a direct {type} connection to the same entity"/>
+				</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<def category="link" type="Logical(*,*,*)" stroke="Red" stroke-width="4" draw="smart">
+				<connection>
+					<reject direction="output" dst-direction="output"
+						description="Cannot make connection between a {type} output link and another output"/>
+					<reject link-dst-entity="same"
+						description="Cannot make a direct {type} connection to the same entity"/>
+				</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<!-- Ports - generic three dimensions matrix - Real Integer Logical (options for direction:input, sign:plus|minus) -->
+			<def category="port" type="Real(*,*,*)" >
+				<line x2="-20" y2="0" stroke="Blue" stroke-width="4"/>
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="Blue" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="Blue"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<def category="port" type="Integer(*,*,*)" >
+				<line x2="-20" y2="0" stroke="Green" stroke-width="4"/>
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="Green" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="Green"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<def category="port" type="Logical(*,*,*)" >
+				<line x2="-20" y2="0" stroke="Red" stroke-width="4"/>
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="Red" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="Red"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<!-- Nodes - "universal" dimensionality - Real Integer Logical -->
+			<def category="node" type="Real(...)">
+				<ellipse width="4" height="4" stroke="none" stroke-width="3" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<def category="node" type="Integer(...)">
+				<ellipse width="5" height="4" stroke="none" stroke-width="3" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<def category="node" type="Logical(...)">
+				<ellipse width="5" height="4" stroke="none" stroke-width="3" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<!-- Links - "universal" dimensionality - Real Integer Logical -->
+			<def category="link" type="Real(...)" stroke="Blue" stroke-width="3" draw="smart" stroke-style="dot">
+				<connection>
+					<reject direction="output" dst-direction="output"
+						description="Cannot make connection between a {type} output link and another output"/>
+					<valid dst-type="Integer(...)" dst-direction="output"
+						description="Allow {type} to connect to {dst-type} output"/>
+					<reject link-dst-entity="same"
+						description="Cannot make a direct {type} connection to the same entity"/>
+				</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<def category="link" type="Integer(...)" stroke="Green" stroke-width="3" draw="smart" stroke-style="dot">
+				<connection>
+					<reject direction="output" dst-direction="output"
+						description="Cannot make connection between a {type} output link and another output"/>
+					<valid direction="output" dst-type="Real(...)"
+						description="Allow {type} output to connect to {dst-type}"/>
+					<reject link-dst-entity="same"
+						description="Cannot make a direct {type} connection to the same entity"/>
+				</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<def category="link" type="Logical(...)" stroke="Red" stroke-width="3" draw="smart" stroke-style="dot">
+				<connection>
+					<reject direction="output" dst-direction="output"
+						description="Cannot make connection between a {type} output link and another output"/>
+					<reject link-dst-entity="same"
+						description="Cannot make a direct {type} connection to the same entity"/>
+				</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<!-- Ports - "universal" dimensionality - Real Integer Logical (options for direction:input, sign:plus|minus) -->
+			<def category="port" type="Real(...)" >
+				<line x2="-20" y2="0" stroke="Blue" stroke-width="3"/>
+				<ellipse width="5" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="Blue" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="Blue"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<def category="port" type="Integer(...)" >
+				<line x2="-20" y2="0" stroke="Green" stroke-width="3"/>
+				<ellipse width="5" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="Green" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="Green"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<def category="port" type="Logical(...)" >
+				<line x2="-20" y2="0" stroke="Red" stroke-width="3"/>
+				<ellipse width="5" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="Red" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="Red"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+		</definitions>
+
+	</diagram>
+
+</diagram-theme-generic-arrays>

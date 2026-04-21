@@ -1,0 +1,197 @@
+<?xml version="1.0" ?>
+
+<diagram-theme-std>
+
+	<diagram type="block-diagram">
+
+		<!-- Diagram properties -->
+		<properties width="5000" height="5000">
+			<background fill="#EFEFEF" stroke="Black" stroke-width="1"/>
+			<grid stroke="Grey" stroke-width="1" horizontal="100" vertical="100" show="true" snap="5"/>
+			<smart-links smart-draw="smart2segments"/>
+
+			<drag object-visible="true" box-margin="3" box-stroke="blue" box-stroke-width="1" update-count="1"/> <!-- false -->
+
+			<background-context-menu menu="background-context-menu"/>
+			<selection-context-menu menu="selection-context-menu"/>
+			<pair-selection-context-menu menu="pair-selection-context-menu"/>
+			<groupable-selection-context-menu menu="groupable-selection-context-menu"/>
+			<groupable-pair-selection-context-menu menu="groupable-pair-selection-context-menu"/>
+			<anonymous-group-context-menu menu="anonymous-group-context-menu"/>
+		</properties>
+
+
+		<theme>
+			<port-positioning spacing="20" tag-snap="5"/>
+			<port-label-text font-size="8" hmargin="6" vmargin="3"/>
+			<annotation spacing="10"/>
+			<annotation-text font-size="8"/>
+			<alert-object alert-time="200" alert-connection="true"/>
+			<background-annotation-text font-size="14" justify="left"/>
+		</theme>
+
+		<!-- Object definitions -->
+		<definitions>
+
+			<!-- Nodes - Real Integer Logical -->
+			<def category="node" type="Real">
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<def category="node" type="Integer">
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<def category="node" type="Logical">
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+			<!-- Links - Real Integer Logical -->
+			<def category="link" type="Real" stroke="blue" stroke-width="1" draw="smart">
+					<connection>
+						<reject direction="output" dst-direction="output"
+							description="Cannot make connection between a real output link and another output"/>
+						<valid dst-type="Integer" dst-direction="output"
+							description="Allow real to connect to integer output"/>
+						<reject link-dst-entity="same"
+							description="Cannot make a direct connection to the same entity"/>
+					</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<def category="link" type="Integer" stroke="green" stroke-width="1" draw="smart">
+					<connection>
+						<reject direction="output" dst-direction="output"
+							description="Cannot make connection between an integer output link and another output"/>
+						<valid direction="output" dst-type="Real"
+							description="Allow integer output to connect to real"/>
+						<reject link-dst-entity="same"
+							description="Cannot make a direct connection to the same entity"/>
+					</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<def category="link" type="Logical" stroke="red" stroke-width="1" draw="smart">
+					<connection>
+						<reject direction="output" dst-direction="output"
+							description="Cannot make connection between a logical output link and another output"/>
+						<reject link-dst-entity="same"
+							description="Cannot make a direct connection to the same entity"/>
+					</connection>
+				<context-menu menu="link"/>
+			</def>
+
+			<!-- Ports - Real Integer Logical (options for direction:input, sign:plus|minus) -->
+			<!-- Note: The standard orientation is to align port horizontally with a "stalk" to the left of the origin (and connection point) of the port. -->
+			<!-- So the standard positioning is on the right side of an entity (as is typical for an output port). -->
+			<!-- For input port, if no orientation is explicitly given, it will be set to mirrorYAxis and so positioned on the left. -->
+			<!-- To explicitly position (e.g. an input) port on the right of an entity set port's orientation="normal" or "mirrorXAxis". -->
+			<!-- To explicitly position (e.g. an output) port on the left set port's orientation="mirrorYAxis" or "rotate180". -->
+			<!-- To position port on the top set port's orientation="rotate90" or "mirrorUpDiag". -->
+			<!-- To position port on the bottom set port's orientation="rotate270" or "mirrorDownDiag". -->
+			<def category="port" type="Real">
+				<line x2="-20" y2="0" stroke="blue" stroke-width="1"/>
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="blue" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="blue"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<def category="port" type="Integer">
+				<line x2="-20" y2="0" stroke="green" stroke-width="1"/>
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="green" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="green"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<def category="port" type="Logical">
+				<line x2="-20" y2="0" stroke="red" stroke-width="1"/>
+				<ellipse width="4" height="4" stroke="none" stroke-width="1" fill="none"/>
+				<option direction="input">
+					<polygon stroke="red" stroke-width="1" points="-10,-4 -20,0 -10,4" fill="red"/>
+				</option>
+				<option sign="plus">
+					<text x="-5" y="-10" font-size="12">+</text>
+					<context-menu menu="port"/>
+				</option>
+				<option sign="minus">
+					<text x="-5" y="-10" font-size="12">-</text>
+					<context-menu menu="port"/>
+				</option>
+				<activate action="Toggle Port Sign"/>
+			</def>
+
+			<!-- Standard entity shape definitions -->
+			<def category="group" type="std-empty-group">
+			</def>
+
+			<def category="group" type="std-entity-box">
+				<rect width="60" height="40" corner="10" fill="#FFE4B5" stroke="black" stroke-width="1"/> <!-- moccasin -->
+			</def>
+
+			<def category="group" type="std-entity-circle">
+				<ellipse width="40" height="40" fill="#FFE4B5" stroke="black" stroke-width="1"/>
+			</def>
+
+			<def category="group" type="std-input-argument-box">
+				<rect width="40" height="40" corner="10" fill="#FFE4B5" stroke="black" stroke-width="1"/>
+			</def>
+
+			<def category="group" type="std-output-argument-box">
+				<rect width="40" height="40" corner="10" fill="#FFE4B5" stroke="black" stroke-width="1"/>
+			</def>
+
+			<def category="group" type="std-subprogram-box">
+				<rect width="60" height="40" corner="10" fill="#D8D8BF" stroke="black" stroke-width="1"/>
+			</def>
+
+			<!-- Instrumentation link, port and node -->
+
+			<def category="link" type="Instrumentation" stroke="black" stroke-width="1" draw="straight">
+				<connection>
+					<reject dst-direction="input"
+						description="Cannot connect display to an input"/>
+					<valid dst-type="*" dst-direction="output"
+						description="Allow display to connect to any type of output"/>
+					<reject special="display-already-has-connection-to-output"
+						description="Display already has a connection to the same output"/>
+				</connection>
+				<context-menu menu="instrumentation-link"/>
+			</def>
+
+			<def category="port" type="Instrumentation">
+				<ellipse width="10" height="10" stroke="none" stroke-width="1" fill="none"/>
+			</def>
+
+			<def category="node" type="Instrumentation" max-links="2">
+				<ellipse width="1" height="1" stroke="none" stroke-width="1" fill="none"/>
+				<context-menu menu="node"/>
+			</def>
+
+		</definitions>
+
+	</diagram>
+
+</diagram-theme-std>

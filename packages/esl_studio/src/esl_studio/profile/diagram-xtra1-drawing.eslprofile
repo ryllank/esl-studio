@@ -1,0 +1,164 @@
+<?xml version="1.0" ?>
+
+<diagram-xtra1-drawing>
+
+	<diagram type="block-diagram">
+
+		<definitions>
+
+			<!-- Elements - default configurations -->
+			<def category="element" type="text">
+				Text
+				<context-menu menu="text-menu"/>
+			</def>
+			<def category="element" type="rect" fill="none" stroke="black" stroke-width="1" width="20" height="20" corner="0" grabbable="true">
+				<context-menu menu="rect-menu"/>
+			</def>
+			<def category="element" type="ellipse" fill="none" stroke="black" stroke-width="1" width="20" height="20" grabbable="true">
+				<context-menu menu="ellipse-menu"/>
+			</def>
+			<def category="element" type="line" fill="none" stroke="black" stroke-width="1"
+				x2="20" y2="20" select="true" drag="true" grabbable="true">
+				<context-menu menu="line-menu"/>
+			</def>
+			<def category="element" type="image" src="">
+				<context-menu menu="image-menu"/>
+			</def>
+			<def category="element" type="polyline" fill="none" stroke="black" stroke-width="1"
+				points="0,0 10,-20 20,0" grabbable="true">
+				<context-menu menu="polyline-menu"/>
+			</def>
+			<def category="element" type="polygon" fill="none" stroke="black" stroke-width="1"
+				points="0,0 10,-20 20,0" grabbable="true">
+				<context-menu menu="polygon-menu"/>
+			</def>
+			<def category="element" type="spline" fill="none" stroke="black" stroke-width="1"
+				points="0,0 10,-20 20,0" grabbable="true">
+				<context-menu menu="spline-menu"/>
+			</def>
+
+			<!-- Element grab handles -->
+			<def category="grab" type="line">
+				<rect width="4" height="4" stroke="black" stroke-width="1" fill="black" corner="0"/>
+			</def>
+			<def category="grab" type="element">
+				<rect width="4" height="4" stroke="black" stroke-width="1" fill="black" corner="0"/>
+			</def>
+			<def category="grab" type="group">
+				<rect width="4" height="4" stroke="red" stroke-width="1" fill="red" corner="0"/>
+			</def>
+
+		</definitions>
+
+		<menus>
+
+			<menu name="anonymous-group-context-menu">
+				<menu name="cut-copy-del"/>
+				<separator />
+				<menu name="flip-rotate"/>
+				<menu name="z-order"/>
+				<separator />
+				<item action="Explode Group" text="Ungroup Components">Ungroup a group's components into independent objects</item>
+			</menu>
+
+			<menu name="groupable-selection-context-menu">
+				<menu name="cut-copy"/>
+				<separator />
+				<item action="Delete" text="Delete">Deletes object(s)</item>
+				<separator />
+				<menu name="flip-rotate"/>
+				<separator />
+				<item action="Group Fixed" text="Fixed Group Selection">Make a fixed (not editable) group from the selected objects</item>
+				<item action="Group Editable" text="Editable Group Selection">Make an editable group the selected objects</item>
+			</menu>
+
+			<menu name="groupable-pair-selection-context-menu">
+				<menu name="groupable-selection-context-menu"/>
+				<menu name="swap-z-orders"/>
+			</menu>
+
+			<menu name="insert-drawing-objects">
+				<block text="Insert Basic Elements">
+					<menu name="insert-drawing-elements"/>
+				</block>
+			</menu>
+
+			<menu name="insert-drawing-elements">
+				<item action="Insert" text="Insert Rectangle">Insert rectangle
+					<action><objects><rect/></objects></action>
+				</item>
+				<item action="Insert" text="Insert Ellipse">Insert ellipse
+					<action><objects><ellipse/></objects></action>
+				</item>
+				<item action="Insert" text="Insert Line">Insert line
+					<action><objects><line/></objects></action>
+				</item>
+				<item action="Insert" text="Insert Text">Insert text
+					<action><objects>
+						<!--rect fill="red" width="20" height="30" corner="0"/-->
+						<text></text>
+						</objects></action>
+				</item>
+				<item action="Insert" text="Insert Image">Insert image
+					<action><objects><image src=""/></objects></action>
+				</item>
+				<item action="Insert" text="Insert Polyline">Insert polyline
+					<action><objects><polyline/></objects></action>
+				</item>
+				<item action="Insert" text="Insert Polygon">Insert polygon
+					<action><objects><polygon/></objects></action>
+				</item>
+				<item action="Insert" text="Insert Spline">Insert spline
+					<action><objects><spline/></objects></action>
+				</item>
+			</menu>
+
+			<menu name="text-menu">
+				<menu name="z-order"/>
+			</menu>
+
+			<menu name="rect-menu">
+				<menu name="flip-rotate-z-order"/>
+			</menu>
+
+			<menu name="ellipse-menu">
+				<menu name="flip-rotate-z-order"/>
+			</menu>
+
+			<menu name="line-menu">
+				<menu name="line-draw"/>
+				<separator />
+				<menu name="z-order"/>
+			</menu>
+
+			<menu name="image-menu">
+				<menu name="z-order"/>
+			</menu>
+
+			<menu name="polyline-menu">
+				<menu name="poly-menu"/>
+			</menu>
+
+			<menu name="polygon-menu">
+				<menu name="poly-menu"/>
+			</menu>
+
+			<menu name="spline-menu">
+				<menu name="poly-menu"/>
+			</menu>
+
+			<menu name="poly-menu">
+				<menu name="flip-rotate"/>
+				<menu name="z-order"/>
+				<separator />
+				<item action="Append Point" text="Append Point">Append point/segment
+				</item>
+				<item action="Remove Point" text="Remove Point">Remove last point/segment
+				</item>
+			</menu>
+
+		</menus>
+
+	</diagram>
+
+</diagram-xtra1-drawing>

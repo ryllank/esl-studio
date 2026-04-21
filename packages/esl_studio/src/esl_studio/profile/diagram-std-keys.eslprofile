@@ -1,0 +1,137 @@
+<?xml version="1.0" ?>
+
+<diagram-std-keys>
+
+	<diagram type="block-diagram">
+
+		<!-- Interactions - Key bindings -->
+		<keys>
+			<!-- modifiers in order: Ctrl+Alt+Shift+Win+ -->
+			<key bind="Escape"/> <!-- no action so simply resets any ongoing interaction -->
+			<key bind="F5">
+				<effect action="Refresh"/>
+			</key>
+			<key bind="Return">
+				<effect action="Activate"/>
+			</key>
+			<key bind="Numpad_Enter">
+				<effect action="Activate"/>
+			</key>
+			<key bind="Delete">
+				<effect action="Delete"/>
+			</key>
+			<key bind="Numpad_Delete">
+				<effect action="Delete"/>
+			</key>
+			<key bind="Ctrl+X">
+				<effect action="Cut"/>
+			</key>
+			<key bind="Ctrl+C">
+				<effect action="Copy"/>
+			</key>
+			<key bind="Ctrl+V">
+				<effect action="Paste"/>
+			</key>
+			<key bind="Ctrl+X">
+				<effect action="Cut"/>
+			</key>
+			<key bind="Ctrl+Z">
+				<effect action="Undo"/>
+			</key>
+			<key bind="Ctrl+Y">
+				<effect action="Redo"/>
+			</key>
+			<key bind="Ctrl+A">
+				<effect action="Select All"/>
+			</key>
+			<key bind="Menu">
+				<effect action="Context Menu"/>
+			</key>
+			<key bind="Windows_Menu">
+				<effect action="Context Menu"/>
+			</key>
+			<!--key bind="Up" -->
+				<!-- condition state="any" selection="none"/ -->
+				<!-- do action="Not Implemented"/--> <!-- default action is to Scroll Down Bit"/-->
+			<!--/key-->
+			<key bind="Up">
+				<condition state="any" selection="some"/>
+				<effect action="Move">
+					<action><info x="0" y="-20"/></action>
+				</effect>
+			</key>
+			<key bind="Up">
+				<effect action="default"/> <!-- allow default action  (scroll canvas) -->
+			</key>
+			<key bind="Down">
+				<condition state="any" selection="some"/>
+				<effect action="Move">
+					<action><info x="0" y="20"/></action>
+				</effect>
+			</key>
+			<key bind="Down">
+				<effect action="default"/>
+			</key>
+			<key bind="Left">
+				<condition state="any" selection="some"/>
+				<effect action="Move">
+					<action><info x="-20" y="0"/></action>
+				</effect>
+			</key>
+			<key bind="Left">
+				<effect action="default"/>
+			</key>
+			<key bind="Right">
+				<condition state="any" selection="some"/>
+				<effect action="Move">
+					<action><info x="20" y="0"/></action>
+				</effect>
+			</key>
+			<key bind="Right">
+				<effect action="default"/>
+			</key>
+			<key bind="Ctrl+Up">
+				<condition state="any" selection="some"/>
+				<effect action="Move">
+					<action><info x="0" y="-5"/></action>
+				</effect>
+			</key>
+			<key bind="Ctrl+Down">
+				<condition state="any" selection="some"/>
+				<effect action="Move">
+					<action><info x="0" y="5"/></action>
+				</effect>
+			</key>
+			<key bind="Ctrl+Left">
+				<condition state="any" selection="some"/>
+				<effect action="Move">
+					<action><info x="-5" y="0"/></action>
+				</effect>
+			</key>
+			<key bind="Ctrl+Right">
+				<condition state="any" selection="some"/>
+				<effect action="Move">
+					<action><info x="5" y="0"/></action>
+				</effect>
+			</key>
+			<key bind="Ctrl+=">			<!-- ZoomInABit -->
+				<effect action="Set Scale">
+					<action><info by="10"/></action>
+				</effect>
+			</key>
+			<key bind="Ctrl+-">			<!-- ZoomOutABit -->
+				<effect action="Set Scale">
+					<action><info by="-9.09091"/></action> <!-- inverse of above -->
+				</effect>
+			</key>
+			<key bind="Ctrl+0">			<!-- ZoomNormal -->
+				<effect action="Set Scale">
+					<action><info to="100"/></action>
+				</effect>
+			</key>
+
+		</keys>
+
+	</diagram>
+
+</diagram-std-keys>
