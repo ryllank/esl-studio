@@ -10,10 +10,10 @@ class GenInputArgument(GenSimulationEntity):
 
     def generateInputArgument(self, index, constant):
         result = ""
-        const = 'False'
+        const = 'false'
         attrtag = self.appSimEntity().attributes().get('ATTR') # A boolean attribute ATTR says whether this is for a CONSTANT input or not
-        if attrtag: const = attrtag.valueStr()
-        if (constant and const == 'True') or (not constant and const != 'True'):
+        if attrtag: const = attrtag.valueStr().lower()
+        if (constant and const == 'true') or (not constant and const != 'true'):
             if constant:
                 result += "CONSTANT "
             argName = self.appSimEntity().getArgName()

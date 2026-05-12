@@ -24,20 +24,20 @@ class InputArgument(ArgumentEntity):
     def getPortInfoData(self, allowBlankTag=False): # [datatype, description, tag, dimensions]
         portInfo = None
         attribute = self.attributes().get('ATTR')
-        isAttr = 'False'
+        isAttr = 'false'
         if attribute:
-            isAttr = attribute.valueStr()
-        if isAttr != 'True':
+            isAttr = attribute.valueStr().lower()
+        if isAttr != 'true':
             portInfo = super(InputArgument, self).getPortInfoData(allowBlankTag)
         return portInfo
 
     def getAttributeInfoData(self): # [datatype, description, tag, dimensions, defaultValue]
         attributeInfo = None
         attribute = self.attributes().get('ATTR')
-        isAttr = 'False'
+        isAttr = 'false'
         if attribute:
             isAttr = attribute.valueStr()
-        if isAttr == 'True':
+        if isAttr == 'true':
             argPort = self.getArgPort()
             if argPort is not None:
                 datatype = argPort.datatype()
