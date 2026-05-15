@@ -171,10 +171,13 @@ class SimulationParametersView(ModuleView, wx.Panel):
         if self._moduleName:
             module = self._application.getModuleByName(self._moduleName)
             if module:
+                canvas = None
                 moduleId = module.moduleId()
-                if module == self._application.program().model():
+                if moduleId:
+                    canvas = self._parent.frame().viewManager().mainView().getCanvasByModuleId(moduleId)
+                if not canvas and module == self._application.program().model():
                     moduleId = self._application.program().moduleId()
-                canvas = self._parent.frame().viewManager().mainView().getCanvasByModuleId(moduleId)
+                    canvas = self._parent.frame().viewManager().mainView().getCanvasByModuleId(moduleId)
                 if canvas:
                     self._parent.frame().control().setCanvasProperties(canvas)
 
