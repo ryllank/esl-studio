@@ -292,7 +292,13 @@ class SimulationParametersView(ModuleView, wx.Panel):
         if propertyName != 'ALGO':
             property.SetValue(value)
         else:
-            valueStr = value.valueStr()
+            valueStr = ""
+            if isinstance(value, ESLValue):
+                valueStr = value.valueStr()
+            elif isinstance(value, str):
+                tempESLValue = ESLValue(None)
+                tempESLValue.loadStr(value, checkValidity=False)
+                valueStr = tempESLValue.valueStr()
             if not valueStr:
                 valueStr = info[1]
             property.SetValue(int(valueStr))
