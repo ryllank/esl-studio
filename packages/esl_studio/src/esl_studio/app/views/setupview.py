@@ -77,7 +77,6 @@ class SetupView(ModuleView, wx.Panel):
         self._radLangC = xrc.XRCCTRL(self, "radLangC")
         self._radLangFortran = xrc.XRCCTRL(self, "radLangFortran")
         self._chkSingle = xrc.XRCCTRL(self, "chkSingle")
-        self._chk32bit = xrc.XRCCTRL(self, "chk32bit")
         self._chkGcc = xrc.XRCCTRL(self, "chkGcc")
         self._txtAddnlLinkObjs = xrc.XRCCTRL(self, "txtAddnlLinkObjs")
         self._txtBuildCommand = xrc.XRCCTRL(self, "txtBuildCommand")
@@ -90,7 +89,6 @@ class SetupView(ModuleView, wx.Panel):
         self.Bind(wx.EVT_RADIOBUTTON, self.onLangChanged, self._radLangC)
         self.Bind(wx.EVT_RADIOBUTTON, self.onLangChanged, self._radLangFortran)
         self.Bind(wx.EVT_CHECKBOX, self.onExtraOptionChanged, self._chkSingle)
-        self.Bind(wx.EVT_CHECKBOX, self.onExtraOptionChanged, self._chk32bit)
         self.Bind(wx.EVT_CHECKBOX, self.onExtraOptionChanged, self._chkGcc)
         self.Bind(wx.EVT_TEXT, self.onAddnlLinkObjsChanged, self._txtAddnlLinkObjs)
         self.Bind(wx.EVT_TEXT_ENTER, self.onAddnlLinkObjsChanged, self._txtAddnlLinkObjs)
@@ -98,8 +96,6 @@ class SetupView(ModuleView, wx.Panel):
         self.Bind(wx.EVT_TEXT_ENTER, self.onRunCommandChanged, self._txtRunCommand)
 
         if sys.platform != "win32":
-            self._chk32bit.Enable(False)
-            self._chk32bit.Show(False)
             self._chkGcc.Enable(False)
             self._chkGcc.Show(False)
 
@@ -138,7 +134,6 @@ class SetupView(ModuleView, wx.Panel):
     def onExtraOptionChanged(self, event):
         self._oldSetupInfoData.copy(self._setupInfoData)
         self._setupInfoData.single = self._chkSingle.IsChecked()
-        self._setupInfoData.x32bit = self._chk32bit.IsChecked()
         self._setupInfoData.gcc = self._chkGcc.IsChecked()
         self.onChange()
         pass
@@ -189,7 +184,6 @@ class SetupView(ModuleView, wx.Panel):
         fortran = self._radLangFortran.GetValue()
         self._chkSingle.Enable(translating and not fortran)
         if sys.platform == "win32":
-            self._chk32bit.Enable(translating)
             self._chkGcc.Enable(translating and not fortran)
         self._txtAddnlLinkObjs.SetEditable(translating)
         self._txtRunCommand.SetEditable(execCommandSelected == 2)
@@ -217,7 +211,6 @@ class SetupView(ModuleView, wx.Panel):
         self._radLangC.SetValue(not fortran)
         self._radLangFortran.SetValue(fortran)
         self._chkSingle.SetValue(self._setupInfoData.single)
-        self._chk32bit.SetValue(self._setupInfoData.x32bit)
         self._chkGcc.SetValue(self._setupInfoData.gcc)
         self._txtAddnlLinkObjs.ChangeValue(self._setupInfoData.addnlLinkObjs)
         insertion_pt = self._txtAddnlLinkObjs.GetInsertionPoint()

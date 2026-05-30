@@ -129,11 +129,6 @@
 								</object>
 							</object>
 							<object class="sizeritem">
-								<object class="wxCheckBox" name="chk32bit">
-									<label>-32bit </label>
-								</object>
-							</object>
-							<object class="sizeritem">
 								<object class="wxCheckBox" name="chkGcc">
 									<label>-gcc   </label>
 								</object>
