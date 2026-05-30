@@ -220,14 +220,16 @@ class SetupView(ModuleView, wx.Panel):
         self._chk32bit.SetValue(self._setupInfoData.x32bit)
         self._chkGcc.SetValue(self._setupInfoData.gcc)
         self._txtAddnlLinkObjs.ChangeValue(self._setupInfoData.addnlLinkObjs)
-        self._txtAddnlLinkObjs.SetInsertionPointEnd()
+        insertion_pt = self._txtAddnlLinkObjs.GetInsertionPoint()
         if self._addnlLinkObjsFocus:
             self._txtAddnlLinkObjs.SetFocus()
             self._txtAddnlLinkObjs.SelectNone()
+            self._txtAddnlLinkObjs.SetInsertionPoint(insertion_pt)
         self._txtBuildCommand.ChangeValue(self._setupInfoData.buildCommand())
         self._txtRunCommand.ChangeValue(self._setupInfoData.runCommand())
-        self._txtRunCommand.SetInsertionPointEnd()
+        insertion_pt = self._txtRunCommand.GetInsertionPoint()
         if self._runCommandFocus:
             self._txtRunCommand.SetFocus()
             self._txtRunCommand.SelectNone()
+            self._txtRunCommand.SetInsertionPoint(insertion_pt)
         self.enableWidgets()
