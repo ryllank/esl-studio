@@ -33,6 +33,9 @@ if [ -e ${dist_webpages_dir}/${subdir} ]; then
 	rm -r -f ${dist_webpages_dir}/${subdir}
 fi
 
+echo -- Copy the elementicons from package src to the docs webpages guides temporarily.
+cp -p -r ${project_dir}/packages/esl_studio/src/esl_studio/profile/elementicons ${project_dir}/docs/webpages/guides
+
 echo -- Do mkdocs build to make the webpages.
 pushd ${project_dir}/docs
 mkdocs build
@@ -46,6 +49,9 @@ if [ ! -d ${dist_webpages_dir}/${subdir} ]; then
 	echo -- Webpages ${subdir} directory not found
 	exit 2
 fi
+
+echo -- Remove the temporary elementicons directory from the docs webpages guides.
+rm -fr ${project_dir}/docs/webpages/guides/elementicons
 
 echo -- Update the webpages index.html with the version and build date.
 python ${script_dir}/build-esl-studio-utils.py substitute_in_file "${dist_webpages_dir}/${subdir}/index.html" "{version:${version},build_date:${build_date}}"

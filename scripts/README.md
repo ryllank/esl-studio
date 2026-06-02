@@ -9,7 +9,8 @@ source code:
 
 -	`build-esl-studio-python-packages-and-archive.sh`<br>
 	a Linux script to build the ESL-Studio Python packages (esl_diagram
-	& esl_studio) into their own package `/package/esl_diagram|studio/dist` directories.
+	& esl_studio) into their own package 
+	`/package/esl_diagram|studio/dist` directories.
 	Also package up in one .zip archive (with install scripts) a put
 	that in a top level directory `/dist`.
 -	`build-esl-studio-win-exe-and-setup.cmd`<br>
@@ -52,19 +53,26 @@ Ancillary scripts
 -----------------
 
 -	`build-esl-studio-python-packages.sh`<br>
-	used in `build-esl-studio-python-packages-and-archive.sh`
+	used in `build-esl-studio-python-packages-and-archive.sh`.<br>
+	Note: This invokes the Python `build` package which updates the
+	project git workspace/repo version in the `_version.py` files of 
+	the packages.
 -	`build-esl-studio-python-archive.sh`<br>
-	used in `build-esl-studio-python-packages-and-archive.sh`
+	used in `build-esl-studio-python-packages-and-archive.sh`.
 -	`build-esl-studio-win-exe.cmd`<br>
-	used in `build-esl-studio-win-exe-and-setup.cmd`
+	used in `build-esl-studio-win-exe-and-setup.cmd`.
 -	`build-esl-studio-win-setup.cmd`<br>
-	used in `build-esl-studio-win-exe-and-setup.cmd`
+	used in `build-esl-studio-win-exe-and-setup.cmd`.
 -	`build-esl-studio-utils.py`<br>
-	set of Python utility functions for use in the build scripts
+	set of Python utility functions for use in the build scripts.
 -	`print-scm-version-command.cmd`<br>
 	Linux or Windows script using Python to print the project version
 	obtained from the git workspace/repo.
 -	`print-esl-studio-file-version-command.cmd`<br>
 	Linux or Windows script using Python to print the project version
-	obtained from the esl_package _version.py file which gets updates
-	when a build is done (in a git workspace/repo).
+	obtained from the esl_studio package `_version.py` file which gets 
+	updated when a build is done (in a git workspace/repo).
+-	`update-esl-studio-package-version-file.sh`<br>
+	Linux script to update the project version in the esl_studio 
+	package `_version.py` file (which is used in 
+	`build-esl-studio-webpages.sh`).

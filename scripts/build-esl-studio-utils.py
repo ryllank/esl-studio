@@ -98,7 +98,7 @@ def update_esl_studio_version_file():
         this_module_dir = os.path.dirname(os.path.realpath(__file__)) # in the project's scripts directory
         project_dir = os.path.join(this_module_dir, os.pardir)
         a_project_file=os.path.realpath(os.path.join(project_dir, "pyproject.toml"))
-        version_file = os.path.join('src', 'esl_studio', '_version.py') # relative to the a_project_file's directory
+        version_file = os.path.join('packages', 'esl_studio', 'src', 'esl_studio', '_version.py') # relative to the a_project_file's directory
         scm_version = ""
         try:
             scm_version = get_scm_version(relative_to=a_project_file,
