@@ -31,6 +31,7 @@ class SimulationControl(object):
         self._displayIconDisplays = []
         self._process = None
         self._appBase = ""
+        self._direct_cmd = ""
 
     def gotESLSEC(self):
         return self._gotESLSEC
@@ -115,8 +116,8 @@ class SimulationControl(object):
                                         if cmdStr and retcode == 0:
                                             retcode, lines = self._commands.execute(cmdStr)
                                             self._commands.showCommandOutput(cmdStr, retcode, lines)
-                                else:
-                                    msg = "no build command"
+                                elif setupData.execCommand != SetupExecCommand.CUSTOM:
+                                    msg = "No build command"
                                     if not SetupInfo.esl():
                                         msg += " - \"esl\" command not found"
                                     msg += "\n"
@@ -136,8 +137,17 @@ class SimulationControl(object):
                                             synchronise = False
                                             self._control.setMode("browsing")
                                             input = "Quit\n"  # input is there to exit from Interact if the ESL simulation run has a runtime error - the newline is needed in Windows
+                                            self._direct_cmd = cmd
                                             retcode, lines = self._commands.execute(cmd, synchronise=synchronise,
                                                                                     callback=self._postExecuteDirect, input=input)
+                                            msg = "run command \"%s\"\n" % cmd
+                                            if retcode == 0:
+                                                msg = "Failed to launch direct " + msg
+                                            else:
+                                                msg = "Direct " + msg
+                                            self._control.appendMessage(msg)    # Seems need this in Windows or a 2nd run fails
+                                            if retcode == 0:
+                                                self._control.setMode("editing")
                                     else:
                                         self._invokeESL_SEC()
                                         pass
@@ -147,13 +157,31 @@ class SimulationControl(object):
     def _postExecuteDirect(self, e):
         retcode = e.GetExitCode()
         lines = self._commands.getCommandOutput()
-        self._commands.showCommandOutput("", retcode, lines)
+        self._commands.showCommandOutput(self._direct_cmd, retcode, lines)
+        self._direct_cmd = ""
         self._control.setMode("editing")
         pass
 
     def _commandSubstitutions(self, cmd):
         subst = "{AppBase}"
         value = self._appBase
+        cmd = cmd.replace(subst, value)
+        subst = "{gui}"
+        value = ""
+        if self._application.setupInfo().data().runWithSEC: value = "-gui"
+        cmd = cmd.replace(subst, value)
+        subst = "{translation}"
+        value = ""
+        if self._application.setupInfo().data().translation == SetupTranslationLang.FORTRAN: value = "f"
+        if self._application.setupInfo().data().translation == SetupTranslationLang.CPP: value = "cc"
+        cmd = cmd.replace(subst, value)
+        subst = "{single}"
+        value = ""
+        if self._application.setupInfo().data().single: value = "-single"
+        cmd = cmd.replace(subst, value)
+        subst = "{gcc}"
+        value = ""
+        if self._application.setupInfo().data().gcc: value = "-gcc"
         cmd = cmd.replace(subst, value)
         return cmd
 
@@ -286,6 +314,7 @@ class SimulationControl(object):
         elif setupData.execCommand == SetupExecCommand.CUSTOM:
             executeCommand = "custom"
             customRunCommand = setupData.customRunCommand
+            customRunCommand = self._commandSubstitutions(customRunCommand)
         if executeCommand:
             xmlStr += "\t\t<execution command=\"" + executeCommand
             if setupData.execCommand == SetupExecCommand.TRANSLATE and langStr:

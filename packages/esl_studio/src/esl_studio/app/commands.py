@@ -528,27 +528,33 @@ class Commands(object):
             self._process.Redirect()
         if callback:
             self._process.Bind(wx.EVT_END_PROCESS, callback)
-        result = wx.Execute(cmd, sync, self._process)
-        if input:
+        lines = ''
+        result = -1
+        ok = False
+        try:
+            result = wx.Execute(cmd, sync, self._process)
+            ok = (synchronise and result != -1) or (not synchronise and result != 0)
+        except Exception as e:
+            lines = "Exception: " + str(e)
+        if ok and input:
             input_stream = self._process.GetOutputStream()
             if input_stream:
                 input_bytes = bytes(input, "utf-8")
                 res = input_stream.Write(input_bytes, len(input_bytes))
                 input_stream.close()
-        lines = ''
-        if getoutput and synchronise:
+        if getoutput and synchronise and (sys.platform != 'win32' or ok):
             lines = self.getCommandOutput()
-        if synchronise or callback is None:
+        if not ok or synchronise or callback is None:
             self._process = None
         return result, lines
 
     def getCommandOutput(self):
         lines = ''
         if self._process:
-            if self._process.IsInputAvailable:
+            if self._process.IsInputAvailable():
                 output = self._process.GetInputStream()
                 if output:
-                    if output.CanRead:
+                    if output.CanRead():
                         #lines = output.readlines(100)
                         while not output.Eof():
                             s = output.readline()
@@ -557,10 +563,10 @@ class Commands(object):
                                     lines += bytes.decode(s)
                                 else:
                                     lines += str(s)
-            if self._process.IsErrorAvailable:
+            if self._process.IsErrorAvailable():
                 error = self._process.GetErrorStream()
                 if error:
-                    if error.CanRead:
+                    if error.CanRead():
                         # lines = output.readlines(100)
                         while not error.Eof():
                             s = error.readline()
