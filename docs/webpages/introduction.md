@@ -1,9 +1,10 @@
 Introduction to ESL-Studio
 ==========================
 
-ESL-Studio is an integrated development environment for creating ESL
-simulations using block diagrams and ESL source code. It may be used
-ESL Software's simulation product - either ESL-Pro or ESL-Lite.
+ESL-Studio is an integrated development environment for creating ESL 
+simulations using block diagrams and the ESL Simulation Language source 
+code. It may be used with ESL Software's simulation product - either 
+ESL-Pro or ESL-Lite.
 
 Using ESL-Studio's graphical user interface you can manage each stage
 of the simulation activity.
@@ -11,7 +12,7 @@ of the simulation activity.
 ESL-Studio provides the following facilities:
 
 - Multi-window graphical block diagram editor for model construction.
-- Inclusion of ESL coded submodels where appropriate.
+- Inclusion of ESL coded subprograms where appropriate.
 - Interactive control of simulation execution (via the ESL-SEC program)
   with run-time graph plotting.
 - Display manager with post-run graph plotting (via the ESL-Displays
@@ -20,19 +21,23 @@ ESL-Studio provides the following facilities:
   for standard and library simulation entities.
 
 ESL-Studio includes a graphical editor for block diagram style model
-descriptions, while allowing textual ESL code to be used where
-appropriate (for example to describe highly non-linear elements). You
-select standard simulation entities and interconnect them on a block
-diagram to build up the simulation description. ESL submodels can be
-created and included in a diagram through a special submodel element.
+descriptions, while allowing textual ESL Simulation Language code to be
+used where appropriate (for example to describe highly non-linear
+elements). You select standard simulation entities and interconnect
+them on a block diagram to build up the simulation description. ESL
+submodels and segments can be created, and then included in a diagram
+through special subprogram call elements.
 
 Once you have created a simulation program (graphically, textually or a
-combination of both), compilation is initiated from ESL-Studio.
-You may then execute the compiled program immediately through an
-interpreter, or, for ESL-Pro, you have the option to further translate
-it to C++ or FORTRAN. The resulting executable program may then be run
-from ESL-Studio.
-In either case, execution is managed by the ESL-SEC (Simulation
+combination of both) you may set up how you want to run it, and
+initiate a run. ESL-Studio will validate the application and generate
+the ESL Simulation Language code for it, which is then passed to the
+ESL compiler. If valid, then the simulation compiled program may be
+executed immediately through the ESL interpreter, or, for ESL-Pro, you
+have the option to further translate it to C++ or FORTRAN code and
+generate an executable program for the simulation.
+
+In either case, execution may be managed by the ESL-SEC (Simulation
 Execution Control) program, part of the ESL Software simulation
 product, which provides run-time control of the simulation.
 You have access to all program variables and parameters from the
@@ -40,6 +45,7 @@ ESL-SEC program. This includes simulation parameters such as the
 communication interval, final simulation time, choice of integration
 algorithm and error tolerances. All variables and parameters can be set
 and changed dynamically.
+
 You can specify graphical and tabulated output on your block diagram
 through the use of special display icon simulation entities or
 alternatively from the Runtime Displays option of ESL-SEC. You can log

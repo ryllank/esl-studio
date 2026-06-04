@@ -1,13 +1,42 @@
 
-/* Side bar to look nicer with ESL-Studio logo + search topping */
+/* Side bar to look nicer with ESL-Studio logo + search topping. */
+
 .wy-side-nav-search {
-  background-color: Teal; /* from theme.css #2980b9; */
+  background-color: #008080;	/* =Teal. Changed from readthedocs theme.css #2980b9. */
 }
 
 .wy-menu-vertical p.caption {
-  color: #00E0E0; /* from theme.css #55a5d9; - tried Teal Turquoise DarkTurquoise #00D0D0 */
+  color: #00e0e0;	/* Changed from readthedocs theme.css #55a5d9. */
 }
 
 .wy-nav-top {
-  background: Teal; /* from theme.css #2980b9; */
+  background: #008080;	/* =Teal. Changed from readthedocs theme.css #2980b9. */
+}
+
+/* Modifications to MkDocs generated tables (using PHP Markdown Extra). */
+
+thead th:empty {	/* Don't show a table header if it is empty. */
+    border: thin solid red !important;
+    display: none;
+}
+
+table.docutils th:last-child {	/* Extend last column of MkDocs generated table to full width. */
+    box-sizing: border-box;
+    width: 100%;
+}
+table.docutils tr td:last-child {	/* Extend last column of MkDocs generated headless table to full width. */
+    box-sizing: border-box;
+    width: 100%;
+    white-space: normal;
+}
+
+/* Code to look more consistent. */
+.rst-content code {
+    color: #000000;			/* =Black. Changed from readthedocs theme_extra.css #E74C3C. */
+    background: #f8f8f8;	/* Changed from readthedocs theme.cs #fff. */
+    border-color: #c0c0c0;	/* =Silver. Changed from readthedocs theme.cs #e1e4e5. */
+}
+div.note code {			/* Adjust styles for a code block inside a note. */
+	padding: 4px;
+	line-height: 14px;
 }

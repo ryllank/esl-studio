@@ -38,7 +38,7 @@ setuptools_scm.
 Run scripts
 -----------
 
-Normally you would install ESL-Studio (from the installation setup
+Normally you would install ESL-Studio from the installation setup
 executable for Windows or from the installation .zip archive for Linux
 (also available for Windows).
 

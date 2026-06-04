@@ -42,7 +42,7 @@ normal way.
 Note: You may uncheck the ESL-Studio component in the Windows ESL
 installer program if you do not want ESL-Studio installed as a component.
 
-The following sub-sections cover installing an update of ESL-Studio,
+The following subsections cover installing an update of ESL-Studio,
 which may be the executable update or the Python package update.
 
 We recommend that you use the executable package for Windows. But
@@ -60,15 +60,15 @@ ESL-Studio component that may be in the ESL installation folder.
 Alternatively, it will install solo, that is independent of an
 ESL-Studio that has been installed as a component in an ESL
 installation. The ESL-Studio (solo) will get its own Start Menu
-short-cut which is independent from the Start Menu short-cut that is
+short-cut which is independent of the Start Menu short-cut that is
 part of the ESL installation (which will still be available).
 
 You should have the installation setup executable (.exe) file, typically
 called `ESL-Studio-{version}-{build_date}.exe` (or similar),
 accessible somewhere via your directory structure.
 
-To install, invoke the installation file, for example by double
-clicking on the file in the Windows Explorer file manager.
+To install, invoke the installation file, for example by
+double-clicking on the file in the Windows Explorer file manager.
 
 The installation setup will guide you though the process of
 installation, including asking if you want to install as an ESL
@@ -160,7 +160,7 @@ Support is available via e-mail by way of the ESL Software website or
 the ESL-Studio online documentation.
 
 When reporting bugs please provide what may be in the message window
-and your .eslstudio application file.
+and your `.eslstudio` application file.
 
 
 Legal Matters
