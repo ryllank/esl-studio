@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 
-<esl-entities-std-definitiions>
+<esl-entities-std-definitions>
 
 	<entities>
 
@@ -59,7 +59,7 @@
 		</entity>
 
 		<entity type="Code Insert" prefix="COD" special-type="Code Insert">
-			<summary>Put a procedural code insert in the generated ESL.</summary>
+			<summary>Puts a procedural code insert in the generated ESL.</summary>
 			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Code_Insert"/>
 			<model type="special">
 				<!-- Note: All ESL generation is done directly (without a template) -->
@@ -84,7 +84,7 @@
 					hint="One or more state variable initial conditions (not more than the number of states) - separate with comma.&#10;e.g. 0.1,YD0"
 					show-value-on-top="true" has-annotations="true"/>
 				<attribute type="Boolean" tag="TF-differential" description="Differential Equations" value="false"
-					hint="Generate Transfer Function as differential equations if selected, else generate as ESL TRANSFER statement."
+					hint="Generate Transfer Function as differential equations if selected, else generate as an ESL TRANSFER statement."
 					show-value-on-top="true" has-annotations="true"/>
 				<input type="Real" tag="x"/>
 				<output type="Real" tag="y"/>
@@ -310,7 +310,7 @@
 				<attribute type="Real" tag="K" description="Value" scalar-default-value="1.0"
 				           hint="Constant value consistent with the basic ESL datatype (Real) and the specified dimensions (if for an array)."/>
 				<attribute type="String" tag="dimensions" description="Dimensions" value="" has-annotations="true"
-				           hint="For ESL Array or Matrix - blank for Scalar&#10;For each dimension (up to 3) can optionally set lower bound and must set an upper bound.&#10;Examples: 3,3 0..2,7..9,-1..1"/>
+				           hint="For ESL Array or Matrix (blank for a scalar).&#10;For each dimension (up to 3) can optionally set lower bound and must set an upper bound.&#10;Examples: 3,3 0..2,7..9,-1..1"/>
 				<output type="Real" tag="y"/>
 				<generate>
 					<initial>
@@ -335,7 +335,7 @@
 				<attribute type="Integer" tag="K" description="Value" scalar-default-value="1"
 				           hint="Constant value consistent with the basic ESL datatype (Integer) and the specified dimensions (if for an array)."/>
 				<attribute type="String" tag="dimensions" description="Dimensions" value="" has-annotations="true"
-				           hint="For ESL Array or Matrix - blank for Scalar&#10;For each dimension (up to 3) can optionally set lower bound and must set an upper bound.&#10;Examples: 3,3 0..2,7..9,-1..1"/>
+				           hint="For ESL Array or Matrix (blank for a scalar).&#10;For each dimension (up to 3) can optionally set lower bound and must set an upper bound.&#10;Examples: 3,3 0..2,7..9,-1..1"/>
 				<output type="Integer" tag="y"/>
 				<generate>
 					<initial>
@@ -360,7 +360,7 @@
 				<attribute type="Logical" tag="L" description="Value" scalar-default-value="TRUE"
 				           hint="Constant value consistent with the basic ESL datatype (Logical) and the specified dimensions (if for an array)."/>
 				<attribute type="String" tag="dimensions" description="Dimensions" value="" has-annotations="true"
-				           hint="For ESL Array or Matrix - blank for Scalar&#10;For each dimension (up to 3) can optionally set lower bound and must set an upper bound.&#10;Examples: 3,3 0..2,7..9,-1..1"/>
+				           hint="For ESL Array or Matrix (blank for a scalar).&#10;For each dimension (up to 3) can optionally set lower bound and must set an upper bound.&#10;Examples: 3,3 0..2,7..9,-1..1"/>
 				<output type="Logical" tag="y"/>
 				<generate>
 					<initial>
@@ -406,7 +406,7 @@
 		</entity>
 
 		<entity type="Arc Cosine" prefix="ACS">
-			<summary>Arc-cosine of input.</summary>
+			<summary>Arccosine of input.</summary>
 			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Arc_Cosine"/>
 			<model>
 				<input type="Real" tag="x"/>
@@ -2043,4 +2043,4 @@
 
 	</entities>
 
-</esl-entities-std-definitiions>
+</esl-entities-std-definitions>

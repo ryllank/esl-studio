@@ -16,19 +16,19 @@ class PortProperty(wxpg.PGProperty, CompoundProperty):
         "Short tag-name for this port of the simulation entity (if defined).",
         "The value associated with this port has this data-type.",
         "An ESL identifier (A..Z 0..9 _) used an output port in ESL code." +
-            "\nThe ESL Name must be unique (in 28chars) in its scope (model, submodel)." +
+            "\nThe ESL Name must be unique (in 28chars) in its subprogram scope." +
             "\nIf not supplied an ESL name will be generated (shown with an asterisk).",
-        "Description for the port{0}.\nNote: This is not used in generated ESL.",
+        "Description for the port{0}.\nNote: This is a comment in generated ESL.",
         "Initial value for the segment call output's variable." +
             "\nNote, this will override any default Initial Value which have been set for a diagram segment on the corresponding Output Argument simulation entity."
             "\nFor an Array/Matrix, scalar elements separated by commas, must have the full number of elements." +
             "\nFor a 2D/3D Array/Matrix you may enclose in square brackets for row-major order (the default), or specifically enclose with slashes for column-major order.",
         "Arithmetic sign for the port.",
         "Resolve a generic array dimensions to a fixed number of elements per dimension." +
-            "\nSet this to resolve an ambiguity - i.e. if port not connected to an input with fixed dimensionality." +
+            "\nSet this to resolve an ambiguity - that is if the port is not connected to an input with fixed dimensionality." +
             "\nFor a universal dimensionality (as for a function call result) enter \"SCALAR\" (or \"-\") to set to a scalar."
     ]
-    ExtraDescriptionHelp = "\nIf this field is set blank it will inherit the from the subprogram's argument Arg Description if set (shown with an asterisk)"
+    ExtraDescriptionHelp = "\nIf this field is set blank it will inherit the from the subprogram's argument Arg Description if set (shown with an asterisk)."
     FullShowAnnotations = [ 'Id', 'Description', 'Tag', 'ESL Name', 'Initial Value']
     FullAnnotationBits = [1, 2, 4, 8, 16]
     FullAnnotationHints = ["Include the port identifier (number) in the port's annotation",
@@ -133,7 +133,7 @@ class PortProperty(wxpg.PGProperty, CompoundProperty):
             annotationBits = annotationBits[:3] + annotationBits[4:]
             annotationHints = annotationHints[:3] + annotationHints[4:]
         self._annotationsProp = FlagsProperty("Annotations", 'annotations', showAnnotations, annotationBits, annotations)
-        self._annotationsProp.SetHelpString("Show an annotation for the port on the diagram")
+        self._annotationsProp.SetHelpString("Show an annotation for the port on the diagram.")
         self._annotationsProp.setHelpStrings(annotationHints)
         self._view.pgm().SetPropertyReadOnly(self._annotationsProp, True, wxpg.PG_DONT_RECURSE)
         self.AddPrivateChild(self._annotationsProp) # 7 Annotations

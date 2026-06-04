@@ -27,11 +27,11 @@ class PackagePropertySet(object):
 
         ref = 'P' + PropertyRefSeparator +str(package.moduleId()) + PropertyChildSeparator
         self._eslnameProp = wxpg.StringProperty("ESL Name", ref + 'eslname', value=self.eslname)
-        self._eslnameProp.SetHelpString("An ESL identifier (A..Z 0..9 _) for the package\nThe ESL Name must be unique (in 28chars) in the application scope\n(i.e. as opposed to other packages, the model, submodels)")
+        self._eslnameProp.SetHelpString("An ESL identifier (A..Z 0..9 _) for the package.\nThe ESL Name must be unique (in 28chars) in the application scope.")
         self._view.page().Append(self._eslnameProp)
 
         self._descriptionProp = wxpg.StringProperty("Description", ref + 'description', value=self.description)
-        self._descriptionProp.SetHelpString("Description (not used in generated ESL)")
+        self._descriptionProp.SetHelpString("Description of the Package (a comment in generated ESL).")
         self._view.page().Append(self._descriptionProp)
 
         self._variablesCategory = wxpg.PropertyCategory('Package Variables')

@@ -99,11 +99,11 @@ class VariableProperty(wxpg.PGProperty, CompoundProperty):
         if variable.constant() == 'true': self.kind = VARIABLEKINDS[1]
 
         prop = wxpg.StringProperty("ESL Name", 'eslname', value=variable.eslname())
-        prop.SetHelpString("An ESL identifier (A..Z 0..9 _) for the variable.\nThe ESL Name must be unique (in 28chars) in its scope (package, model, submodel).")
+        prop.SetHelpString("An ESL identifier (A..Z 0..9 _) for the variable.\nThe ESL Name must be unique (in 28chars) in its subprogram scope.")
         self.AddPrivateChild(prop)
 
         prop = wxpg.StringProperty("Description", 'description', value=variable.description())
-        prop.SetHelpString("Description (not used in generated ESL).")
+        prop.SetHelpString("Description (a comment in generated ESL).")
         self.AddPrivateChild(prop)
 
         prop = wxpg.EnumProperty("Data Type", "datatype", DATATYPES, [0,1,2], DATATYPES.index(variable.datatype()))
@@ -114,15 +114,15 @@ class VariableProperty(wxpg.PGProperty, CompoundProperty):
         if variable.parameter() == 'true': idx = 0
         if variable.constant() == 'true': idx = 1
         prop = wxpg.EnumProperty("Kind of Variable", "kind", VARIABLEKINDS, [0,1,2], idx)
-        prop.SetHelpString("Parameter - value can be set interactively but is not changed by simulation.\nVariable - value can change during simulation run.\nConstant - value fixed here.")
+        prop.SetHelpString("Parameter - value can be set interactively but is not changed by simulation itself.\nVariable - value can change during simulation run.\nConstant - value fixed here.")
         self.AddPrivateChild(prop)
 
         prop = wxpg.StringProperty("Dimensions", 'dimensions', value=variable.dimensions())
-        prop.SetHelpString("For ESL Array or Matrix - blank for Scalar\nFor each dimension (up to 3) can optionally set lower bound and must set an upper bound.\nExamples: 3,3 0..2,7..9,-1..1")
+        prop.SetHelpString("For ESL Array or Matrix (blank for a scalar).\nFor each dimension (up to 3) can optionally set lower bound and must set an upper bound.\nExamples: 3,3 0..2,7..9,-1..1")
         self.AddPrivateChild(prop)
 
         prop = ESLValueStrProperty("Value", 'value', eslValue=variable.eslValue(), \
-           helpString="Initial value for a variable\nFor an Array/Matrix, scalar elements separated by commas, must have the full number of elements.\n"+
+           helpString="Initial value for a variable.\nFor an Array/Matrix, scalar elements separated by commas, must have the full number of elements.\n"+
                       "For a 2D/3D Matrix you may enclose in square brackets for row-major order (the default), or specifically enclose with slashes for column-major order.")
         self.AddPrivateChild(prop)
         propertyGrid = self._view.pgm().GetGrid()

@@ -76,8 +76,8 @@ class PropertiesViewCode(PropertiesViewPage):
 
         if not self._description:
             self._description = wxpg.StringProperty("Description", ref + 'description', value=description)
-            self._description.SetHelpString("Description of this module" +
-                               "\nNote: This is not used in generated ESL)")
+            self._description.SetHelpString("Description of this code import module." +
+                               "\nNote: This is not used in generated ESL.")
             self._page.Append(self._description)
         else:
             self._description.SetName(ref + 'description')
@@ -85,8 +85,8 @@ class PropertiesViewCode(PropertiesViewPage):
 
         if not self._codeType:
             self._codeType = wxpg.EnumProperty("Code Type", ref + "codeType", CODETYPES, [0,1,2], CODETYPES.index(codeType))
-            self._codeType.SetHelpString("Code Type - \"text\" for an internal textual subprograms," +
-                               "\n - \"file\" for a textual subprograms read from a file")
+            self._codeType.SetHelpString("Code Type - \"ESL\" for one or more internal textual subprograms," +
+                               "\n - \"file\" for one or more textual subprograms read from a file.")
             self._page.Append(self._codeType)
         else:
             self._codeType.SetName(ref + 'codeType')
@@ -97,7 +97,7 @@ class PropertiesViewCode(PropertiesViewPage):
             fileValue = module.file()
             if not self._file:
                 self._file = CodeFileProperty("File", ref + "file", fileValue)
-                self._file.SetHelpString("ESL file containing the submodel source code")
+                self._file.SetHelpString("ESL file containing the submodel source code.")
                 self._file.SetAttribute(wxpg.PG_FILE_WILDCARD, "ESL files (*.esl)|*.esl|All files (*.*)|*.*" )
                 self._file.SetAttribute(wxpg.PG_FILE_DIALOG_TITLE, "Select an ESL submodel file" )
                 #self._page.SetPropertyReadOnly(prop, True, wxpg.PG_DONT_RECURSE) #- wont browse if have this
@@ -108,7 +108,7 @@ class PropertiesViewCode(PropertiesViewPage):
             esl = Utils.escapeText(module.eslText())
             if not self._ESL:
                 self._ESL = LongStringProperty("ESL", ref + "ESL")
-                self._ESL.SetHelpString("ESL text (source code) for the submodel")
+                self._ESL.SetHelpString("ESL text (source code) for the submodel.")
                 self._ESL.SetValue(esl)
                 #self._page.SetPropertyReadOnly(prop, True, wxpg.PG_DONT_RECURSE) #- allow direct text entry
                 self._page.Append(self._ESL)

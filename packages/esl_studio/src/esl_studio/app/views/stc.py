@@ -784,7 +784,7 @@ class Stc(stc.StyledTextCtrl):
             if self._filepath:
                 menu.Append(self._id_save, "Save")
                 menu.Enable(self._id_save, self.IsModified())
-            menu.Append(self._id_saveas, "Save As")
+            menu.Append(self._id_saveas, "Save As...")
             menu.AppendSeparator()
         if editable and self._allowCommitESL:
             menu.Append(self._id_commitesl, "Commit ESL")

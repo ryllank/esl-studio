@@ -84,7 +84,7 @@ class PropertiesViewCanvas(PropertiesViewPage):
 
             self._programType = wxpg.EnumProperty("Program Type", ref + "programType", PROGRAMTYPES, [0,1,2], 0)
             self._programType.SetHelpString("Program Type - \"study\" for a normal MODEL (recommended - for use here)" +
-                               "\n - \"embedded-program\" to generate an EMBEDDED SEGMENT (that may be compiled and embedded in an exectuable program)" +
+                               "\n - \"embedded-program\" to generate an EMBEDDED SEGMENT (that may be compiled and embedded in an executable program)" +
                                "\n - \"remote-program\" to generate a REMOTE SEGMENT (that may run with a MODEL or program in another process or computer)")
             self._page.Append(self._programType)
 
@@ -92,11 +92,11 @@ class PropertiesViewCanvas(PropertiesViewPage):
             self._page.Append(self._programName)
             self._programName.SetHelpString("A name you can give for the Program."
                                "\nThis can be any text, but should be short."
-                               "\nNote: This is not used in generated ESL")
+                               "\nNote: This is a comment in generated ESL")
 
             self._programDescription = wxpg.StringProperty("Program Description", ref + 'programDescription')
-            self._programDescription.SetHelpString("Description of the Program"
-                               "\nNote: This is not used in generated ESL")
+            self._programDescription.SetHelpString("Description of the Program."
+                               "\nNote: This is a comment in generated ESL")
             self._page.Append(self._programDescription)
 
             self._experiment = ExperimentProperty(self, "Experiment", ref + "experiment")
@@ -115,7 +115,7 @@ class PropertiesViewCanvas(PropertiesViewPage):
                                "Show the module's description annotation on the diagram"]
             choiceBits = [1, 2, 4]
             self._programAnnotations = FlagsProperty("Annotations", ref + 'programAnnotations', showAnnotations, choiceBits, 0)
-            self._programAnnotations.SetHelpString("Show annotations for the Program on the diagram")
+            self._programAnnotations.SetHelpString("Show annotations for the Program on the diagram.")
             self._page.SetPropertyReadOnly(self._programAnnotations, True, wxpg.PG_DONT_RECURSE)
             self._page.Append(self._programAnnotations)
             self._programAnnotations.setHelpStrings(annotationHints)
@@ -126,12 +126,11 @@ class PropertiesViewCanvas(PropertiesViewPage):
             self._eslname = wxpg.StringProperty("ESL Name", ref + 'eslname')
             self._page.Append(self._eslname)
             self._eslname.SetHelpString("An ESL identifier (A..Z 0..9 _) of this module."
-                               "\nThe ESL Name must be unique (in 28chars) in the application scope" +
-                               "\n(i.e. as opposed to the model, submodels & packages)")
+                               "\nThe ESL Name must be unique (in 28chars) in the application scope.")
 
             self._description = wxpg.StringProperty("Description", ref + 'description')
-            self._description.SetHelpString("Description of this module"
-                               "\nNote: This is not used in generated ESL")
+            self._description.SetHelpString("Description of this module."
+                               "\nNote: This is a comment in generated ESL.")
             self._page.Append(self._description)
 
             showAnnotations = ["ESL Name", "Description"]
@@ -139,15 +138,15 @@ class PropertiesViewCanvas(PropertiesViewPage):
                                "Show the module's description annotation on the diagram"]
             choiceBits = [1, 2]
             self._annotations = FlagsProperty("Annotations", ref + 'annotations', showAnnotations, choiceBits, 0)
-            self._annotations.SetHelpString("Show annotations for the module on the diagram")
+            self._annotations.SetHelpString("Show annotations for the module on the diagram.")
             self._page.SetPropertyReadOnly(self._annotations, True, wxpg.PG_DONT_RECURSE)
             self._page.Append(self._annotations)
             self._annotations.setHelpStrings(annotationHints)
 
             self._modelType = wxpg.EnumProperty("Model Type", ref + "modelType", MODELTYPES, [0,1,2], 0)
-            self._modelType.SetHelpString("Model Type - \"model\" for a normal MODEL (for use in a Study Program)" +
-                               "\n - \"embedded\" to generate an EMBEDDED SEGMENT (that may be compiled and used in an Embedded Program)" +
-                               "\n - \"remote\" to generate a REMOTE SEGMENT (that may run with a MODEL or program for a Remote Program in another process or computer)")
+            self._modelType.SetHelpString("Model Type - \"model\" for a normal MODEL (for use in a Study Program)." +
+                               "\n - \"embedded\" to generate an EMBEDDED SEGMENT (that may be compiled and used in an Embedded Program)." +
+                               "\n - \"remote\" to generate a REMOTE SEGMENT (that may run with a MODEL or program for a Remote Program in another process or computer).")
             self._page.Append(self._modelType)
 
             self._segmentType = wxpg.BoolProperty("External Segment", ref + "segmentType")

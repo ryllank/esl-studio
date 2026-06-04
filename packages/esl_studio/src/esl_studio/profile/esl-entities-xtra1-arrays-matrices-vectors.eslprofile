@@ -121,7 +121,7 @@
 		</entity>
 
 		<entity type="Array Addition" prefix="A_SUM" special-type="Array Addition">
-			<summary>Addition of two arrays (of same dimensionality) - gives another array of that dimensionality).</summary>
+			<summary>Addition of two arrays (of same dimensionality) - gives another array of that dimensionality.</summary>
 			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Array_addition"/>
 			<model>
 				<input type="Real" dimensions="..." equivalent-types="Real(*)|Real(*,*)" tag="x" sign="plus"/>
@@ -244,7 +244,8 @@
 		<!-- Vector Operators -->
 
 		<entity type="Vector Merge" prefix="V_MRG" special-type="Vector Merge">
-			<summary><![CDATA[Merges 3 real inputs to a vector output]]></summary>
+			<summary>Merges 3 real inputs to a vector output.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Vector_Merge"/>
 			<model>
 				<input type="Real" tag="inp1"/>
 				<input type="Real" tag="inp2"/>
@@ -274,7 +275,8 @@
 		</entity>
 
 		<entity type="Vector Split" prefix="V_SPLT" special-type="Vector Split">
-			<summary><![CDATA[Splits a vector input to 3 real outputs]]></summary>
+			<summary>Splits a vector input to 3 real outputs.</summary>
+			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Vector_Split"/>
 			<model>
 				<input type="Real" tag="vInp" dimensions="3"/>
 				<output type="Real" tag="out1"/>

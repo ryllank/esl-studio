@@ -123,7 +123,7 @@ class AttributeProperty(wxpg.PGProperty, CompoundProperty):
 
         self._eslnameChild = wxpg.StringProperty("ESL Name", 'eslname', value=attribute.eslname())
         self._eslnameChild.SetHelpString("An ESL identifier (A..Z 0..9 _) for the attribute." +
-                           "\nThe ESL Name must be unique (in 28chars) in its scope (model, submodel)." +
+                           "\nThe ESL Name must be unique (in 28chars) in its subprogram scope." +
                            "\nIf not supplied an ESL name will be generated (shown with an asterisk).")
         self.AddPrivateChild(self._eslnameChild)             # 2 ESL Name
         self.checkGeneratedEslName()

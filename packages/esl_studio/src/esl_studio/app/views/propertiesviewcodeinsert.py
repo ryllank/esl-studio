@@ -13,7 +13,7 @@ class PropertiesViewCodeInsert(PropertiesViewSimulationEntity):
     Prop_types = ["region", "insert", "esl", "outputs"]
     Prop_labels = ["ESL Region", "Insert Position", "ESL Code", "Output Ports"]
     Prop_helps = ["ESL region in generated code to insert the code.\nNote: The \"terminal\" and \"analysis\" regions are only applicable in a MODEL subprogram.",
-                  "Insert the code at the beginning or end of the region - i.e. before or after generated code for the region.\nThe default is at the end.",
+                  "Insert the code at the beginning or end of the region - that is before or after generated code for the region.\nThe default is at the end.",
                   "The code insert's ESL text (source code).\nPress the button to see and edit the code in a multi-line dialog.\n"+
                   "This code is not validated in ESL-Studio (but is checked by the ESL compiler when the code is generated).\n"+
                   "Note: Procedural code to be inserted in the \"dynamic\" region will have to be in a WHEN statement or PROCEDURAL model block.",

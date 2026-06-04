@@ -14,17 +14,17 @@ class PropertiesViewSimulationEntity():
        "summary": "",  # Use simulationEntity.summary
        "help": "Source for help information for this type of simulation entity" +
                "\nDouble click property row to open.",
-        "view": "Source for help information for this type of simulation entity" +
+        "view": "ESL source code for this type of simulation entity." +
                 "\nDouble click property row to open.",
     }
     EntityPropertyLabels = {"description": "Description", "submodel": "Submodel", "segment": "Segment", "function": "Function", "annotations": "Annotations"}
     EntityPropertyHelpTexts = {
-       "description": "Description of this specific simulation entity" +
-                      "\nNote: This is not used in generated ESL",
-       "submodel": "The submodel for the submodel call",
-       "segment": "The segment for the segment call",
-       "function": "The function for the function call",
-       "annotations": "Show annotations for the simulation entity on the diagram",
+       "description": "Description of this specific simulation entity." +
+                      "\nNote: This is a comment in generated ESL.",
+       "submodel": "The submodel for the submodel call.",
+       "segment": "The segment for the segment call.",
+       "function": "The function for the function call.",
+       "annotations": "Show annotations for the simulation entity on the diagram.",
     }
     EntityAnnotationHelpTexts = {
         "description": "Show the simulation entity's description annotation on the diagram",
