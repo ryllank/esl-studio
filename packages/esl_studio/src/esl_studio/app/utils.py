@@ -20,6 +20,8 @@ BASEDIR = ''
 EXECUTION_DIR = ''
 INTERNAL_DATA = ''
 
+Installed_ESLLIB_names = None
+
 PATH_SEPARATOR = os.pathsep
 
 Development_options = "" # May be used to specify options
@@ -330,6 +332,42 @@ def disEnvVarPath(filepath, suppressDirChange=False):
         else:
             newFilepath = newFilepath.replace('\\', '/')
     return newFilepath
+
+def get_installed_ESLLIB_names():
+    global Installed_ESLLIB_names
+    def append_installed_ESLLIB_name(esl_lib_file_path):
+        if os.path.isfile(esl_lib_file_path):
+            base_name, ext = os.path.splitext(os.path.basename(esl_lib_file_path))
+            if ext == '.esl':
+                Installed_ESLLIB_names.append(base_name.upper())
+    if Installed_ESLLIB_names is None:
+        Installed_ESLLIB_names = []
+        esl_lib_env_var = os.getenv("ESLLIB")
+        if esl_lib_env_var:
+            esl_lib_paths = esl_lib_env_var.split(PATH_SEPARATOR)
+            for esl_lib_path in esl_lib_paths:
+                if os.path.isdir(esl_lib_path):
+                    esl_lib_file_names = os.listdir(esl_lib_path)
+                    for esl_lib_file_name in esl_lib_file_names:
+                        esl_lib_file_path = os.path.join(esl_lib_path, esl_lib_file_name)
+                        if os.path.isfile(esl_lib_file_path):
+                            append_installed_ESLLIB_name(esl_lib_file_path)
+                        elif os.path.isdir(esl_lib_file_path):      # Also look one subdirectory down (so long as not "examples")
+                            if esl_lib_file_name != "examples":
+                                sub_esl_lib_file_names = os.listdir(esl_lib_file_path)
+                                for sub_esl_lib_file_name in sub_esl_lib_file_names:
+                                    sub_esl_lib_file_path = os.path.join(esl_lib_file_path, sub_esl_lib_file_name)
+                                    if os.path.isfile(sub_esl_lib_file_path):
+                                        append_installed_ESLLIB_name(sub_esl_lib_file_path)
+    pass
+
+def check_is_installed_ESLLIB_name(eslname):
+    is_installed = False
+    global Installed_ESLLIB_names
+    get_installed_ESLLIB_names()
+    if Installed_ESLLIB_names is not None:
+        is_installed = eslname.upper() in Installed_ESLLIB_names
+    return is_installed
 
 # Given an ESL file name it returns the full path reference for the file.
 def eslFile(filepath):

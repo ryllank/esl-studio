@@ -927,6 +927,10 @@ class Application(object):
             Utils.extendNew(fullLibraryList, libList)
         return fullLibraryList
 
+    def checkIsInstalledLibraryName(self, eslname):
+        result = Utils.check_is_installed_ESLLIB_name(eslname)
+        return result
+
     def checkIsinFullLibraryList(self, eslname):
         result = False
         fullLibraryList = self.getFullLibraryList()

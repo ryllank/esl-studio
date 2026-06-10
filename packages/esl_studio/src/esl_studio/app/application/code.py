@@ -83,8 +83,12 @@ class Code(ModelBase):
                 identification += ")"
             elif self._codeType == 'ESL':
                 identification += " (ESL"
-                if self._subprogramParseObjects and len(self._subprogramParseObjects) > 0:
-                    identification += " "+self._subprogramParseObjects[-1].name
+                if self._subprogramParseObjects:
+                    n = len(self._subprogramParseObjects)
+                    if n > 0:
+                        identification += " "+self._subprogramParseObjects[-1].name
+                        if n > 1:
+                            identification += "+"+str(n-1)
                 identification += ")"
         return identification
 
@@ -219,7 +223,7 @@ class Code(ModelBase):
                             else:
                                 msg = "Name "
                             if msg:
-                                msg += libName + " in \"--LIBRARY\" statement is in the application"
+                                msg += libName + " in \"--LIBRARY\" statement is in the application\n"
                                 control.appendMessage(msg)
 
                 newToOldSubprogramNames = {}
@@ -420,8 +424,8 @@ class Code(ModelBase):
                 rejection += "cannot add invalid named subprogram " + errTxt + "\n"
             elif application.blockNames().isin(name):
                 rejection += "cannot add subprogram \"" + name + "\" as name is already in the application\n"
-            elif application.checkIsinFullLibraryList(name):
-                rejection = "cannot add subprogram \"" + name + "\" as name is in use as a library submodel\n"
+            elif application.checkIsInstalledLibraryName(name):
+                rejection = "cannot add subprogram \"" + name + "\" as name is an installed library subprogram\n"
         # else will be added after this - do we need to do something (at least add in to application)
         # - by eslname find matching new and current subprograms (to be updated) - commonNames
         # if changed subprogramType ????? - is this an error - if callable and has calls yes

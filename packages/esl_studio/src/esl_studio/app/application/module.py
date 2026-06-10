@@ -96,8 +96,8 @@ class Module(object):
             elif self._application.blockNames().isin(newValue):
                 rejection = "name \""+newValue+"\" is already in the application"
                 valid = False
-            elif self._application.checkIsinFullLibraryList(newValue):
-                rejection = "name \""+newValue+"\" is in use as a library subprogram"
+            elif self._application.checkIsInstalledLibraryName(newValue):
+                rejection = "name \""+newValue+"\" is an installed library subprogram"
                 valid = False
             elif module.blockNames().isin(newValue):
                 rejection = "name \""+newValue+"\" is in use in the "+module.moduleType()
