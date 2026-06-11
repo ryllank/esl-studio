@@ -341,7 +341,7 @@ class ParseEsl:
         self._source = source
 
         # look for libraries before strip comments (does not take into account multiple subprograms)
-        self._libraryList:list[str] = self._scanLibraries(eslText)
+        self._libraryList:list[str] = self.scanLibraries(eslText)
 
         # print("Before strip ({0})".format(len(eslText)))
         self._text:str = self._blankOutComments(eslText)
@@ -611,7 +611,7 @@ class ParseEsl:
             ix += 1
         return result
 
-    def _scanLibraries(self, eslText):
+    def scanLibraries(self, eslText):
         matches = self._getPattern("libraryPattern").finditer(eslText)
         libraryList = [] # at present simply the list of libraries in the whole esl-text (so all subprograms will get all libraries)
         for m in matches:

@@ -193,6 +193,23 @@ class GenDiagramInfo(object):
                     if subprogram not in self._preloadedSubprograms:
                         self._preloadedSubprograms.append(subprogram)
 
+    def extend_module_calls_and_libraries_from_CodeInserts(self):
+        for genSimEntity in list(self._simulationEntities.values()):
+            if genSimEntity.appSimEntity().specialType() == "Code Insert":
+                lib_list = genSimEntity.appSimEntity().libraryList()
+                for entry in lib_list:
+                    name = Utils.libraryBaseName(entry)
+                    appSubprogram = None
+                    if name:
+                        application = self.generate().application()
+                        appSubprogram = application.blockNames().get(name)
+                    if appSubprogram:  # subprogram entered in application scope
+                        if appSubprogram.subprogramBaseType() == 'code' or appSubprogram.moduleType() != 'package':  # can disregard "diagram" packages
+                            if appSubprogram != self._module.appModule():
+                                Utils.extendNew(self._calledAppSubprograms, appSubprogram)
+                    else:
+                        Utils.extendNew(self._libraryList, entry)
+
     def generateEslPositioned(self, positionalGenSimEntities, coderegion, extraForeEslStr=None, extraAfterEslStr=None):
         eslStr = ""
         position = "beginning"

@@ -230,3 +230,7 @@ class CodeInsert(SimulationEntity):
                 if whatsLeft and not whatsLeft.isspace():
                     rejection += "unexpected characters (\"" + whatsLeft + "\") after array specification "
         return rejection, baseDatatype, dimensionality
+
+    def libraryList(self):
+        library_list = self._parseEsl.scanLibraries(self._esl)
+        return library_list

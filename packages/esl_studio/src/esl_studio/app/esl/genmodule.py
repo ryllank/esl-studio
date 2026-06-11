@@ -84,6 +84,7 @@ class GenModule(object):
         result.gatherForPorts()
         result.setupCallSubprograms()
         result.setupLibraryList()
+        result.extend_module_calls_and_libraries_from_CodeInserts()
         result.gatherForResolvePortDimensions()
         return result
 
