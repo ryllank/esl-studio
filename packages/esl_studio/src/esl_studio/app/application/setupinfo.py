@@ -192,7 +192,7 @@ class SetupInfo(Module):
             execution += ind2 + "<custom-run-command><![CDATA[" + self._data.customRunCommand + "]]></custom-run-command>" + nl
         elif self._data.execCommand == SetupExecCommand.TRANSLATE:
             execution += ind2 + "<execution command=\"compile-translate-link-execute\""
-            if self._data.execCommand == SetupTranslationLang.FORTRAN:
+            if self._data.translation == SetupTranslationLang.FORTRAN:
                 execution += " translation=\"fortran\""
             execution += "/>"+nl
             extraOptions = ""
