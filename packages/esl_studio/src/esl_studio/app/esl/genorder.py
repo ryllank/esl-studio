@@ -13,10 +13,20 @@ class GenOrder:
     def unusedApplicationModules(self):
         return self._unusedApplicationModules
 
+    def dependencies_str(self, modules):
+        dependencies_str = ""
+        for module in modules:
+            dependencies_str += "- %3d " % module.rank() + module.identification() + " := "
+            called_modules = map(lambda m: m.identification(), module.calledModules())
+            dependencies_str += ", ".join(called_modules) + "\n"
+        return dependencies_str
+
     def establishOrder(self):
         errMsg = ""
         self.clearOrders()
         self.resetAllModules()
+        dependencies_msg = "Establish dependencies\n"
+        dependencies_msg += "All Modules (un ranked):\n"+self.dependencies_str(self._allModules)
         trail = []
         for model in self._generate.genModels():
             for module in model.calledModules():
@@ -31,6 +41,11 @@ class GenOrder:
                         self._unusedApplicationModules.append(modl)
                     else:
                         self._orderedUsedApplicationModules.append(modl)
+        if not errMsg:
+            dependencies_msg += "Unused Modules:\n" + self.dependencies_str(self._unusedApplicationModules)
+            dependencies_msg += "Ordered Used Modules:\n" + self.dependencies_str(self._orderedUsedApplicationModules)
+        if self._generate.debugging and dependencies_msg:
+            self._generate.control().appendMessage(dependencies_msg)
         return errMsg
 
     def resetAllModules(self):

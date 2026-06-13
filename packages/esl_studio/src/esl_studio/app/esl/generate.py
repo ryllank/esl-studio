@@ -77,7 +77,7 @@ class Generate(object):
         self._genSubmodels = []
         self._genSegments = []
         self._genCodes = []
-        self.debugging = True #False # Set True for print output
+        self.debugging = False # Set True for print output
 
     def control(self):
         return self._control
