@@ -256,6 +256,8 @@ class Generate(object):
             eslStr += "-- Experiment" + nl
             xpt = self._appProgram.experiment()
             if xpt:
+                if xpt[-1] != "\n":
+                    xpt += "\n"
                 eslStr += xpt
             else:
                 eslStr += self.generateESLExperiment()

@@ -14,6 +14,6 @@ class GenCodeInsert(GenSimulationEntity):
         result = ""
         if position == self._insert_position and coderegion == self._appSimEntity.region():
             result += self._appSimEntity.esl()
-            if not result.endswith("\n"):
+            if result and result[-1] != "\n":
                 result += "\n"
         return result

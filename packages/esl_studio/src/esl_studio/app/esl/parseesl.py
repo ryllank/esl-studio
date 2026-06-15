@@ -337,6 +337,8 @@ class ParseEsl:
     def parseEsl(self, eslText:str, source:str):
         self.clear()
 
+        if eslText and eslText[-1] != "\n":
+            eslText += "\n"
         self._fullText = eslText
         self._source = source
 
@@ -612,6 +614,8 @@ class ParseEsl:
         return result
 
     def scanLibraries(self, eslText):
+        if eslText and eslText[-1] != "\n":
+            eslText += "\n"
         matches = self._getPattern("libraryPattern").finditer(eslText)
         libraryList = [] # at present simply the list of libraries in the whole esl-text (so all subprograms will get all libraries)
         for m in matches:
