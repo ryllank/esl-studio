@@ -464,7 +464,7 @@ class Application(object):
                     if compatibilityComparison != "invalid" and compatibilityComparison != "later":
                         self._compatibility = 1
                 else:
-                    msg = applicationWithFile + " version" + version + " is invalid\n"
+                    msg = applicationWithFile + " version " + version + " is invalid\n"
         if msg:
             self._frame.control().appendMessage(msg) # show msg right away
             msg = ""
