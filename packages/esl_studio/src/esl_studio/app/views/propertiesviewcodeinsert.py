@@ -17,7 +17,7 @@ class PropertiesViewCodeInsert(PropertiesViewSimulationEntity):
                   "The code insert's ESL text (source code).\nPress the button to see and edit the code in a multi-line dialog.\n"+
                   "This code is not validated in ESL-Studio (but is checked by the ESL compiler when the code is generated).\n"+
                   "Note: Procedural code to be inserted in the \"dynamic\" region will have to be in a WHEN statement or PROCEDURAL model block.",
-                  "A semicolon-separated set of ESL Data Types for the output ports (valid for dynamic, communications & step regions).\n"+
+                  "A semicolon-separated set of ESL Data Types for the output ports (valid for dynamic, communications and step regions).\n"+
                   "Note: You must set the ESL Names for these ports to use in the ESL Code of this code insert."]
     Region_enumTexts = CodeInsert.Region_values
     Insert_enumTexts = ["beginning of region", "end of region"]
@@ -31,9 +31,19 @@ class PropertiesViewCodeInsert(PropertiesViewSimulationEntity):
 
         specialRef = 'S' + PropertyRefSeparator + self._entityPage._pagePropertyId + PropertyRefSeparator
 
+        definedAttributesDict = {}
+        if simulationEntity.type():
+            definedAttributesDict = self._entityPage.propertiesView().frame().control().entities().getAttributesDict(simulationEntity.type())
+
         propType = PropertiesViewCodeInsert.Prop_types[0]
         propLabel = PropertiesViewCodeInsert.Prop_labels[0]
         helpText = PropertiesViewCodeInsert.Prop_helps[0]
+        definedAttribute = definedAttributesDict.get(propType)
+        if definedAttribute:
+            if definedAttribute.description():
+                propLabel = definedAttribute.description()
+            if definedAttribute.hint():
+                helpText = definedAttribute.hint()
         value = simulationEntity.region()
         enum_value = CodeInsert.Region_values.index(value)
         prop = self._entityPage._specialProperties.get(propType)
@@ -51,6 +61,12 @@ class PropertiesViewCodeInsert(PropertiesViewSimulationEntity):
         propType = PropertiesViewCodeInsert.Prop_types[1]
         propLabel = PropertiesViewCodeInsert.Prop_labels[1]
         helpText = PropertiesViewCodeInsert.Prop_helps[1]
+        definedAttribute = definedAttributesDict.get(propType)
+        if definedAttribute:
+            if definedAttribute.description():
+                propLabel = definedAttribute.description()
+            if definedAttribute.hint():
+                helpText = definedAttribute.hint()
         value = simulationEntity.insert_position()
         enum_value = CodeInsert.Insert_values.index(value)
         prop = self._entityPage._specialProperties.get(propType)
@@ -69,6 +85,12 @@ class PropertiesViewCodeInsert(PropertiesViewSimulationEntity):
         propType = PropertiesViewCodeInsert.Prop_types[2]
         propLabel = PropertiesViewCodeInsert.Prop_labels[2]
         helpText = PropertiesViewCodeInsert.Prop_helps[2]
+        definedAttribute = definedAttributesDict.get(propType)
+        if definedAttribute:
+            if definedAttribute.description():
+                propLabel = definedAttribute.description()
+            if definedAttribute.hint():
+                helpText = definedAttribute.hint()
         value = Utils.escapeText(simulationEntity.esl())
         prop = self._entityPage._specialProperties.get(propType)
         if not prop:
@@ -84,6 +106,12 @@ class PropertiesViewCodeInsert(PropertiesViewSimulationEntity):
         propType = PropertiesViewCodeInsert.Prop_types[3]
         propLabel = PropertiesViewCodeInsert.Prop_labels[3]
         helpText = PropertiesViewCodeInsert.Prop_helps[3]
+        definedAttribute = definedAttributesDict.get(propType)
+        if definedAttribute:
+            if definedAttribute.description():
+                propLabel = definedAttribute.description()
+            if definedAttribute.hint():
+                helpText = definedAttribute.hint()
         value = simulationEntity.outputs()
         prop = self._entityPage._specialProperties.get(propType)
         if not prop:
