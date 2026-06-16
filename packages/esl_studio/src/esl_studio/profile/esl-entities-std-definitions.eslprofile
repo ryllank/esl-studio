@@ -63,6 +63,21 @@
 			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Code_Insert"/>
 			<model type="special">
 				<!-- Note: All ESL generation is done directly (without a template) -->
+				<!-- Special attributes tags: "region", "insert", "esl" and "outputs" are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<!-- Uncomment these special attributes (currently showing built-in description & hint) to make changes.
+				<attribute type="Enum" tag="region" description="ESL Region" value="communication"
+						   hint="ESL region in generated code to insert the code.&#10;Note: The &quot;terminal&quot; and &quot;analysis&quot; regions are only applicable in a MODEL subprogram."
+						   is-special="true" show-value-on-top="true" has-eslname="false" hide-datatype="true" has-annotations="false"/>
+				<attribute type="Enum" tag="insert" description="ESL Region" value="end of region"
+						   hint="Insert the code at the beginning or end of the region - that is before or after generated code for the region.&#10;The default is at the end."
+						   is-special="true" show-value-on-top="true" has-eslname="false" hide-datatype="true" has-annotations="false"/>
+				<attribute type="String" tag="esl" description="ESL Code" value=""
+						   hint="The code insert's ESL text (source code).&#10;Press the button to see and edit the code in a multi-line dialog.&#10;This code is not validated in ESL-Studio (but is checked by the ESL compiler when the code is generated).&#10;Note: Procedural code to be inserted in the &quot;dynamic&quot; region will have to be in a WHEN statement or PROCEDURAL model block."
+						   is-special="true" show-value-on-top="true" has-eslname="false" hide-datatype="true" has-annotations="false"/>
+				<attribute type="String" tag="outputs" description="Output Ports" value=""
+						   hint="A semicolon-separated set of ESL Data Types for the output ports (valid for dynamic, communications and step regions).&#10;Note: You must set the ESL Names for these ports to use in the ESL Code of this code insert."
+						   is-special="true" show-value-on-top="true" has-eslname="false" hide-datatype="true" has-annotations="false"/>
+				(end of special attributes) -->
 			</model>
 			<design>
 				<group type="std-subprogram-box"/>
@@ -77,6 +92,8 @@
 			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Transfer_Function"/>
 			<model type="special">
 				<!-- Note: ESL generation is done directly (without a template) -->
+				<!-- Special attributes tags: "TF", "ICS" and "TF-differential" are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<!-- Uncomment these special attributes (currently showing built-in description & hint) to make changes.
 				<attribute type="String" tag="TF" description="Transfer Function" value="1/(s+1)"
 					hint="Express the transfer function in the ESL notation for the Laplace transform with Laplacian operator &quot;s&quot; (and using ESL Names for variables)."
 					show-value-on-top="true" has-annotations="true"/>
@@ -86,6 +103,7 @@
 				<attribute type="Boolean" tag="TF-differential" description="Differential Equations" value="false"
 					hint="Generate Transfer Function as differential equations if selected, else generate as an ESL TRANSFER statement."
 					show-value-on-top="true" has-annotations="true"/>
+				(end of special attributes) -->
 				<input type="Real" tag="x"/>
 				<output type="Real" tag="y"/>
 				<generate>
@@ -112,7 +130,6 @@
 			<model type="special">
 				<!-- Note: ESL generation is done directly (without a template) -->
 				<!-- This section defines this argument entity's one output port (with type but as scalar, dimensions will be determined by "ARGDIMS" attribute. -->
-				<!-- Special attributes tags: ARG ARGDESC ARGDIMS & ATTR are built-in - however if given here, description and hint properties will override the built-in properties. -->
 				<attribute type="String" tag="ARG" description="Arg Name"
 						   hint="An ESL identifier (A..Z 0..9 _) for the argument in the generated ESL subprogram.&#10;The Arg Name should be unique in 18chars in its subprogram (to allow for its use in generated variables).&#10;If not supplied one will be generated (shown with an asterisk)."
 						   show-value-on-top="true" has-annotations="true"/>
@@ -141,7 +158,8 @@
 			<summary>INTEGER input value to a diagram subprogram (submodel or segment).</summary>
 			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Integer_Input"/>
 			<model type="special">
-				<!-- Special attributes tags: ARG ARGDESC ARGDIMS & ATTR are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<!-- Note: ESL generation is done directly (without a template) -->
+				<!-- This section defines this argument entity's one output port (with type but as scalar, dimensions will be determined by "ARGDIMS" attribute. -->
 				<attribute type="String" tag="ARG" description="Arg Name"
 						   hint="An ESL identifier (A..Z 0..9 _) for the argument in the generated ESL subprogram.&#10;The Arg Name should be unique in 18chars in its subprogram (to allow for its use in generated variables).&#10;If not supplied one will be generated (shown with an asterisk)."
 						   show-value-on-top="true" has-annotations="true"/>
@@ -170,7 +188,8 @@
 			<summary>LOGICAL input value to a diagram subprogram (submodel or segment).</summary>
 			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Logical_Input"/>
 			<model type="special">
-				<!-- Special attributes tags: ARG ARGDESC ARGDIMS & ATTR are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<!-- Note: ESL generation is done directly (without a template) -->
+				<!-- This section defines this argument entity's one output port (with type but as scalar, dimensions will be determined by "ARGDIMS" attribute. -->
 				<attribute type="String" tag="ARG" description="Arg Name"
 						   hint="An ESL identifier (A..Z 0..9 _) for the argument in the generated ESL subprogram.&#10;The Arg Name should be unique in 18chars in its subprogram (to allow for its use in generated variables).&#10;If not supplied one will be generated (shown with an asterisk)."
 						   show-value-on-top="true" has-annotations="true"/>
@@ -199,9 +218,7 @@
 			<summary>REAL output value from a diagram subprogram (submodel or segment).</summary>
 			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Real_Output"/>
 			<model type="special">
-				<!-- Note: ESL generation is done directly (without a template) -->
 				<!-- This section defines this argument entity's one input port (with type but as scalar, dimensions will be determined by "ARGDIMS" attribute. -->
-				<!-- Special attributes tags: ARG ARGDESC ARGDIMS & INIT are built-in - however if given here, description and hint properties will override the built-in properties. -->
 				<attribute type="String" tag="ARG" description="Arg Name"
 						   hint="An ESL identifier (A..Z 0..9 _) for the argument in the generated ESL subprogram.&#10;The Arg Name should be unique in 18chars in its subprogram (to allow for its use in generated variables).&#10;If not supplied one will be generated (shown with an asterisk)."
 						   show-value-on-top="true" has-annotations="true"/>
@@ -236,7 +253,7 @@
 			<summary>INTEGER output value from a diagram subprogram (submodel or segment).</summary>
 			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Integer_Output"/>
 			<model type="special">
-				<!-- Special attributes tags: ARG ARGDESC ARGDIMS & INIT are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<!-- This section defines this argument entity's one input port (with type but as scalar, dimensions will be determined by "ARGDIMS" attribute. -->
 				<attribute type="String" tag="ARG" description="Arg Name"
 						   hint="An ESL identifier (A..Z 0..9 _) for the argument in the generated ESL subprogram.&#10;The Arg Name should be unique in 18chars in its subprogram (to allow for its use in generated variables).&#10;If not supplied one will be generated (shown with an asterisk)."
 						   show-value-on-top="true" has-annotations="true"/>
@@ -271,7 +288,7 @@
 			<summary>LOGICAL output value from a diagram subprogram (submodel or segment).</summary>
 			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Logical_Output"/>
 			<model type="special">
-				<!-- Special attributes tags: ARG ARGDESC ARGDIMS & INIT are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<!-- This section defines this argument entity's one input port (with type but as scalar, dimensions will be determined by "ARGDIMS" attribute. -->
 				<attribute type="String" tag="ARG" description="Arg Name"
 						   hint="An ESL identifier (A..Z 0..9 _) for the argument in the generated ESL subprogram.&#10;The Arg Name should be unique in 18chars in its subprogram (to allow for its use in generated variables).&#10;If not supplied one will be generated (shown with an asterisk)."
 						   show-value-on-top="true" has-annotations="true"/>
