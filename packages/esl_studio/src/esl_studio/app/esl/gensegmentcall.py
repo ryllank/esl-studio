@@ -57,6 +57,11 @@ class GenSegmentCall(GenCallEntity):
             callStatement = ""
             if self._subprogram:
                 callStatement = self._subprogram.argumentsTemplate()
+                post_call_code = self.appSimEntity().post_call_code()
+                if post_call_code:
+                    if post_call_code[-1] != "\n":
+                        post_call_code += "\n"
+                    callStatement += post_call_code
             communicationCode = callStatement
             frequencyValue = self.appSimEntity().frequencyAttribute().valueStr()
             delayValue = self.appSimEntity().delayAttribute().valueStr()

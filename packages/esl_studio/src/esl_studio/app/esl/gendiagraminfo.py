@@ -195,7 +195,8 @@ class GenDiagramInfo(object):
 
     def extend_module_calls_and_libraries_from_CodeInserts(self):
         for genSimEntity in list(self._simulationEntities.values()):
-            if genSimEntity.appSimEntity().specialType() == "Code Insert":
+            specialType = genSimEntity.appSimEntity().specialType()
+            if specialType == "Code Insert" or specialType == "Segment Call":
                 lib_list = genSimEntity.appSimEntity().libraryList()
                 for entry in lib_list:
                     name = Utils.libraryBaseName(entry)

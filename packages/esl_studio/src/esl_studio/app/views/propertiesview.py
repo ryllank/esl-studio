@@ -311,10 +311,15 @@ class PropertiesView(ModuleView, wx.Panel):
                     specialAttributeProperty = self._propertiesViewEntity._specialProperties.get(propertyTag)
                     newValue = specialAttributeProperty.propertyValue()
                     oldValue = specialAttributeProperty.priorPropertyValue()
-                elif propertyTag == 'delay' or propertyTag == 'delay'+Attribute.ValueEnumRefExtn: # for segment-call
+                elif propertyTag == 'delay' or propertyTag == 'delay' + Attribute.ValueEnumRefExtn:  # for segment-call
                     specialAttributeProperty = self._propertiesViewEntity._specialProperties.get(propertyTag)
                     newValue = specialAttributeProperty.propertyValue()
                     oldValue = specialAttributeProperty.priorPropertyValue()
+                elif propertyTag == 'postcallcode': # for segment-call
+                    newValue = Utils.unescapeText(newPropertyValue)
+                    oldValue = Utils.unescapeText(oldPropertyValue)
+                    if oldValue == newValue: # For LongStringProperty pressed OK with no change - suppress this as a property change
+                        propertyId = ""
 
         elif splitref[0] == 'S':
             category = 'special-property'

@@ -2,22 +2,23 @@
 
 from collections import OrderedDict
 
+from .. import utils as Utils
 from .callentity import CallEntity
 from .eslvalue import ESLValue
-from .segment import Segment
-from .codesubprogram import CodeSubprogram
 from .attribute import Attribute
 from . import diagramactions as dgAction
+from ..esl.parseesl import ParseEsl
 
 class SegmentCall(CallEntity):
 
     # Note: Makes use of special attributes (overriding any that may be set in the entity definitions)
     SpecialAttributeTags = [
         "frequency",    # Frequency of calls.
-        "delay"         # Time delay for first call.
+        "delay",        # Time delay for first call.
+        "postcallcode"  # Code to be inserted after call (a direct property not an attribute)
     ]
-    SpecialAttributeDescriptions = ["Frequency of calls", "Time delay"]
-    SpecialAttributeDatatypes = ["Integer", "Real"]
+    SpecialAttributeDescriptions = ["Frequency of calls", "Time delay", "Post Call Code"]
+    SpecialAttributeDatatypes = ["Integer", "Real", "String"]
 
     Frequency_default = '1'
     Delay_default = '0.0'
@@ -65,6 +66,10 @@ class SegmentCall(CallEntity):
         self._attributes[SegmentCall.SpecialAttributeTags[0]] = self._frequencyAttribute
         self._attributes[SegmentCall.SpecialAttributeTags[1]] = self._delayAttribute
 
+        #tag = SegmentCall.SpecialAttributeTags[2]  # Post Call Code
+        self._post_call_code = ""
+        self._parseEsl = ParseEsl()
+
     def frequencyAttribute(self):
         return self._frequencyAttribute
     def set_frequencyAttribute(self, frequencyXmlStr):
@@ -93,6 +98,11 @@ class SegmentCall(CallEntity):
         delayAttribute.eslValue().loadStr(val, checkValidity=False)
         delayAttribute.set_source(source)
 
+    def post_call_code(self):
+        return self._post_call_code
+    def set_post_call_code(self, code):
+        self._post_call_code = code
+
     def copyFrom(self, anotherSegmentCall, parent):
         super(SegmentCall, self).copyFrom(anotherSegmentCall, parent)
 
@@ -111,6 +121,11 @@ class SegmentCall(CallEntity):
         self.set_delay_value(val, source)
         annotationState = entityDescrXmlElement.getAttribute("delay-annotations")
         self.loadAnnotationState(self.delayAttribute(), annotationState)
+        postCallCodeXmlElement = entityDescrXmlElement.getXmlElementByName("post-call-code")
+        if postCallCodeXmlElement:
+            self._post_call_code = postCallCodeXmlElement.getContent()
+        else:
+            self._post_call_code = ""
 
     def loadAnnotationState(self, attribute, annotationState):
         annotationStateSplit = []
@@ -161,7 +176,14 @@ class SegmentCall(CallEntity):
         annotationState = "|".join(annotationStateList)
         return annotationState
 
-    #def specialSaveXmlContents(self, indent=None, level=0, saveDefaults=False):  : # Has no contents.
+    def specialSaveXmlContents(self, indent=None, level=0, saveDefaults=False):
+        xmlContentsText = ""
+        if self._post_call_code or saveDefaults:
+            nl, ind, ind2 = Utils.indentation(indent, level)
+            xmlContentsText += ind + '<post-call-code>' + nl
+            xmlContentsText += ind2 + '<![CDATA[' + str(self._post_call_code) + ']]>' + nl
+            xmlContentsText += ind + '</post-call-code>' + nl
+        return xmlContentsText
 
     def checkValidToLoad(self): #valid, msg
         valid = True
@@ -222,6 +244,11 @@ class SegmentCall(CallEntity):
         val = updateXmlElement.getAttribute("delay")
         source = updateXmlElement.getAttribute("delay-source")
         self.set_delay_value(val, source)
+        postCallCodeXmlElement = updateXmlElement.getXmlElementByName("post-call-code")
+        if postCallCodeXmlElement:
+            self._post_call_code = postCallCodeXmlElement.getContent()
+        else:
+            self._post_call_code = ""
         super(SegmentCall, self).updateEntity(updateXmlElement)
 
     def validateEntityPropertyChange(self, propertyTag, newValue, val_type, val_item, val_oldValue, val_newValue):
@@ -256,6 +283,7 @@ class SegmentCall(CallEntity):
                 attribute = self.frequencyAttribute()
             elif propertyTag == 'delay' or propertyTag == 'delay'+Attribute.ValueEnumRefExtn:
                 attribute = self.delayAttribute()
+            # Note: There is no validation done on the postcallcode property.
             if attribute:
                 val_item = propertyTag.title()
                 dummyAttribute = attribute.detachedCopy(attribute.parent())
@@ -298,6 +326,8 @@ class SegmentCall(CallEntity):
             elif propertyTag == 'delay' or propertyTag == 'delay'+Attribute.ValueEnumRefExtn:
                 self.set_delayAttribute(newValue)
                 attribute = self.delayAttribute()
+            elif propertyTag == 'postcallcode':
+                self.set_post_call_code(newValue)
             if attribute is not None:
                 annotationId, annotationTxt, annotationVisible = dgAction.setEntityAttributeAnnotations(attribute)
                 dgAction.sendAnnotationUpdate(self, annotationId, annotationTxt, annotationVisible)
@@ -316,3 +346,7 @@ class SegmentCall(CallEntity):
         else:
             attribute = super(SegmentCall, self).getAttribute(attributeTag)
         return attribute
+
+    def libraryList(self):
+        library_list = self._parseEsl.scanLibraries(self._post_call_code)
+        return library_list
