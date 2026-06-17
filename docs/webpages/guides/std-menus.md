@@ -130,7 +130,7 @@ on the background.
 | &emsp;&emsp;&emsp;&emsp;Insert Summer 3				| Insert a Summer 3 simulation entity into the diagram. |
 | &emsp;&emsp;&emsp;&emsp;Insert Multiplier				| Insert a Multiplier simulation entity into the diagram. |
 | &emsp;&emsp;&emsp;&emsp;Insert Divider				| Insert a Divider simulation entity into the diagram. |
-| &emsp;&emsp;&emsp;&emsp;Insert Submodel Call			| Insert a Submodel Call simulation entity into the diagram. |
+| &emsp;&emsp;Insert Submodel Call		| Insert a Submodel Call simulation entity into the diagram. |
 | Insert Basic Elements >		| |
 | &emsp;&emsp;Insert Rectangle	| Insert a rectangle into the diagram. |
 | &emsp;&emsp;Insert Ellipse	| Insert an ellipse into the diagram. |

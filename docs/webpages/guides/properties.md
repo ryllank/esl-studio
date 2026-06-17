@@ -579,10 +579,11 @@ The Segment Call simulation entity has an additional entity property:
 
 It also has special Segment Call Control properties:
 
-| Name 				| Tag		| Help/Hints |
-| --- 				| --- 		| --- |
-| Frequency of calls| frequency	| Frequency of communication region calls for the segment - a multiple of communication interval (CINT).<br>Note: The segment should have its Simulation Parameter CINT set to this value multiplied by the CINT of the calling module. |
-| Time delay		| delay		| Time delay before making the first call to the segment.<br>Note: The segment should have its Simulation Parameter TSTART set to this value. |
+| Name 				| Tag			| Help/Hints |
+| --- 				| --- 			| --- |
+| Frequency of calls| frequency		| Frequency of communication region calls for the segment - a multiple of communication interval (CINT).<br>Note: The segment should have its Simulation Parameter CINT set to this value multiplied by the CINT of the calling module. |
+| Time delay		| delay			| Time delay before making the first call to the segment.<br>Note: The segment should have its Simulation Parameter TSTART set to this value. |
+| Post Call Code	| postcallcode	| ESL code to be inserted directly after the segment call in the generated code for the calling module.<br>Press the button to see and edit the code in a multi-line dialog.<br>This code is not validated in ESL-Studio (but is checked by the ESL compiler when the code is generated). |
 
 #### Function Call
 
@@ -605,7 +606,7 @@ It has an additional entity Code Insert Properties:
 | ESL Region		| ESL region in generated code to insert the code.<br>Note: The "terminal" and "analysis" regions are only applicable in a MODEL subprogram. |
 | Insert Position	| Insert the code at the beginning or end of the region - that is before or after generated code for the region.<br>The default is at the end. |
 | ESL Code			| The code insert's ESL text (source code).<br>Press the button to see and edit the code in a multi-line dialog.<br>This code is not validated in ESL-Studio (but is checked by the ESL compiler when the code is generated).<br>Note: Procedural code to be inserted in the "dynamic" region will have to be in a WHEN statement or PROCEDURAL model block. |
-| Output Ports		| A semicolon-separated set of ESL Data Types for the output ports (valid for dynamic, communications & step regions).<br>Note: You must set the ESL Names for these ports to use in the ESL Code of this code insert. |
+| Output Ports		| A semicolon-separated set of ESL Data Types for the output ports (valid for dynamic, communications and step regions).<br>Note: You must set the ESL Names for these ports to use in the ESL Code of this code insert. |
 
 
 ### Subprogram Arguments

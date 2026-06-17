@@ -72,13 +72,14 @@ Model (to be set initially when running the ESL MODEL in the
 simulation).
 
 !!! note
-	Terms for something in ESL-Studio, normally given in title case,
-	which correspond to something in the ESL Simulation Language, then
-	that is then normally given in capitals.
+	Certain items, which are normally expressed in title case in
+	ESL-Studio, correspond to items in the ESL Simulation Language,
+	where they are normally expressed in capitals.
 
 	For example, in ESL-Studio, a Model is represented by a diagram
 	view, containing connected simulation elements, and with a set of
-	properties, which correspond to an ESL MODEL subprogram code block.
+	properties, which corresponds to an ESL MODEL subprogram code 
+	block.
 
 ###	Developing a block diagram
 
@@ -206,7 +207,7 @@ entity.
 Input and Output Arguments for Submodel and Segment subprograms will 
 normally be realised as Ports for a subprogram Call simulation entity 
 (on another subprogram diagram), when the Call is set for this 
-submodel.
+subprogram.
 
 Input Arguments have the (boolean) attribute called "Attribute" (Tag 
 "ATTR") which may be checked to specify that the input argument will be 
@@ -236,7 +237,7 @@ it, its properties, in the Properties Pane, include the appropriate
 subprogram property - initially blank. This has a "drop-down" list from
 which you may select from the set of subprograms of that type, which
 may be diagram or textual subprograms, that have been defined or
-imported in to the application.
+imported into the application.
 
 When the subprogram property is assigned, the subprogram Call's
 appearance and properties, attributes and ports, are updated to reflect
@@ -285,14 +286,14 @@ The Insert > Textual Subprogram(s) > ESL Import menu item is used to
 create a new editable text view in the main view area.
 You may edit the code in the view using standard text editing
 operations.
-You can also open a basic text modal dialog to show or edit the code #
+You can also open a basic text modal dialog to show or edit the code
 from the 'ESL' property for the view.
 
 You may commit the code being edited into the application via the
 context menu in the text view, and, in any case code changes will be
 committed when you move the mouse pointer away from the text view.
 When the commit takes place ESL-Studio performs basic code checks to
-validate the submodel "signature" and may show errors or warnings in
+validate the subprogram "signature" and may show errors or warnings in
 the Messages pane. For severe errors it will reject the changes, for
 less severe issues it does not prevent the edits being committed. This
 will allow you to commit invalid code which you plan to 'tidy up'
@@ -312,9 +313,9 @@ show the results.
 
 The Insert > Textual Subprogram(s) > File Import menu item is used to
 create a new read-only text view in the main view area.
-You can open a file selection dialog select an ESL file to be imported
-as a whole. The basic code checks are run on contents of the file and
-if accepted the contents are displayed in the text view.
+You can open a file selection dialog and select an ESL file to be
+imported as a whole. The basic code checks are run on contents of the
+file and if accepted the contents are displayed in the text view.
 
 The context menu in the ESL Text view does not support edit operations,
 but has the options for displaying code, and searching the text as for
@@ -442,7 +443,7 @@ Message pane, and you can go back to editing the application.
 	output port's 'Fix Dimensions' property.
 
 If successful, ESL-Studio will invoke the ESL-SEC (Simulation Execution
-and Control) program. This has many features to set up more displays (in
+Control) program. This has many features to set up more displays (in
 addition to any defined in the ESL-Studio application) and to monitor
 simulation variables and step through the simulation.
 
