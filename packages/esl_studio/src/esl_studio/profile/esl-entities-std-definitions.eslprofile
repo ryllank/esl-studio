@@ -26,13 +26,18 @@
 			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Segment_Call"/>
 			<model type="special">
 				<!-- Note: All ESL generation is done directly (without a template) -->
-				<!-- Special attributes tags: "frequency" and "delay" are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<!-- Special attributes tags: "frequency", "delay" and "postcallcode" are built-in - however if given here, description and hint properties will override the built-in properties. -->
+				<!-- Uncomment these special attributes (currently showing built-in description & hint) to make changes.
 				<attribute type="Integer" tag="frequency" description="Frequency of calls" value="1"
 						   hint="Frequency of communication region calls for the segment - a multiple of communication interval (CINT).&#10;Note: The segment should have its Simulation Parameter CINT set to this value multiplied by the CINT of the calling module."
 						   is-special="true" show-value-on-top="true" has-eslname="false" hide-datatype="true"/>
 				<attribute type="Real" tag="delay" description="Time delay" value="0.0"
 						   hint="Time delay before making the first call to the segment.&#10;Note: The segment should have its Simulation Parameter TSTART set to this value."
 						   is-special="true" show-value-on-top="true" has-eslname="false" hide-datatype="true"/>
+				<attribute type="String" tag="postcallcode" description="Post Call Code" value=""
+						   hint="ESL code to be inserted directly after the segment call in the generated code for the calling module.&#10;Press the button to see and edit the code in a multi-line dialog.&#10;This code is not validated in ESL-Studio (but is checked by the ESL compiler when the code is generated)."
+						   is-special="true" show-value-on-top="true" has-eslname="false" hide-datatype="true" has-annotations="false"/>
+				(end of special attributes) -->
 			</model>
 			<design>
 				<group type="std-subprogram-box"/>
