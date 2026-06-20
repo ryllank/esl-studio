@@ -97,8 +97,6 @@
 			<help src="%ESL_STUDIO_PAGES%/std-entities.html#Transfer_Function"/>
 			<model type="special">
 				<!-- Note: ESL generation is done directly (without a template) -->
-				<!-- Special attributes tags: "TF", "ICS" and "TF-differential" are built-in - however if given here, description and hint properties will override the built-in properties. -->
-				<!-- Uncomment these special attributes (currently showing built-in description & hint) to make changes.
 				<attribute type="String" tag="TF" description="Transfer Function" value="1/(s+1)"
 					hint="Express the transfer function in the ESL notation for the Laplace transform with Laplacian operator &quot;s&quot; (and using ESL Names for variables)."
 					show-value-on-top="true" has-annotations="true"/>
@@ -108,7 +106,6 @@
 				<attribute type="Boolean" tag="TF-differential" description="Differential Equations" value="false"
 					hint="Generate Transfer Function as differential equations if selected, else generate as an ESL TRANSFER statement."
 					show-value-on-top="true" has-annotations="true"/>
-				(end of special attributes) -->
 				<input type="Real" tag="x"/>
 				<output type="Real" tag="y"/>
 				<generate>
