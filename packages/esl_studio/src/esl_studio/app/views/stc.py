@@ -907,11 +907,12 @@ class Stc(stc.StyledTextCtrl):
         wildcard += "All files (*.*)|*.*"
         dlg = wx.FileDialog(self, "Save file",
                             os.getcwd(), "", wildcard,
-                            style=wx.FD_SAVE | wx.FD_CHANGE_DIR | wx.FD_OVERWRITE_PROMPT)
+                            style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
         result = self.showModalDlg(dlg)
         if result == wx.ID_OK:
             filepath = dlg.GetPath()
             if filepath:
+                filepath = Utils.checkExt(filepath, extn)
                 self.SaveFile(filepath)
                 self.LoadFile(filepath)
                 self.setAllowToggleEdit(True)

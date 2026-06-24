@@ -220,10 +220,11 @@ class OptionsDlg(wx.adv.PropertySheetDialog):
                    "All files (*.*)|*.*"
         dlg = wx.FileDialog(self, "Save current dialog configuration settings to a config file",
                     os.getcwd(), "", wildcard,
-                    style = wx.FD_SAVE | wx.FD_CHANGE_DIR | wx.FD_OVERWRITE_PROMPT)
+                    style = wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
         if dlg.ShowModal() == wx.ID_OK:
             ans = dlg.GetPaths()
             if ans and len(ans) == 1:
+                config_file = Utils.checkExt(ans[0], "*.ini")
                 configPathValues = OrderedDict()
                 for path in self._configSettings:
                     if path == 'Diagrams/Smart Links':
@@ -237,18 +238,19 @@ class OptionsDlg(wx.adv.PropertySheetDialog):
                         else:  # Also save entries that are not in the dialog (i.e. in the actual config).
                             value = Config.getValue(path)
                     configPathValues[path] = value
-                Config.saveConfigFile(ans[0], configPathValues)
+                Config.saveConfigFile(config_file, configPathValues)
 
     def onLoadClicked(self, event):
         wildcard = "Config files (*.ini)|*.ini|" \
                     "All files (*.*)|*.*"
         dlg = wx.FileDialog(self, "Load dialog with configuration settings from a config file",
                             os.getcwd(), "", wildcard,
-                            style=wx.FD_OPEN | wx.FD_CHANGE_DIR)
+                            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
         if dlg.ShowModal() == wx.ID_OK:
             ans = dlg.GetPaths()
             if ans and len(ans) == 1:
-                rawConfigPathValues = Config.readRawConfigFilePathValues(ans[0])
+                config_file = Utils.checkExt(ans[0], "*.ini")
+                rawConfigPathValues = Config.readRawConfigFilePathValues(config_file)
                 if rawConfigPathValues:
                     version = rawConfigPathValues.get("Settings/version")
                     updateLevel = ConfigUpdate.checkForConfigUpdateLevel(version)

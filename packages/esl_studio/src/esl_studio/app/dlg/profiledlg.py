@@ -128,11 +128,12 @@ class ProfileDlg(wx.Dialog):
                    "All files (*.*)|*.*"
         dlg = wx.FileDialog(self, "Save selected profile files to a list file",
                     os.getcwd(), "", wildcard,
-                    style = wx.FD_SAVE | wx.FD_CHANGE_DIR | wx.FD_OVERWRITE_PROMPT)
+                    style = wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
         if dlg.ShowModal() == wx.ID_OK:
             ans = dlg.GetPaths()
             if ans and len(ans) == 1:
-                file = open(ans[0], 'w')
+                list_file = Utils.checkExt(ans[0], ".lst")
+                file = open(list_file, 'w')
                 if file:
                     fileList = self._lbxProfileFiles.GetStrings()
                     for item in fileList:
@@ -144,11 +145,12 @@ class ProfileDlg(wx.Dialog):
                     "All files (*.*)|*.*"
         dlg = wx.FileDialog(self, "Load selected profile files from a list file",
                             os.getcwd(), "", wildcard,
-                            style=wx.FD_OPEN | wx.FD_CHANGE_DIR)
+                            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
         if dlg.ShowModal() == wx.ID_OK:
             ans = dlg.GetPaths()
             if ans and len(ans) == 1:
-                file = open(ans[0], 'r')
+                list_file = Utils.checkExt(ans[0], ".lst")
+                file = open(list_file, 'r')
                 if file:
                     fileList = file.readlines()
                     file.close()
@@ -231,11 +233,11 @@ class ProfileDlg(wx.Dialog):
                    "All files (*.*)|*.*"
         dlg = wx.FileDialog(self, "Open profile file",
                             os.getcwd(), "", wildcard,
-                            style=wx.FD_OPEN | wx.FD_CHANGE_DIR)
+                            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
         if dlg.ShowModal() == wx.ID_OK:
             ans = dlg.GetPaths()
             if ans and len(ans) == 1:
-                getWanted = ans[0]
+                getWanted = Utils.checkExt(ans[0], PROFILE_FILE_EXT)
                 getWanted = Utils.environmentalise(getWanted)
                 if getWanted not in self._lbxProfileFiles.GetStrings():
                     self._lbxProfileFiles.Append(getWanted)

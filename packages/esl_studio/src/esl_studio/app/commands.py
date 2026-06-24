@@ -199,11 +199,12 @@ class Commands(object):
                        "All files (*.*)|*.*"
             dlg = wx.FileDialog(self._frame, "Open application file",
                                 os.getcwd(), "", wildcard,
-                                style = wx.FD_OPEN | wx.FD_CHANGE_DIR)
+                                style = wx.FD_OPEN | wx.FD_FILE_MUST_EXIST | wx.FD_CHANGE_DIR)
             if dlg.ShowModal() == wx.ID_OK:
                 ans = dlg.GetPaths()
                 if ans and len(ans) == 1:
-                    self.refreshApplication(ans[0])
+                    app_file = Utils.checkExt(ans[0], APP_FILE_EXT)
+                    self.refreshApplication(app_file)
 
     def dropFiles(self, filenames):
         if len(filenames) > 1:
@@ -236,8 +237,9 @@ class Commands(object):
         if dlg.ShowModal() == wx.ID_OK:
             ans = dlg.GetPaths()
             if ans and len(ans) == 1:
-                self._application.saveToFile(ans[0])
-                self._frame.applicationHistory().addToHistory(ans[0])
+                app_file = Utils.checkExt(ans[0], APP_FILE_EXT)
+                self._application.saveToFile(app_file)
+                self._frame.applicationHistory().addToHistory(app_file)
                 saved = True
                 self._control.alterationStack().clear()
                 self._control.enableDisableUndoRedo()
@@ -260,11 +262,11 @@ class Commands(object):
                            "All files (*.*)|*.*"
                 dlg = wx.FileDialog(self._frame, "Open ESL-ISE file to import",
                                     os.getcwd(), "", wildcard,
-                                    style=wx.FD_OPEN | wx.FD_CHANGE_DIR)
+                                    style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST | wx.FD_CHANGE_DIR)
                 if dlg.ShowModal() == wx.ID_OK:
                     ans = dlg.GetPaths()
                     if ans and len(ans) == 1:
-                        ise_file = ans[0]
+                        ise_file = Utils.checkExt(ans[0], ".ise")
                         ise_studio_file = ise_file + ".eslstudio"
                         if os.path.exists(ise_studio_file):
                             msg = "Import file \"" +ise_studio_file + "\" exists\nDo you want to overwrite it\n"
@@ -322,7 +324,7 @@ class Commands(object):
             wildcard += "All files (*)|*"
         dlg = wx.FileDialog(self._frame, "Open source (text) file for viewing",
                             os.getcwd(), "", wildcard,
-                            style = wx.FD_OPEN | wx.FD_CHANGE_DIR)
+                            style = wx.FD_OPEN ) # no FD_FILE_MUST_EXIST - creating a new file supported in the Windows dlg (not Linux)
         if dlg.ShowModal() == wx.ID_OK:
             ans = dlg.GetPaths()
             if ans and len(ans) == 1:
@@ -806,21 +808,23 @@ class Commands(object):
         wildcard = "Alt files (*.alt)|*.alt|All files (*.*)|*.*"
         dlg = wx.FileDialog(self._frame, "Save current Undo/Redo stack to file",
                             os.getcwd(), "", wildcard,
-                            style = wx.FD_SAVE | wx.FD_CHANGE_DIR | wx.FD_OVERWRITE_PROMPT)
+                            style = wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
         if dlg.ShowModal() == wx.ID_OK:
             file = dlg.GetPath()
             if file:
+                file = Utils.checkExt(file, "*.alt")
                 self._control.alterationStack().saveAlterationsStack(file)
 
     def RecordAlterations(self, commandevent=None, commanddata=None):
         wildcard = "Alt files (*.alt)|*.alt|All files (*.*)|*.*"
         dlg = wx.FileDialog(self._frame, "Record alterations to file",
                             os.getcwd(), "", wildcard,
-                            style = wx.FD_SAVE | wx.FD_CHANGE_DIR | wx.FD_OVERWRITE_PROMPT)
+                            style = wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
         if dlg.ShowModal() == wx.ID_OK:
             ans = dlg.GetPaths()
             if ans and len(ans) == 1:
-                self._control.alterationStack().recordAlterationsToFile(ans[0], append=False) # Currently never append
+                alt_file = Utils.checkExt(ans[0], ".alt")
+                self._control.alterationStack().recordAlterationsToFile(alt_file, append=False) # Currently never append
 
     def StopRecordingOrReplayAlterations(self, commandevent=None, commanddata=None):
         self._control.alterationStack().stopRecordingOrReplayingAlterations()
@@ -829,10 +833,11 @@ class Commands(object):
         wildcard = "Alt files (*.alt)|*.alt|All files (*.*)|*.*"
         dlg = wx.FileDialog(self._frame, "Play recorded alterations from file",
                             os.getcwd(), "", wildcard,
-                            style = wx.FD_OPEN | wx.FD_CHANGE_DIR)
+                            style = wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
         if dlg.ShowModal() == wx.ID_OK:
             file = dlg.GetPath()
             if file:
+                file = Utils.checkExt(file, ".alt")
                 interval = 1000
                 interval = wx.GetNumberFromUser("Give play-back interval (milli-secs)", "", "", interval, 0, 10000)
                 if interval != -1:

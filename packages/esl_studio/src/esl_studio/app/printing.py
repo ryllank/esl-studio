@@ -8,6 +8,7 @@ from enum import IntEnum
 
 import esl_diagram.canvas as canv
 
+from . import utils as Utils
 from .views.stc import Stc
 from .dlg.printsavediagramdlg import PrintSaveDiagramDlg
 
@@ -420,12 +421,14 @@ class Printing(object):
                 wildcard = "Portable Network Graphics files (*.png)|*.png|Bitmap files (*.bmp)|*.bmp|JPEG files (*.jpg)|*.jpg|All files (*.*)|*.*"
                 dlg = wx.FileDialog(self._frame, "Save diagram as image file",
                                     os.getcwd(), "", wildcard,
-                                    style=wx.FD_SAVE | wx.FD_CHANGE_DIR | wx.FD_OVERWRITE_PROMPT)
+                                    style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
                 result = dlg.ShowModal()
                 if result == wx.ID_OK:
                     if clearAlpha and image.HasAlpha(): #?do only for png?
                         image.ClearAlpha()
-                    image.SaveFile(dlg.GetPath())
+                    img_file = dlg.GetPath()
+                    img_file = Utils.checkExt(img_file, ".png")
+                    image.SaveFile(img_file)
         return result
 
     def PrintText(self, view=None):
