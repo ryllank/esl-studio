@@ -315,6 +315,9 @@ class PropertiesView(ModuleView, wx.Panel):
                     specialAttributeProperty = self._propertiesViewEntity._specialProperties.get(propertyTag)
                     newValue = specialAttributeProperty.propertyValue()
                     oldValue = specialAttributeProperty.priorPropertyValue()
+                elif propertyTag == 'callorder':  # for segment-call
+                    newValue = newPropertyValueStr
+                    oldValue = oldPropertyValueStr
                 elif propertyTag == 'postcallcode': # for segment-call
                     newValue = Utils.unescapeText(newPropertyValue)
                     oldValue = Utils.unescapeText(oldPropertyValue)

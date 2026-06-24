@@ -15,10 +15,11 @@ class SegmentCall(CallEntity):
     SpecialAttributeTags = [
         "frequency",    # Frequency of calls.
         "delay",        # Time delay for first call.
-        "postcallcode"  # Code to be inserted after call (a direct property not an attribute)
+        "callorder",    # Order for insertion of this call in subprogram when generate code
+        "postcallcode", # Code to be inserted after call (a direct property not an attribute)
     ]
-    SpecialAttributeDescriptions = ["Frequency of calls", "Time delay", "Post Call Code"]
-    SpecialAttributeDatatypes = ["Integer", "Real", "String"]
+    SpecialAttributeDescriptions = ["Frequency of calls", "Time delay", "Call Order", "Post Call Code"]
+    SpecialAttributeDatatypes = ["Integer", "Real", "Integer", "String"]
 
     Frequency_default = '1'
     Delay_default = '0.0'
@@ -67,6 +68,13 @@ class SegmentCall(CallEntity):
         self._attributes[SegmentCall.SpecialAttributeTags[1]] = self._delayAttribute
 
         #tag = SegmentCall.SpecialAttributeTags[2]  # Post Call Code
+        call_order = 1
+        segmentCalls = list(filter(lambda entity: entity.specialType() == "Segment Call", self._parent.simulationEntities().values()))
+        if len(segmentCalls) > 0:
+            for segmentCall in segmentCalls:
+                if segmentCall.call_order() >= call_order:
+                    call_order = segmentCall.call_order() + 1
+        self._call_order:int = call_order
         self._post_call_code = ""
         self._parseEsl = ParseEsl()
 
@@ -98,6 +106,14 @@ class SegmentCall(CallEntity):
         delayAttribute.eslValue().loadStr(val, checkValidity=False)
         delayAttribute.set_source(source)
 
+    def call_order(self):
+        return self._call_order
+    def set_call_order(self, call_order):
+        call_order_int = self._call_order
+        try:
+            call_order_int = int(call_order)
+        except ValueError: pass
+        self._call_order = call_order_int
     def post_call_code(self):
         return self._post_call_code
     def set_post_call_code(self, code):
@@ -121,6 +137,11 @@ class SegmentCall(CallEntity):
         self.set_delay_value(val, source)
         annotationState = entityDescrXmlElement.getAttribute("delay-annotations")
         self.loadAnnotationState(self.delayAttribute(), annotationState)
+        call_order_val = entityDescrXmlElement.getAttribute("call-order")
+        if call_order_val:
+            try:
+                self._call_order = int(call_order_val)
+            except ValueError: pass
         postCallCodeXmlElement = entityDescrXmlElement.getXmlElementByName("post-call-code")
         if postCallCodeXmlElement:
             self._post_call_code = postCallCodeXmlElement.getContent()
@@ -164,6 +185,19 @@ class SegmentCall(CallEntity):
         annotationText = self.saveAnnotationStateText(delayAttribute)
         if saveDefaults or annotationText:
             xmlAttributeText += ' delay-annotations="'+ annotationText + '"'
+        # Call Order
+        call_order_default = 1
+        if not saveDefaults:
+            segmentCalls = list(filter(lambda entity: entity.specialType() == "Segment Call",
+                                       self._parent.simulationEntities().values()))
+            index = segmentCalls.index(self)
+            if index > 0:
+                for ix in range(index):
+                    segmentCall = segmentCalls[ix]
+                    if segmentCall.call_order() >= call_order_default:
+                        call_order_default = segmentCall.call_order() + 1
+        if saveDefaults or self._call_order != call_order_default:
+            xmlAttributeText += ' call-order="'+ str(self._call_order) + '"'
         return xmlAttributeText
 
     def saveAnnotationStateText(self, attribute):
@@ -244,6 +278,11 @@ class SegmentCall(CallEntity):
         val = updateXmlElement.getAttribute("delay")
         source = updateXmlElement.getAttribute("delay-source")
         self.set_delay_value(val, source)
+        call_order_val = updateXmlElement.getAttribute("call-order")
+        if call_order_val:
+            try:
+                self._call_order = int(call_order_val)
+            except ValueError: pass
         postCallCodeXmlElement = updateXmlElement.getXmlElementByName("post-call-code")
         if postCallCodeXmlElement:
             self._post_call_code = postCallCodeXmlElement.getContent()
@@ -326,6 +365,8 @@ class SegmentCall(CallEntity):
             elif propertyTag == 'delay' or propertyTag == 'delay'+Attribute.ValueEnumRefExtn:
                 self.set_delayAttribute(newValue)
                 attribute = self.delayAttribute()
+            elif propertyTag == 'callorder':
+                self.set_call_order(newValue)
             elif propertyTag == 'postcallcode':
                 self.set_post_call_code(newValue)
             if attribute is not None:

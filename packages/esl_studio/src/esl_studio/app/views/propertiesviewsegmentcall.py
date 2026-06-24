@@ -13,15 +13,16 @@ from .properties.longstringproperty import LongStringProperty
 
 class PropertiesViewSegmentCall(PropertiesViewCallEntity):
 
-    Prop_types = SegmentCall.SpecialAttributeTags #["frequency", "delay", "postcallcode"]
-    Prop_propertyTypes = SegmentCall.SpecialAttributeDatatypes #["Integer", "Real", "String"]
+    Prop_types = SegmentCall.SpecialAttributeTags #["frequency", "delay", "callorder", "postcallcode"]
+    Prop_propertyTypes = SegmentCall.SpecialAttributeDatatypes #["Integer", "Real", "Integer", "String"]
     Prop_labels = SegmentCall.SpecialAttributeDescriptions # also description for annotations
     Prop_help = [
         "Frequency of communication region calls for the segment - a multiple of communication interval (CINT)." +
             "\nNote: The segment should have its Simulation Parameter CINT set to this value multiplied by the CINT of the calling module.",
         "Frequency of communication region calls for the segment - a multiple of communication interval (CINT)." +
         "\nNote: The segment should have its Simulation Parameter TSTART set to this value.",
-        # For the Post Call Code property
+        # For the Call Order and Post Call Code properties
+        "Order (integer) to determine the position of this segment call, where there are multiple segment calls, in the generated code for the diagram subprogram this is in.\nA higher call order value inserts the segment call after a lower one.",
         "ESL code to be inserted directly after the segment call in the generated code for the calling module.\nPress the button to see and edit the code in a multi-line dialog.\n" +
         "This code is not validated in ESL-Studio (but is checked by the ESL compiler when the code is generated)."
     ]
@@ -49,8 +50,32 @@ class PropertiesViewSegmentCall(PropertiesViewCallEntity):
         delayAttribute = simulationEntity.delayAttribute()
         prop = self.setSpecialProperty(newItem, simulationEntity, specialRef, 1, delayAttribute, definedAttributesDict)
 
-        # Post Call Code (property not attribute)
+        # Call Order (property not attribute)
         propIndex = 2
+        propType = PropertiesViewSegmentCall.Prop_types[propIndex] # tag
+        definedAttribute = definedAttributesDict.get(propType)
+        value = simulationEntity.call_order()
+        prop = self._entityPage._specialProperties.get(propType)
+        if not prop:
+            propLabel = PropertiesViewSegmentCall.Prop_labels[propIndex]
+            helpText = PropertiesViewSegmentCall.Prop_help[propIndex]
+            if definedAttribute:
+                if definedAttribute.description():
+                    propLabel = definedAttribute.description()
+                if definedAttribute.hint():
+                    helpText = definedAttribute.hint()
+            if value is None:
+                value = 0
+            prop = wxpg.IntProperty(propLabel, ref + propType, value=value)
+            prop.SetHelpString(helpText)
+            self._entityPage._page.AppendIn(self._entityPage._specialCategory, prop)
+            self._entityPage._specialProperties[propType] = prop
+        else:
+            prop.SetName(ref + propType)
+            prop.SetValue(value)
+
+        # Post Call Code (property not attribute)
+        propIndex = 3
         propType = PropertiesViewSegmentCall.Prop_types[propIndex] # tag
         definedAttribute = definedAttributesDict.get(propType)
         value = simulationEntity.post_call_code()
@@ -80,7 +105,7 @@ class PropertiesViewSegmentCall(PropertiesViewCallEntity):
             hide = True if primePropKey not in PropertiesViewSegmentCall.Prop_types else False
             prop = self._entityPage._specialProperties[propKey]
             if not hide:
-                if primePropKey != "postcallcode": # then it is an Attribute property - must cope with its Source variant
+                if primePropKey != "callorder" and primePropKey != "postcallcode": # then it is an Attribute property - must cope with its Source variant
                     source = None
                     if primePropKey == 'frequency':
                         source = frequencyAttribute.source()
@@ -94,7 +119,7 @@ class PropertiesViewSegmentCall(PropertiesViewCallEntity):
                             hide = True
             prop.Hide(hide)
             if not hide:
-                if primePropKey != "postcallcode":
+                if primePropKey != "callorder" and primePropKey != "postcallcode":
                     prop.checkHiddenChildren()
 
     def setSpecialProperty(self, newItem, simulationEntity, specialRef, propIndex, value, definedAttributesDict):
