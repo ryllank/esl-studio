@@ -583,6 +583,7 @@ It also has special Segment Call Control properties:
 | --- 				| --- 			| --- |
 | Frequency of calls| frequency		| Frequency of communication region calls for the segment - a multiple of communication interval (CINT).<br>Note: The segment should have its Simulation Parameter CINT set to this value multiplied by the CINT of the calling module. |
 | Time delay		| delay			| Time delay before making the first call to the segment.<br>Note: The segment should have its Simulation Parameter TSTART set to this value. |
+| Call Order		| callorder		| Order (integer) to determine the position of this segment call, where there are multiple segment calls, in the generated code for the diagram subprogram this is in.<br>A higher call order value inserts the segment call after a lower one. |
 | Post Call Code	| postcallcode	| ESL code to be inserted directly after the segment call in the generated code for the calling module.<br>Press the button to see and edit the code in a multi-line dialog.<br>This code is not validated in ESL-Studio (but is checked by the ESL compiler when the code is generated). |
 
 #### Function Call
