@@ -219,7 +219,8 @@ class GenDiagramInfo(object):
         if extraForeEslStr:
             eslStr += extraForeEslStr
         for genSimEntity in self._simulationEntities.values():
-            eslStr += genSimEntity.generateEsl(coderegion)
+            if coderegion != "communication" or not genSimEntity.isSegmentCall():
+                eslStr += genSimEntity.generateEsl(coderegion)
         if extraAfterEslStr:
             eslStr += extraAfterEslStr
         position = "end"
@@ -268,11 +269,19 @@ class GenDiagramInfo(object):
             if genSimEntity.insert_position():
                 positionalGenSimEntities.append(genSimEntity)
 
-        declarationsStr += self.generateEslPositioned(positionalGenSimEntities, "declarations", extraDeclarationsForeStr, extraDeclarationsAfterStr)
+        callOrderedCommunicationStr = self.generateCallOrderedCommunicationStr()
+
+        declarationsStr += self.generateEslPositioned(positionalGenSimEntities, "declarations",
+                                                      extraForeEslStr=extraDeclarationsForeStr,
+                                                      extraAfterEslStr=extraDeclarationsAfterStr)
         initialStr += self.generateEslPositioned(positionalGenSimEntities, "initial")
         dynamicStr += self.generateEslPositioned(positionalGenSimEntities, "dynamic")
-        stepStr += self.generateEslPositioned(positionalGenSimEntities, "step", None, extraStepAfterStr)
-        communicationStr += self.generateEslPositioned(positionalGenSimEntities, "communication", None, extraCommunicationAfterStr)
+        stepStr += self.generateEslPositioned(positionalGenSimEntities, "step",
+                                              extraForeEslStr=None,
+                                              extraAfterEslStr=extraStepAfterStr)
+        communicationStr += self.generateEslPositioned(positionalGenSimEntities, "communication",
+                                                       extraForeEslStr=None,
+                                                       extraAfterEslStr=callOrderedCommunicationStr+extraCommunicationAfterStr)
         if subprogram.moduleType() == "model" and subprogram.modelType() == "model":
             terminalStr += self.generateEslPositioned(positionalGenSimEntities, "terminal")
             analysisStr += self.generateEslPositioned(positionalGenSimEntities, "analysis")
@@ -327,6 +336,18 @@ class GenDiagramInfo(object):
         eslStr += eslname
         eslStr += ";" + nl
         return eslStr
+
+    def generateCallOrderedCommunicationStr(self):
+        callOrderedCommunicationStr = ""
+        entity_call_order_pair_list = []
+        for genSimEntity in self._simulationEntities.values():
+            if genSimEntity.isSegmentCall():
+                call_order = genSimEntity.appSimEntity().call_order()
+                entity_call_order_pair_list.append((genSimEntity, call_order))
+        entity_call_order_pair_list.sort(key=lambda item: item[1])
+        for pair in entity_call_order_pair_list:
+            callOrderedCommunicationStr += pair[0].generateEsl("communication")
+        return callOrderedCommunicationStr
 
     def generateCodeInsertArguments(self):
         result = ''
