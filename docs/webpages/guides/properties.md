@@ -609,6 +609,15 @@ It has an additional entity Code Insert Properties:
 | ESL Code			| The code insert's ESL text (source code).<br>Press the button to see and edit the code in a multi-line dialog.<br>This code is not validated in ESL-Studio (but is checked by the ESL compiler when the code is generated).<br>Note: Procedural code to be inserted in the "dynamic" region will have to be in a WHEN statement or PROCEDURAL model block. |
 | Output Ports		| A semicolon-separated set of ESL Data Types for the output ports (valid for dynamic, communications and step regions).<br>Note: You must set the ESL Names for these ports to use in the ESL Code of this code insert. |
 
+!!! tip
+	You may have any number of Code Inserts in a subprogram, in
+	different regions and positions (at the beginning or end). We
+	recommend that you use just one for a region and position where the
+	order of the code inserts may matter, as in a procedural region, in
+	particular the "communication" region. This is because the order of
+	the code generation for multiple Code Inserts (for a region and
+	position) is not explicitly determined, it depends on the order the
+	Code Inserts were originally put into the diagram.
 
 ### Subprogram Arguments
 
