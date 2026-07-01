@@ -436,12 +436,19 @@ class Actions(object):
             if objectsElement:
                 objectElements = objectsElement.getChildren()
                 if len(objectElements) > 0:
-                    x = int(objectElements[0].getAttribute("x"))
-                    y = int(objectElements[0].getAttribute("y"))
-                    pos = wx.Point(x, y)
-                    staggerPos = self.staggerPosition(pos, None) #stagger for any object - wos #objectElements[0]) stagger for a match object
-                    deltaX = staggerPos.x - pos.x
-                    deltaY = staggerPos.y - pos.y
+                    deltaX = 0; deltaY = 0
+                    for objectElement in objectElements:
+                        x = objectElement.getAttribute("x")
+                        y = objectElement.getAttribute("y")
+                        if x is not None and y is not None:
+                            x = int(x)
+                            y = int(y)
+                            pos = wx.Point(x, y)
+                            staggerPos = self.staggerPosition(pos, None)  # stagger for any object - wos #objectElements[0]) stagger for a match object
+                            deltaX = staggerPos.x - pos.x
+                            deltaY = staggerPos.y - pos.y
+                            break
+                    pass
                     if deltaX != 0 or deltaY != 0:
                         for objectElement in objectElements:
                             x = objectElement.getAttribute("x")
