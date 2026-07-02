@@ -127,14 +127,14 @@ class Config(object):
     @staticmethod
     def sanitisePerspective(perspective):
         new_perspective = perspective
-        main_view_match = re.search(r'\|(name=MainView;.*)\|name=', new_perspective)
+        main_view_match = re.search(r'\|(name=MainView;.*?)\|name=', new_perspective)
         if main_view_match:
             main_view_str = main_view_match.group(1)
             new_main_view_str = main_view_str
-            new_main_view_str = main_view_str.replace("minimode=1;", "")
             new_main_view_str = new_main_view_str.replace("state=258;", "state=256;")
             if new_main_view_str != main_view_str:
                 new_perspective = new_perspective.replace(main_view_str, new_main_view_str, 1)
+        new_perspective = new_perspective.replace("minimode=1;", "")
         return new_perspective
 
     @staticmethod
