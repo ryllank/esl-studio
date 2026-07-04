@@ -436,7 +436,7 @@ class ParseEsl:
         dimensionalityParseObject = DimensionalityParseObject(infoParseObject)
         count = 0
         if dimensionsText:
-            if dimensionsText == DimensionalityParseObject.UniversalToken:
+            if dimensionsText == DimensionalityParseObject.UniversalToken and allowStar:
                 dimensionalityParseObject.universal = True
                 pos = len(DimensionalityParseObject.UniversalToken)
             else:
