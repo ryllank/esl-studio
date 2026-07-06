@@ -83,7 +83,7 @@
 						   hint="The code insert's ESL text (source code).&#10;Press the button to see and edit the code in a multi-line dialog.&#10;This code is not validated in ESL-Studio (but is checked by the ESL compiler when the code is generated).&#10;Note: Procedural code to be inserted in the &quot;dynamic&quot; region will have to be in a WHEN statement or PROCEDURAL model block."
 						   is-special="true" show-value-on-top="true" has-eslname="false" hide-datatype="true" has-annotations="false"/>
 				<attribute type="String" tag="outputs" description="Output Ports" value=""
-						   hint="A semicolon-separated set of ESL Data Types for the output ports (valid for dynamic, communications and step regions).&#10;Note: You must set the ESL Names for these ports to use in the ESL Code of this code insert."
+						   hint="A semicolon-separated set of ESL Data Types for the output ports (valid for dynamic, communications and step regions).&#10;You can set bounds and dimensions for each port by specifying them (in brackets, in the ESL, comma-separated, style).&#10;Note: You must set the ESL Names for these ports to use in the ESL Code of this code insert."
 						   is-special="true" show-value-on-top="true" has-eslname="false" hide-datatype="true" has-annotations="false"/>
 				(end of special attributes) -->
 			</model>

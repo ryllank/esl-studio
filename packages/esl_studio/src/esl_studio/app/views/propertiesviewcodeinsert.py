@@ -18,6 +18,7 @@ class PropertiesViewCodeInsert(PropertiesViewSimulationEntity):
                   "This code is not validated in ESL-Studio (but is checked by the ESL compiler when the code is generated).\n"+
                   "Note: Procedural code to be inserted in the \"dynamic\" region will have to be in a WHEN statement or PROCEDURAL model block.",
                   "A semicolon-separated set of ESL Data Types for the output ports (valid for dynamic, communications and step regions).\n"+
+                  "You can set bounds and dimensions for each port by specifying them (in brackets, in the ESL, comma-separated, style).\n"+
                   "Note: You must set the ESL Names for these ports to use in the ESL Code of this code insert."]
     Region_enumTexts = CodeInsert.Region_values
     Insert_enumTexts = ["beginning of region", "end of region"]
