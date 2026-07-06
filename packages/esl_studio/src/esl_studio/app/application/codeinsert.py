@@ -198,7 +198,8 @@ class CodeInsert(SimulationEntity):
             portIx += 1
             portAnnotationId += str(portIx)
             if priorPort:
-                if (not priorPort.datatype() or priorPort.datatype() == port.datatype()) and priorPort.direction() == port.direction():
+                if ((not priorPort.datatype() or priorPort.datatype() == port.datatype()) and
+                        priorPort.dimensions() == port.dimensions() and priorPort.direction() == port.direction()):
                     priorPortAnnotationId = obsoletePortIdToAnnotationIdDict[priorPort.id()]
                     commonPortIdAnnotationPairDict[port.id()] = (portAnnotationId, priorPortAnnotationId)
                     del obsoletePortIdToAnnotationIdDict[priorPort.id()]  # prior port is replaced by this port - so remove from obsolete port annotation info
