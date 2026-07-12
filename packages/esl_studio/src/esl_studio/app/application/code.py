@@ -295,7 +295,8 @@ class Code(ModelBase):
     def getSegmentByName(self, eslname):
         segment = None
         for sub in list(self._codeSubprograms.values()):
-            if sub.subprogramType() == "segment":
+            subprogramType = sub.subprogramType()
+            if subprogramType == "segment" or subprogramType == "external-segment":
                 if sub.eslname().upper() == eslname.upper():
                     segment = sub
                     break
