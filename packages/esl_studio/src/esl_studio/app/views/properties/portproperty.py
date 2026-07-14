@@ -19,10 +19,12 @@ class PortProperty(wxpg.PGProperty, CompoundProperty):
             "\nThe ESL Name must be unique (in 28chars) in its subprogram scope." +
             "\nIf not supplied an ESL name will be generated (shown with an asterisk).",
         "Description for the port{0}.\nNote: This is a comment in generated ESL.",
-        "Initial value for the segment call output's variable." +
-            "\nNote, this will override any default Initial Value which have been set for a diagram segment on the corresponding Output Argument simulation entity."
+        "Initial value for segment call or code insert output's variable." +
+            "\nNote, for a segment call of a diagram segment, this will override any default Initial Value "+
+            "set in the diagram segment on the corresponding Output Argument simulation entity."
             "\nFor an Array/Matrix, scalar elements separated by commas, must have the full number of elements." +
-            "\nFor a 2D/3D Array/Matrix you may enclose in square brackets for row-major order (the default), or specifically enclose with slashes for column-major order.",
+            "\nFor a 2D/3D Array/Matrix you may enclose in square brackets for row-major order (the default), "+
+            "or specifically enclose with slashes for column-major order.",
         "Arithmetic sign for the port.",
         "Resolve a generic array dimensions to a fixed number of elements per dimension." +
             "\nSet this to resolve an ambiguity - that is if the port is not connected to an input with fixed dimensionality." +
@@ -34,7 +36,8 @@ class PortProperty(wxpg.PGProperty, CompoundProperty):
     FullAnnotationHints = ["Include the port identifier (number) in the port's annotation",
                            "Include the description (if given) in the port's annotation",
                            "Include the short tag-name for the port in its annotation",
-                           "Include the name to be used in generated ESL in the ports's annotation\nThis is the value given for the ESL Name property or the generated name",
+                           "Include the name to be used in generated ESL in the ports's annotation"+
+                                "\nThis is the value given for the ESL Name property or the generated name",
                            "Include the initial value for the segment output port in the port's annotation"]
 
     def __init__(self, view, portRef, port):
@@ -64,6 +67,8 @@ class PortProperty(wxpg.PGProperty, CompoundProperty):
             subprogram = self._entity.subprogram()
             if subprogram.callableType() == 'segment' and self._port.direction() == "output":
                 self._includeInitialValue = True
+        elif self._entity.isCodeInsert():
+            self._includeInitialValue = True
         if self._port.isGeneric():
             self._includeFixDimensions = True
         label = 'Port ' + self._port.id() + '(' + self._port.direction() + ')'
