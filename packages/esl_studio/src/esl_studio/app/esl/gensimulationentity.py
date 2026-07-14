@@ -375,7 +375,8 @@ class GenSimulationEntity(object):
                     print("-GenSimEntity.resolveSimulationPorts portId=" + str(genPort.portId()))
                 portResolveDimensionsData = genPort.appPort().resolvePortDimensions(
                     entityPortsConnectionsDict=self._genDiagramInfo.appEntityPortsConnectionsDict(),
-                    portResolveDimensionsDict=self._genDiagramInfo.appPortResolveDimensionsDict())
+                    portResolveDimensionsDict=self._genDiagramInfo.appPortResolveDimensionsDict(),
+                    debugging=self.generate().debugging)
                 pass
         if self.generate().debugging:
             print("<GenSimEntity.resolveSimulationPorts "+str(self))

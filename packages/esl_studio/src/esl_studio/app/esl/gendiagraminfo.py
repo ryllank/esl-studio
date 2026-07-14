@@ -483,7 +483,8 @@ class GenDiagramInfo(object):
                         if variableRef not in doneVariableRefs:
                             portResolveDimensionsData = genPort.appPort().resolvePortDimensions(
                                 entityPortsConnectionsDict=self._appEntityPortsConnectionsDict,
-                                portResolveDimensionsDict=self._appPortResolveDimensionsDict)
+                                portResolveDimensionsDict=self._appPortResolveDimensionsDict,
+                                debugging=self.generate().debugging)
                             dimensions = portResolveDimensionsData.resolvedDimensions
                             rejectMsg = portResolveDimensionsData.resolvedRejectMsg
                             if rejectMsg or Port.isGenericDimensions(dimensions):

@@ -502,7 +502,7 @@ class Port(object):
                 dimensions = None
         return dimensions
 
-    def resolvePortDimensions(self, entityPortsConnectionsDict={}, portResolveDimensionsDict={}) -> 'PortResolveDimensionsData':
+    def resolvePortDimensions(self, entityPortsConnectionsDict={}, portResolveDimensionsDict={}, debugging=False) -> 'PortResolveDimensionsData':
         # entityPortsConnectionsDict is a dict of simulation-entity containing the (full) EstablishPortsConnections data (list-tree of str) from the diagram for the entity
         # portResolveDimensionsDict is a dict of port containing a list [ resolvedState:str, resolvedDimensions:str, resolvedDimensionality:DimensionalityParseObject]
         # where resolvedState can be ""(=not yet determined ?or error) "defined", "fixed", "generic", resolving" "resolved-by-connections" resolved-by-entity" "conflicted"

@@ -449,13 +449,18 @@ class SimulationEntity(object):
         attribute = self._attributes.get(attributeTag)
         return attribute
 
-    def validateEntityLinks(self, entityPortsConnectionsDict={}, portResolveDimensionsDict={}) -> (bool, str):   # Override this in any special types of simulation entity that need linkages validating.
+    def validateEntityLinks(self, entityPortsConnectionsDict={}, portResolveDimensionsDict={}, debugging=False) -> (bool, str):   # Override this in any special types of simulation entity that need linkages validating.
         """ returns: valid:bool, rejection:str """
         valid = True
         rejection = ''
         return valid, rejection
 
-    def entityResolvePortDimensions(self, port, entityPortsConnectionsDict={}, portResolveDimensionsDict={}) -> str:  # Override this in any special types of simulation entity that can (sometimes) resolve port dimensions
-        """ returns: portDimensions:str """
+    def entityResolvePortDimensionsPortDependencies(self, entityPortId) -> list[str]:  # Override this in any special types of simulation entity that can (sometimes) resolve port dimensions
+        """ returns: entityResolvingPortDependencies:list[str] - list of entityPortIds (str) to be resolved for this port to be resolved or None if the entity doesn't do it at all """
+        entityResolvingPortDependencies = None
+        return entityResolvingPortDependencies
+
+    def entityResolvePortDimensions(self, port, entityPortsConnectionsDict={}, portResolveDimensionsDict={}, debugging=False) -> str:  # Override this in any special types of simulation entity that can (sometimes) resolve port dimensions
+        """ returns: port's dimensions:str or None if couldn't do it """
         dimensions = None
         return dimensions

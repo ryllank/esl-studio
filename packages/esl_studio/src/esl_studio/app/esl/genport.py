@@ -22,7 +22,7 @@ class GenPort(object):
         self._sign = ''
 
     def generate(self):
-        return self._appSimEntity.generate()
+        return self._parent.generate()
 
     def portId(self):
         return self._portId
@@ -119,7 +119,8 @@ class GenPort(object):
                 result += self.eslname()
                 portResolveDimensionsData = self._appPort.resolvePortDimensions(
                     entityPortsConnectionsDict=self._parent.genDiagramInfo().appEntityPortsConnectionsDict(),
-                    portResolveDimensionsDict=self._parent.genDiagramInfo().appPortResolveDimensionsDict())
+                    portResolveDimensionsDict=self._parent.genDiagramInfo().appPortResolveDimensionsDict(),
+                    debugging=self.generate().debugging)
                 dimensions = portResolveDimensionsData.resolvedDimensions
                 rejectMsg = portResolveDimensionsData.resolvedRejectMsg
                 if rejectMsg or Port.isGenericDimensions(dimensions):

@@ -18,7 +18,7 @@ class ArrayOperatorEntity(SimulationEntity):
     # Also where an output port's dimensions may be resolved from (resolved) inputs.
     # In other respects they are handled as normal Simulation entities.
 
-    def validateEntityLinks(self, entityPortsConnectionsDict={}, portResolveDimensionsDict={}) -> (bool, str):   # Override this in any special types of simulation entity that need linkages validating.
+    def validateEntityLinks(self, entityPortsConnectionsDict={}, portResolveDimensionsDict={}, debugging=False) -> (bool, str):   # Override this in any special types of simulation entity that need linkages validating.
         """ returns: valid:bool, msg:str """
         valid = True
         msg = ''
@@ -134,7 +134,7 @@ class ArrayOperatorEntity(SimulationEntity):
                 msg = self.identification() + " " + msg + "\n"
         return valid, msg
 
-    def entityResolvePortDimensions(self, port, entityPortsConnectionsDict={}, portResolveDimensionsDict={}) -> str:  # Override this in any special types of simulation entity that can (sometimes) resolve port dimensions
+    def entityResolvePortDimensions(self, port, entityPortsConnectionsDict={}, portResolveDimensionsDict={}, debugging=False) -> str:  # Override this in any special types of simulation entity that can (sometimes) resolve port dimensions
         """ returns: portDimensions:str """
         dimensions = None
         specialType = self.specialType()

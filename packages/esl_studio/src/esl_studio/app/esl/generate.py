@@ -1,5 +1,6 @@
 #! /usr/bin/python
 
+import os
 import time
 
 from .. import utils as Utils
@@ -78,6 +79,13 @@ class Generate(object):
         self._genSegments = []
         self._genCodes = []
         self.debugging = False # Set True for print output
+        debugging_env = os.getenv("ESL_STUDIO_DEBUGGING")
+        if debugging_env:
+            debugging_options = debugging_env.lower().split("|")
+            debugging_options = list(map(lambda option: option and option.strip(),
+                                         filter(lambda option: option, debugging_options)))
+            if "generate" in debugging_options:
+                self.debugging = True
 
     def control(self):
         return self._control
