@@ -24,6 +24,10 @@ class Port(object):
     PortDefaults = None
     ScalarFixDimensions = ["SCALAR", "-", "NOT", "NONE"]
     ConflictedDimensions = "CONFLICTED"
+    ErrorDimensions = "ERROR"
+    ResolvedStates = ["defined", "fixed", "resolved"]
+    GenericOrResolvedStates = ["generic"] + ResolvedStates
+    BadResolvedStates = ["conflicted", "error"]
     UnresolvedStates = ["generic", "resolving", "", "error"]
     def __init__(self, parent, id="", datatype="", designation="", description="",
                  tag="", eslname="", dimensions="", initialValue=""):

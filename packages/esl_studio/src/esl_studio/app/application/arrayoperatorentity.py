@@ -32,23 +32,22 @@ class ArrayOperatorEntity(SimulationEntity):
                 entityPortsConnectionsDict[self] = entitysPortsConnections
 
             for port in self._ports.values():
-                portResolveDimensionsData = port.resolvePortDimensions(entityPortsConnectionsDict, portResolveDimensionsDict)
+                portResolveDimensionsData = port.resolvePortDimensions(entityPortsConnectionsDict, portResolveDimensionsDict,
+                                                                       debugging=debugging)
                 resolvedDimensionality = None
                 if portResolveDimensionsData.resolvedDimensions is not None and not portResolveDimensionsData.resolvedRejectMsg:
                     resolvedPortDimensionsData[port.id()] = portResolveDimensionsData
-                    #print(" port id="+str(port.id())+" datetype="+str(port.datatype())+" dimensions="+str(port.dimensions())+
-                    #      " portResolveDimensionsData="+str(portResolveDimensionsData))
 
             # Applies to dimensionality fixed (or resolved) ports.
             portData1 = resolvedPortDimensionsData.get('1')
             if portData1:
-                if portData1.resolvedState in Port.UnresolvedStates:
+                if portData1.resolvedState not in Port.ResolvedStates:
                     portData1 = None
             portData2 = None
             if portData1 is not None:
                 portData2 = resolvedPortDimensionsData.get('2')
                 if portData2:
-                    if portData2.resolvedState in Port.UnresolvedStates:
+                    if portData2.resolvedState not in Port.ResolvedStates:
                         portData2 = None
             if specialType == "Array Scalar Multiplication":
                 # resolved input and output ports (ids 1 & 2) must have same array dimensionality sizes
@@ -78,16 +77,16 @@ class ArrayOperatorEntity(SimulationEntity):
                     port1_sizes = portData1.resolvedDimensionality.sizes()
                     port2_sizes = portData2.resolvedDimensionality.sizes()
                     # Handle sizes of len 1 as column array -> append a 1 to its sizes
-                    if len(port1_sizes) == 1:
+                    if len(port1_sizes) == 1: # shouldn't happen 1st input is 2D (*,*)
                         port1_sizes.append(1)
-                    if len(port2_sizes) == 1:
+                    if len(port2_sizes) == 1: # second input (...) - if 1D treat as 2D column array
                         port2_sizes.append(1)
                     if port1_sizes[1] != port2_sizes[0]:
                         msg = "resolved first input port dimensions must have same number of rows as number of columns of 2nd input"
                         valid = False
                     portData3 = resolvedPortDimensionsData.get('3')
                     if portData3:
-                        if portData3.resolvedState in Port.UnresolvedStates:
+                        if portData3.resolvedState not in Port.ResolvedStates:
                             portData3 = None
                     if portData3:
                         port3_sizes = portData3.resolvedDimensionality.sizes()
@@ -134,37 +133,70 @@ class ArrayOperatorEntity(SimulationEntity):
                 msg = self.identification() + " " + msg + "\n"
         return valid, msg
 
+    def entityResolvePortDimensionsPortDependencies(self, entityPortId) -> list[str]:  # Override this in any special types of simulation entity that can (sometimes) resolve port dimensions
+        """ returns: entityResolvingPortDependencies:list[str] - list of entityPortIds (str) to be resolved for this port to be resolved or None if the entity doesn't do it at all """
+        entityResolvingPortDependencies = None
+        specialType = self.specialType()
+        if specialType not in ["Vector Merge", "Vector Split", "Vector Dot Product", "Vector Cross Product", "Matrix Determinant"]: # these need no special output port resolving
+            entityResolvingPortDependencies = []
+            for port in self._ports.values():
+                otherEntityPortId = port.entityPortId()
+                if otherEntityPortId != entityPortId:
+                    entityResolvingPortDependencies.append(otherEntityPortId)
+        return entityResolvingPortDependencies
+
     def entityResolvePortDimensions(self, port, entityPortsConnectionsDict={}, portResolveDimensionsDict={}, debugging=False) -> str:  # Override this in any special types of simulation entity that can (sometimes) resolve port dimensions
-        """ returns: portDimensions:str """
+        """ returns: dimensions:str """
         dimensions = None
         specialType = self.specialType()
-        #print(">ArrayOperatorEntity.entityResolvePortDimensions "+str(self)+" portId="+port.entityPortId())
+        if debugging: print(">ArrayOperatorEntity.entityResolvePortDimensions "+str(self)+" entityPortId="+port.entityPortId())
         if specialType not in ["Vector Merge", "Vector Split", "Vector Dot Product", "Vector Cross Product", "Matrix Determinant"]: # these need no special output port resolving
-            if (specialType == "Array Multiplication" and port.id() == '3') or port.id() == '2':
-                diagramInfo = self.parent()
-                entitysPortsConnections = entityPortsConnectionsDict.get(self)
-                if entitysPortsConnections is None:
-                    entitysPortsConnections = diagramInfo.canvas().EstablishPortsConnections(self.objectId())
-                    entityPortsConnectionsDict[self] = entitysPortsConnections
-                port1ResolveDimensionsData = self._ports['1'].resolvePortDimensions(entityPortsConnectionsDict, portResolveDimensionsDict)
-                resolvedPort1Dimensions = port1ResolveDimensionsData.resolvedDimensions
-                resolvedPort2Dimensions = None
-                if resolvedPort1Dimensions:
-                    if specialType == "Array Multiplication":
-                        port2ResolveDimensionsData = self._ports['2'].resolvePortDimensions(entityPortsConnectionsDict, portResolveDimensionsDict)
-                        resolvedPort2Dimensions = port2ResolveDimensionsData.resolvedDimensions
+            diagramInfo = self.parent()
+            entitysPortsConnections = entityPortsConnectionsDict.get(self)
+            if entitysPortsConnections is None:
+                entitysPortsConnections = diagramInfo.canvas().EstablishPortsConnections(self.objectId())
+                entityPortsConnectionsDict[self] = entitysPortsConnections
+            if specialType != "Array Multiplication":
+                otherResolvedPortDimensionsData = None
+                if port.id() == '1':
+                    otherResolvedPortDimensionsData = portResolveDimensionsDict.get(self._ports['2'].entityPortId())
+                elif port.id() == '2':
+                    otherResolvedPortDimensionsData = portResolveDimensionsDict.get(self._ports['1'].entityPortId())
+                if otherResolvedPortDimensionsData is not None and otherResolvedPortDimensionsData.resolvedState in Port.ResolvedStates:
                     if specialType in ["Array Scalar Multiplication", "Array Addition", "Matrix Inverse"]:
-                        dimensions = resolvedPort1Dimensions
-                    elif specialType == "Array Multiplication" and resolvedPort2Dimensions:
-                        port1RowBounds = resolvedPort1Dimensions.split(",")[0]
-                        port2ColBoundsSplit = resolvedPort2Dimensions.split(",")
-                        if len(port1RowBounds) == 2:
-                            port2ColBounds = port2ColBoundsSplit[1]
-                            dimensions = port1RowBounds + "," + port2ColBounds
-                        else:
-                            dimensions = port1RowBounds
+                        dimensions = otherResolvedPortDimensionsData.resolvedDimensions
                     elif specialType == "Matrix Transpose":
-                        port1Bounds = resolvedPort1Dimensions.split(",")
-                        dimensions = port1Bounds[1] + "," + port1Bounds[0]
-            #print("<ArrayOperatorEntity.entityResolvePortDimensions "+str(self)+" portId="+port.entityPortId()+" dimensions="+str(dimensions))
+                        portBounds = otherResolvedPortDimensionsData.resolvedDimensions.split(",")
+                        dimensions = portBounds[1] + "," + portBounds[0]
+            else: # Array Multiplication
+                input1Bounds = None
+                input2Bounds = None
+                outputBounds = None
+                if port.id() != '1':
+                    input1ResolvedPortDimensionsData = portResolveDimensionsDict.get(self._ports['1'].entityPortId())
+                    if input1ResolvedPortDimensionsData is not None and input1ResolvedPortDimensionsData.resolvedState in Port.ResolvedStates:
+                        input1Bounds = input1ResolvedPortDimensionsData.resolvedDimensions.split(",")
+                if port.id() != '2':
+                    input2ResolvedPortDimensionsData = portResolveDimensionsDict.get(self._ports['2'].entityPortId())
+                    if input2ResolvedPortDimensionsData is not None and input2ResolvedPortDimensionsData.resolvedState in Port.ResolvedStates:
+                        input2Bounds = input2ResolvedPortDimensionsData.resolvedDimensions.split(",")
+                        if len(input2Bounds) == 1:
+                            input2Bounds.append('1')
+                if port.id() != '3':
+                    outputResolvedPortDimensionsData = portResolveDimensionsDict.get(self._ports['3'].entityPortId())
+                    if outputResolvedPortDimensionsData is not None and outputResolvedPortDimensionsData.resolvedState in Port.ResolvedStates:
+                        outputBounds = outputResolvedPortDimensionsData.resolvedDimensions.split(",")
+                        if len(outputBounds) == 1:
+                            outputBounds.append('1')
+                if port.id() == '1' and input2Bounds is not None and outputBounds is not None:
+                    dimensions = outputBounds[0] + "," + input2Bounds[0]
+                if port.id() == '2' and input1Bounds is not None and outputBounds is not None:
+                    dimensions = input1Bounds[1] + "," + outputBounds[1]
+                if port.id() == '3' and input1Bounds is not None and input2Bounds is not None:
+                    dimensions = input1Bounds[0] + "," + input2Bounds[1]
+                    if dimensions == "1,1": # scalar
+                        dimensions = ""
+                if dimensions is not None and dimensions.endswith(",1"): # 1D
+                    dimensions = dimensions[:-2]
+            if debugging: print("<ArrayOperatorEntity.entityResolvePortDimensions "+str(self)+" portId="+port.entityPortId()+" dimensions="+str(dimensions))
         return dimensions
