@@ -47,12 +47,13 @@ if %retcode% NEQ 0 goto :skip_to_end
 echo -- Build executable with PyInstaller.
 set exe_name=esl_studio-%version%
 if "%1"=="no-version" set exe_name=esl_studio
-REM -- --splash esl_studio\resources\splash.png ^ -- didnt work - wanted tkinter but pip couldnt find it
+REM -- for PyInstaller --splash to work we need Windows Python option tcl/tk & idle option installed (for tkinter).
 pyinstaller --clean --name="%exe_name%" ^
 --add-data "esl_studio\profile;profile" ^
 --add-data "esl_studio\resources;resources" ^
 --onefile --windowed ^
 --icon=esl_studio\resources\esl-studio.ico ^
+--splash esl_studio\resources\splash.png ^
 --version-file %build_exe_dir%\_file_version_info.txt ^
 --distpath=%dist_exe_dir% --workpath=%build_exe_dir% esl_studio\app\app.py
 set retcode=%ERRORLEVEL%
@@ -64,4 +65,3 @@ if exist %project_dir%\packages\esl_studio\src\%exe_name%.spec del %project_dir%
 
 :skip_to_end
 if %retcode% NEQ 0 exit /b %retcode%
-
