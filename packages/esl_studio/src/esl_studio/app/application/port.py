@@ -1,6 +1,7 @@
 #! /usr/bin/python
 
 import re
+import inspect
 
 import esl_diagram.xmlutil as xut
 
@@ -20,6 +21,28 @@ PortIoDesignations = {  # for a designation - its 'kind' and 'direction'
 
 PortConnectorSeparator = '-'
 
+class PortResolveDimensionsData:
+    def __init__(self, data_id, resolvedState:str="", resolvedDimensions:str=None,
+                 resolvedDimensionality:DimensionalityParseObject=None,
+                 entityPortDependencies:list[str]=None, connectedPorts:list[str]=[], resolvedRejectMsg:str=""):
+        self.data_id:str = data_id
+        self.resolvedState:str = resolvedState
+        self.resolvedDimensions:str = resolvedDimensions
+        self.resolvedDimensionality:DimensionalityParseObject = resolvedDimensionality
+        self.entityPortDependencies:list[str] = entityPortDependencies
+        self.connectedPorts:list[str] = connectedPorts
+        self.resolvedRejectMsg:str = resolvedRejectMsg
+
+    def __str__(self):
+        result = ("<"+self.data_id+"|"+self.resolvedState+":"+str(self.resolvedDimensions)+"|"+
+                  str(self.resolvedDimensionality)+"|"+
+                  str(self.entityPortDependencies)+"!"+
+                  str(self.connectedPorts))
+        if self.resolvedRejectMsg:
+            result += "?"+self.resolvedRejectMsg
+        result += ">"
+        return result
+
 class Port(object):
     PortDefaults = None
     ScalarFixDimensions = ["SCALAR", "-", "NOT", "NONE"]
@@ -28,7 +51,6 @@ class Port(object):
     ResolvedStates = ["defined", "fixed", "resolved"]
     GenericOrResolvedStates = ["generic"] + ResolvedStates
     BadResolvedStates = ["conflicted", "error"]
-    UnresolvedStates = ["generic", "resolving", "", "error"]
     def __init__(self, parent, id="", datatype="", designation="", description="",
                  tag="", eslname="", dimensions="", initialValue=""):
         self._parent = parent
@@ -56,7 +78,11 @@ class Port(object):
         self._argument = None  # Holds ArgumentEntity for a diagram subprogram (not saved/loaded nor copied).
 
     def __str__(self):
-        return "<"+self.parent().identification() + "." + self.id()+">"
+        result = "<"+self.parent().identification() + "." + self.id()
+        if self._eslname:
+            result += ":" + self.eslname()
+        result += ">"
+        return result
 
     def parent(self): return self._parent
     def id(self): return self._id
@@ -85,10 +111,10 @@ class Port(object):
     def show_initialValue(self): return self._show_initialValue
 
     def entityPortId(self):
-        portId = ""
+        entityPortId = ""
         if self._parent:
-            portId = str(self._parent.objectId())+PortConnectorSeparator+str(self.id())
-        return portId
+            entityPortId = str(self._parent.objectId())+PortConnectorSeparator+str(self.id())
+        return entityPortId
 
     def assignedAttributes(self): return self._assignedAttributes
 
@@ -286,18 +312,18 @@ class Port(object):
             otherDimensionality = None
             if thisDimensionality is None:
                 valid = False
-                rejection = "error re-parsing dimensions"
+                rejection = "error re-parsing dimensions (%s)" % thisDimensions
             if valid:
                 #pos, otherDimensionality = self._eslValue.parseEsl().parseDimensions(otherDimensions, 0, None, checkNothingLeft=False, allowStar=False)
                 otherDimensionality = ParseEsl.get_dimensionality(otherDimensions, checkNothingLeft=False, allowStar=True)
                 if otherDimensionality is None:
                     valid = False
-                    rejection = "error re-parsing other dimensions"
+                    rejection = "error re-parsing other dimensions (%s)" % otherDimensions
             if valid:
                 thisDimensionalityNumber = thisDimensionality.number()
                 if thisDimensionalityNumber != otherDimensionality.number():
                     valid = False
-                    rejection = "not same number of dimensions"
+                    rejection = "not same number of dimensions (%s vs %s)" % (thisDimensions, otherDimensions)
                 if valid:
                     thisDimensionalitySizes = thisDimensionality.sizes()
                     otherDimensionalitySizes = otherDimensionality.sizes()
@@ -306,7 +332,7 @@ class Port(object):
                         if (thisDimensionalitySizes[ix] != DimensionalityParseObject.StarDimension and
                             (otherDimensionalitySizes[ix] != DimensionalityParseObject.StarDimension and thisDimensionalitySizes[ix] != otherDimensionalitySizes[ix])):
                             valid = False
-                            rejection = "dimension ("+str(ix+1)+") size not compatible"
+                            rejection = "dimension ("+str(ix+1)+") size not compatible (%s vs %s)" % (thisDimensions, otherDimensions)
                             break
                         if bestDimensions: bestDimensions += ","
                         if thisDimensionalitySizes[ix] == DimensionalityParseObject.StarDimension:
@@ -428,9 +454,9 @@ class Port(object):
                     diagramInfo = entity.parent()
                     portsConnections = diagramInfo.canvas().EstablishPortsConnections(entity.objectId())
                     thisPortConnected = False
-                    portId = self.entityPortId()
+                    entityPortId = self.entityPortId()
                     for pair in portsConnections:
-                        if pair[0] == portId:
+                        if pair[0] == entityPortId:
                             thisPortConnected = True if len(pair[1]) else False
                             break
                     if thisPortConnected:
@@ -490,7 +516,7 @@ class Port(object):
         result = Port.isGenericDimensions(self.dimensions())
         return result
 
-    def fixedDimensions(self):
+    def fixedDimensions(self) -> str:
         # assumes standardised form for dimensions
         dimensions = None
         if not self.isGeneric():
@@ -506,21 +532,33 @@ class Port(object):
                 dimensions = None
         return dimensions
 
-    def resolvePortDimensions(self, entityPortsConnectionsDict={}, portResolveDimensionsDict={}, debugging=False) -> 'PortResolveDimensionsData':
-        # entityPortsConnectionsDict is a dict of simulation-entity containing the (full) EstablishPortsConnections data (list-tree of str) from the diagram for the entity
-        # portResolveDimensionsDict is a dict of port containing a list [ resolvedState:str, resolvedDimensions:str, resolvedDimensionality:DimensionalityParseObject]
-        # where resolvedState can be ""(=not yet determined ?or error) "defined", "fixed", "generic", resolving" "resolved-by-connections" resolved-by-entity" "conflicted"
-        # resolvedDimensions is "" for a scalar, otherwise (generally) the standard form for a set of dimensions (may be ... or include * if generic)
-        # resolvedDimensionality is the result of parsing dimensions [or may/or may not be None for scalar] - shouldn't happen but may have parsing messages if error encountered
-        # resolvedRejectMsg if error during the resolve
-        #print(">Port.resolvePortDimensions portId=" + self.entityPortId())
-        portResolveDimensionsData = portResolveDimensionsDict.get(self)
+    def gatherPortDependencies(self, entityPortsConnectionsDict={}) -> (list[str], list[str]):
+        """ returns: entityPortDependencies, connectedPorts - both list of entityPortIds (str) to be resolved for this port to be resolved. """
+        entityPortId = self.entityPortId()
+        entity = self._parent
+        entityPortDependencies = entity.entityResolvePortDimensionsPortDependencies(entityPortId)
+        diagramInfo = entity.parent()
+        entitysPortsConnections = entityPortsConnectionsDict.get(entity)
+        if entitysPortsConnections is None:
+            entitysPortsConnections = diagramInfo.canvas().EstablishPortsConnections(entity.objectId())
+            entityPortsConnectionsDict[entity] = entitysPortsConnections
+        connectedPorts = getPortsConnections(entitysPortsConnections, entityPortId)
+        if connectedPorts is not None:
+            connectedPorts.sort()
+        return entityPortDependencies, connectedPorts
+
+    def getPortResolveDimensionsData(self, entityPortsConnectionsDict={}, portResolveDimensionsDict={}, debugging=False) -> PortResolveDimensionsData:
+        entityPortId = self.entityPortId()
+        portResolveDimensionsData = portResolveDimensionsDict.get(entityPortId)
         if portResolveDimensionsData is None:
             resolvedState = ""
             dimensions = self.dimensions()
+            entityPortDependencies = None
+            connectedPorts = []
             if dimensions is not None:
-                resolvedState = "defined" # note: dimensions can be "" for scalar
-            if dimensions and (dimensions == DimensionalityParseObject.UniversalToken or dimensions.find("*") != -1):
+                resolvedState = "defined"  # note: dimensions can be "" for scalar
+            if dimensions and (
+                    dimensions == DimensionalityParseObject.UniversalToken or dimensions.find("*") != -1):
                 resolvedState = "generic"
                 fixDimensions = self.fixDimensions()
                 if fixDimensions:
@@ -528,94 +566,201 @@ class Port(object):
                         dimensions = ""
                     else:
                         dimensions = fixDimensions
-                        resolvedState = "fixed"
+                    resolvedState = "fixed"
+                else:
+                    entityPortDependencies, connectedPorts = self.gatherPortDependencies(entityPortsConnectionsDict=entityPortsConnectionsDict)
+            if not resolvedState:
+                raise Exception(
+                    "Port.getPortResolveDimensionsData failed to establish initial resolved state for port %s" % self.entityPortId())
             dimensionality = ParseEsl.get_dimensionality(dimensions, checkNothingLeft=False, allowStar=True)
-            portResolveDimensionsData = PortResolveDimensionsData(resolvedState, dimensions, dimensionality)
-            portResolveDimensionsDict[self] = portResolveDimensionsData
+            data_id = str(self._parent.parent().parent().moduleId())+":"+entityPortId
+            portResolveDimensionsData = PortResolveDimensionsData(data_id, resolvedState, dimensionality.dimensions(),
+                                                                  dimensionality, entityPortDependencies, connectedPorts)
+            portResolveDimensionsDict[entityPortId] = portResolveDimensionsData
         else:
-            #print("-Port.resolvePortDimensions portId=" + self.entityPortId()+" previously resolved data="+str(portResolveDimensionsData))
+            if debugging: print(
+                "-Port.resolvePortDimensions portId=" + entityPortId + " previously resolved data=" + str(
+                    portResolveDimensionsData))
             pass
         pass
-        if portResolveDimensionsData.resolvedState == "generic":
-            # See if can resolve from connected ports
-            if portResolveDimensionsData.resolvedDimensions is not None and not portResolveDimensionsData.resolvedRejectMsg:
-                entity = self._parent
-                if not entity:
+        return portResolveDimensionsData
+
+    def collectPortsToResolve(self, entityPortsConnectionsDict={}, portResolveDimensionsDict={}, debugging=False):
+        if debugging:
+            print(">***[%d] Port.collectPortsToResolve portId=%s" %(len(inspect.stack()), self.entityPortId()))
+            if portResolveDimensionsDict:
+                print(">  portResolveDimensionsDict=")
+                for key, value in portResolveDimensionsDict.items():
+                    print(">  " + str(key) + ": " + str(value))
+        portResolveDimensionsData = None
+        collectingPorts = True
+        entity = self._parent
+        diagramInfo = entity.parent()
+        while collectingPorts:
+            lenPortResolveDimensionsDict = len(portResolveDimensionsDict)
+            portResolveDimensionsData = self.getPortResolveDimensionsData(
+                entityPortsConnectionsDict=entityPortsConnectionsDict,
+                portResolveDimensionsDict=portResolveDimensionsDict, debugging=debugging)
+            if (lenPortResolveDimensionsDict != len(portResolveDimensionsDict)):
+                portDependencies = []
+                if portResolveDimensionsData.entityPortDependencies is not None:
+                    portDependencies = portResolveDimensionsData.entityPortDependencies
+                portDependencies.extend(portResolveDimensionsData.connectedPorts)
+                if portDependencies is not None:
+                    if debugging and len(portDependencies) > 0:
+                        print("----[%2d] Port.collectPortsToResolve portId=%s has dependencies(%d): %s" %
+                              (len(inspect.stack()), self.entityPortId(), len(portDependencies), str(portDependencies)))
+                    for entityPortId in portDependencies:
+                        otherEntity, otherPort = Port.getEntityAndPort(diagramInfo, entityPortId)
+                        dimensionsData = otherPort.collectPortsToResolve(
+                            entityPortsConnectionsDict=entityPortsConnectionsDict,
+                            portResolveDimensionsDict=portResolveDimensionsDict, debugging=debugging)
+            else:
+                collectingPorts = False
+        pass # end-while
+        if debugging:
+            print("<***[%2d] Port.collectPortsToResolve portId=%s portResolveDimensionsData=%s"
+                  % (len(inspect.stack()), self.entityPortId(), str(portResolveDimensionsData)))
+            if portResolveDimensionsDict:
+                print("<  portResolveDimensionsDict=")
+                for key, value in portResolveDimensionsDict.items():
+                    print("<   " + str(key) + ": " + str(value))
+
+    def tryResolvingPort(self, entityPortsConnectionsDict={}, portResolveDimensionsDict={},
+                         debugging=False) -> (bool, PortResolveDimensionsData):
+        changed = False
+        entityPortId = self.entityPortId()
+        if debugging: print(">Port.tryResolvingPort portId=%s" % entityPortId)
+        portResolveDimensionsData = portResolveDimensionsDict.get(entityPortId)
+        dependenciesDimensionsList = []
+        if portResolveDimensionsData.entityPortDependencies is not None:
+            entity = self._parent
+            entityPortDimensions = entity.entityResolvePortDimensions(self, entityPortsConnectionsDict,
+                                                                      portResolveDimensionsDict, debugging)
+            if entityPortDimensions is not None:
+                dependenciesDimensionsList.append(entityPortDimensions)
+
+        for otherEntityPortId in portResolveDimensionsData.connectedPorts:
+            otherPortResolveDimensionsData = portResolveDimensionsDict.get(otherEntityPortId)
+            if otherPortResolveDimensionsData.resolvedState in Port.GenericOrResolvedStates: # not conflicted or error
+                dependenciesDimensionsList.append(otherPortResolveDimensionsData.resolvedDimensions)
+            else:
+                if otherPortResolveDimensionsData.resolvedState in Port.BadResolvedStates:
                     portResolveDimensionsData.resolvedState = "error"
-                    portResolveDimensionsData.resolvedRejectMsg = "port has no entity"
-                else:
-                    entityId = str(entity.objectId())
-                    portId = self.entityPortId()
-                    diagramInfo = entity.parent()
-                    entitysPortsConnections = entityPortsConnectionsDict.get(entity)
-                    if entitysPortsConnections is None:
-                        entitysPortsConnections = diagramInfo.canvas().EstablishPortsConnections(entity.objectId())
-                        entityPortsConnectionsDict[entity] = entitysPortsConnections
-                    if entitysPortsConnections is None:
-                        portResolveDimensionsData.resolvedState = "error"
-                        portResolveDimensionsData.resolvedRejectMsg = "failed to establish entity " + entityId + " ports connections"
-                    else:
-                        thisPortsConnections = getPortsConnections(entitysPortsConnections, portId)
-                        if thisPortsConnections is not None and len(thisPortsConnections) > 0:
-                            #print("-Port.resolvePortDimensions portId="+portId+" thisPortsConnections=", thisPortsConnections)
-                            connectedDimensionsList = []
-                            portResolveDimensionsData.resolvedState = "resolving"
-                            #print("-Port.resolvePortDimensions portId="+portId+" resolving")
-                            for connectedPortId in thisPortsConnections:
-                                connectedEntity, connectedPort = Port.getEntityAndPort(diagramInfo, connectedPortId)
-                                if connectedPort:
-                                    connectedPortResolveDimensionsData = connectedPort.resolvePortDimensions(
-                                        entityPortsConnectionsDict, portResolveDimensionsDict)
-                                    #if connectedPortResolveDimensionsData.resolvedState != "generic" and not connectedPortResolveDimensionsData.resolvedRejectMsg:
-                                    if connectedPortResolveDimensionsData.resolvedState not in Port.UnresolvedStates and not connectedPortResolveDimensionsData.resolvedRejectMsg:
-                                        connectedDimensionsList.append(connectedPortResolveDimensionsData.resolvedDimensions)
-                            if len(connectedDimensionsList) > 0:
-                                connectedDimensionsList.insert(0, portResolveDimensionsData.resolvedDimensions) # include self first in the reconciliation
-
-                                reconciledDimensions, reconciledRejectMsg = Port.reconcileConnectedDimensions(connectedDimensionsList)
-                                if reconciledDimensions == Port.ConflictedDimensions:
-                                    portResolveDimensionsData.resolvedState = "conflicted"
-                                    portResolveDimensionsData.resolvedDimensions = reconciledDimensions #?
-                                    if reconciledRejectMsg:
-                                        portResolveDimensionsData.resolvedRejectMsg = reconciledRejectMsg
-                                    else:
-                                        portResolveDimensionsData.resolvedRejectMsg = "conflicting dimensions"
-                                elif reconciledRejectMsg:
-                                    portResolveDimensionsData.resolvedState = "failed"
-                                    portResolveDimensionsData.resolvedRejectMsg = reconciledRejectMsg
-                                else:
-                                    portResolveDimensionsData.resolvedState = "resolved-by-connections"
-                                    portResolveDimensionsData.resolvedDimensions = reconciledDimensions
-                                    #should we have a reconciledDimensionality from reconcileConnectedDimensions - if not, or till then
-                                    portResolveDimensionsData.resolvedDimensionality = ParseEsl.get_dimensionality(reconciledDimensions, checkNothingLeft=False, allowStar=True)
-
-                            if not portResolveDimensionsData.resolvedRejectMsg or portResolveDimensionsData.resolvedDimensionality == Port.ConflictedDimensions:
-                                entityPortDimensions = entity.entityResolvePortDimensions(self, entityPortsConnectionsDict, portResolveDimensionsDict)
-                                if entityPortDimensions is not None:
-                                    if portResolveDimensionsData.resolvedState not in Port.UnresolvedStates:
-                                        valid, rejection, bestDimensions = Port.validateCompatibleDimensionsSizes(entityPortDimensions, portResolveDimensionsData.resolvedDimensions)
-                                        if valid:
-                                            portResolveDimensionsData.resolvedState = "resolved-by-connections-and-entity"
-                                            portResolveDimensionsData.resolvedDimensions = bestDimensions
-                                            portResolveDimensionsData.resolvedDimensionality = ParseEsl.get_dimensionality(bestDimensions, checkNothingLeft=False, allowStar=True)
-                                        else:
-                                            portResolveDimensionsData.resolvedState = "failed"
-                                            portResolveDimensionsData.resolvedRejectMsg = rejection
-                                        pass
-                                    else:
-                                        portResolveDimensionsData.resolvedDimensions = entityPortDimensions
-                                        portResolveDimensionsData.resolvedDimensionality = ParseEsl.get_dimensionality(entityPortDimensions, checkNothingLeft=False, allowStar=True)
-                                        portResolveDimensionsData.resolvedState = "resolved-by-entity"
-                            else:
-                                portResolveDimensionsData.resolvedState = "resolved-no-connections"  # no connections (valid or not) to reconcile
-                        pass
-                    pass
+                    portResolveDimensionsData.resolvedDimensions = Port.ErrorDimensions
+                    rejectMsg = portResolveDimensionsData.resolvedRejectMsg
+                    if not rejectMsg:
+                        rejectMsg = "Failed to resolve resolved dimensions for %s" % entityPortId
+                    rejectMsg += (" - port %s resolved state %s " %
+                                  (otherEntityPortId, otherPortResolveDimensionsData.resolvedState))
+                    portResolveDimensionsData.resolvedRejectMsg = rejectMsg
+                    changed = True
+                else: # shouldn't have happened
+                    raise Exception("Unexpected resolved state \"%s\" for port-id %d" %
+                                    (otherPortResolveDimensionsData.resolvedState, otherEntityPortId))
                 pass
-            pass
+        pass # end for other dependencies
+        if portResolveDimensionsData.resolvedState != "error" and len(dependenciesDimensionsList) > 0:
+            dependenciesDimensionsList.insert(0, portResolveDimensionsData.resolvedDimensions)  # include self first in the reconciliation
+            reconciledDimensions, reconciledRejectMsg = Port.reconcileConnectedDimensions(
+                dependenciesDimensionsList, debugging)
+            if reconciledDimensions == Port.ConflictedDimensions:
+                portResolveDimensionsData.resolvedState = "conflicted"
+                portResolveDimensionsData.resolvedDimensions = reconciledDimensions # i.e. Port.ConflictedDimensions
+                if reconciledRejectMsg:
+                    portResolveDimensionsData.resolvedRejectMsg = reconciledRejectMsg
+                else:
+                    portResolveDimensionsData.resolvedRejectMsg = "conflicting dimensions"
+                changed = True
+            elif reconciledRejectMsg:
+                portResolveDimensionsData.resolvedState = "error"
+                portResolveDimensionsData.resolvedDimensions = Port.ErrorDimensions
+                portResolveDimensionsData.resolvedRejectMsg = reconciledRejectMsg
+                changed = True
+            elif reconciledDimensions is not None and reconciledDimensions != portResolveDimensionsData.resolvedDimensions:
+                if not Port.isGenericDimensions(reconciledDimensions):
+                    portResolveDimensionsData.resolvedState = "resolved"
+                portResolveDimensionsData.resolvedDimensions = reconciledDimensions
+                # should we have a reconciledDimensionality from reconcileConnectedDimensions - if not, or till then
+                portResolveDimensionsData.resolvedDimensionality = ParseEsl.get_dimensionality(reconciledDimensions,
+                                                                                       checkNothingLeft=False,
+                                                                                       allowStar=True)
+                changed = True
+        pass # end if others are resolved
+        if debugging: print("<Port.tryResolvingPort portId=%s resolved=%s portResolveDimensionsData=%s" %
+                            (entityPortId, str(changed), str(portResolveDimensionsData)))
+        return changed, portResolveDimensionsData
 
-        if portResolveDimensionsData.resolvedState == "resolving" and not portResolveDimensionsData.resolvedRejectMsg:
-            portResolveDimensionsData.resolvedState = "generic"
-        #print("<Port.resolvePortDimensions portId="+self.entityPortId()+" portResolveDimensionsData=" + str(portResolveDimensionsData))
+    def resolvePortDimensions(self, entityPortsConnectionsDict={}, portResolveDimensionsDict={}, debugging=False) -> PortResolveDimensionsData:
+        # entityPortsConnectionsDict is a dict of simulation-entity containing the (full) EstablishPortsConnections data (list-tree of str) from the diagram for the entity
+        # portResolveDimensionsDict is a dict of port containing a list [ resolvedState:str, resolvedDimensions:str, resolvedDimensionality:DimensionalityParseObject]
+        # where resolvedState can be ""(=not yet determined ?or error) "defined", "fixed", "generic", resolving" "resolved-by-connections" resolved-by-entity" "conflicted"
+        # resolvedDimensions is "" for a scalar, otherwise (generally) the standard form for a set of dimensions (may be ... or include * if generic)
+        # resolvedDimensionality is the result of parsing dimensions [or may/or may not be None for scalar] - shouldn't happen but may have parsing messages if error encountered
+        # resolvedRejectMsg if error during the resolve
+        if debugging:
+            print(">***[%d] Port.resolvePortDimensions portId=%s" %(len(inspect.stack()), self.entityPortId()))
+            if portResolveDimensionsDict:
+                print(">  portResolveDimensionsDict=")
+                for key, value in portResolveDimensionsDict.items():
+                    print(">  " + str(key) + ": " + str(value))
+
+        self.collectPortsToResolve(entityPortsConnectionsDict=entityPortsConnectionsDict,
+                                   portResolveDimensionsDict=portResolveDimensionsDict, debugging=debugging)
+
+        portResolveDimensionsData = portResolveDimensionsDict.get(self.entityPortId())
+        last_resolved_state = portResolveDimensionsData.resolvedState
+
+        entity = self._parent
+        diagramInfo = entity.parent()
+
+        resolving = True
+        nrChanges = 0
+        passCount = 1
+        passCountMax = 20 * len(portResolveDimensionsDict)
+        while resolving:
+            nrChanges = 0
+            if debugging:
+                nrGenerics = len(list(filter(lambda portData: portData.resolvedState == "generic", portResolveDimensionsDict.values())))
+                print("-Port.resolvePortDimensions doing passCount=%d portId=%s nrGenerics=%d (in %d)" %
+                      (passCount, self.entityPortId(), nrGenerics, len(portResolveDimensionsDict)))
+                if portResolveDimensionsDict:
+                    print(">  portResolveDimensionsDict=")
+                    for key, value in portResolveDimensionsDict.items():
+                        print(">  " + str(key) + ": " + str(value))
+            for entityPortId, entityPortResolveDimensionsData in portResolveDimensionsDict.items():
+                if entityPortResolveDimensionsData.resolvedState == "generic":
+                    otherEntity, otherPort = Port.getEntityAndPort(diagramInfo, entityPortId)
+                    changed, entityPortResolveDimensionsData = otherPort.tryResolvingPort(
+                        entityPortsConnectionsDict=entityPortsConnectionsDict,
+                        portResolveDimensionsDict=portResolveDimensionsDict, debugging=debugging)
+                    if changed:
+                        nrChanges += 1
+            pass # end pass trying to resolve
+            if debugging:
+                print("-Port.resolvePortDimensions done passCount=%d portId=%s nrChanges=%d " %
+                      (passCount, self.entityPortId(), nrChanges))
+            if nrChanges == 0:
+                resolving = False
+            else:
+                passCount += 1
+                if passCount > passCountMax:
+                    resolving = False
+        pass # end while resolving
+
+        if debugging:
+            change = " "
+            if last_resolved_state != portResolveDimensionsData.resolvedState:
+                change = "changed from '"+last_resolved_state+"' to '"+portResolveDimensionsData.resolvedState+"' "
+            print("<***[%2d] Port.resolvePortDimensions portId=%s %sportResolveDimensionsData=%s"
+                %(len(inspect.stack()), self.entityPortId(), change, str(portResolveDimensionsData)))
+            if portResolveDimensionsDict:
+                print("<  portResolveDimensionsDict=")
+                for key, value in portResolveDimensionsDict.items():
+                    print("<   " + str(key) + ": " + str(value))
+        if passCount > passCountMax:
+            raise Exception("Broke loop resolving port dimensions -  portId=%s passCount=%d"
+                            %(self.entityPortId(), passCount))
         return portResolveDimensionsData
 
     @staticmethod
@@ -632,24 +777,26 @@ class Port(object):
         return entity, port
 
     @staticmethod
-    def reconcileConnectedDimensions(connectedDimensionsList):
-        #print(">Port.reconcileConnectedDimensions connectedDimensionsList=" + str(connectedDimensionsList))
+    def reconcileConnectedDimensions(connectedDimensionsList, debugging=False):
+        if debugging: print(">Port.reconcileConnectedDimensions connectedDimensionsList=" + str(connectedDimensionsList))
         dimensions = None
         rejectMsg = ""
         if len(connectedDimensionsList) > 1:
             pickedDimensions = connectedDimensionsList[0]
             valid = True
             for otherDimensions in connectedDimensionsList[1:]:
-                valid, rejection, bestDimensions = Port.validateCompatibleDimensionsSizes(pickedDimensions, otherDimensions)
-                if not valid:
-                    break
-                pickedDimensions = bestDimensions
+                if otherDimensions != pickedDimensions:
+                    valid, rejection, bestDimensions = Port.validateCompatibleDimensionsSizes(pickedDimensions, otherDimensions)
+                    if not valid:
+                        break
+                    pickedDimensions = bestDimensions
             if not valid:
                 dimensions = Port.ConflictedDimensions
-                rejectMsg = "conflicting resolved connections"
+                rejectMsg = "Conflicting resolved connections"
+                if rejection: rejectMsg += " ("+rejection+")"
             else:
                 dimensions = pickedDimensions
-        #print("<Port.reconcileConnectedDimensions dimensions="+str(dimensions)+" rejectMsg="+rejectMsg)
+        if debugging: print("<Port.reconcileConnectedDimensions dimensions="+str(dimensions)+" rejectMsg="+rejectMsg)
         return dimensions, rejectMsg
 
     def generateArrayElementReferences(self, dimensions):
@@ -687,8 +834,7 @@ def getPortsConnections(entitysPortsConnections, portId):
     thisPortsConnections = None
     for pair in entitysPortsConnections:
         if pair[0] == portId:
-            if len(pair[1]) > 0:
-                thisPortsConnections = pair[1]
+            thisPortsConnections = pair[1]
             break
     return thisPortsConnections
 
@@ -698,17 +844,3 @@ def pairwiseIndices(n):
         for j in range(i+1, n):
             pairOfIndices.append((i, j))
     return pairOfIndices
-
-class PortResolveDimensionsData:
-    def __init__(self, resolvedState="", resolvedDimensions=None, resolvedDimensionality=None, resolvedRejectMsg=""):
-        self.resolvedState = resolvedState
-        self.resolvedDimensions = resolvedDimensions
-        self.resolvedDimensionality = resolvedDimensionality
-        self.resolvedRejectMsg = resolvedRejectMsg
-
-    def __str__(self):
-        result = "<"+self.resolvedState+":"+str(self.resolvedDimensions)+"|"+str(self.resolvedDimensionality)
-        if self.resolvedRejectMsg:
-            result += "?"+self.resolvedRejectMsg
-        result += ">"
-        return result
